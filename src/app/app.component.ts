@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppService } from './services/app/app.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -14,5 +15,13 @@ export class AppComponent {
     { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {}
+  constructor(
+    private app: AppService
+  ) {
+    this.init();
+  }
+
+  private init() {
+    if (this.app.isApp) return
+  }
 }
