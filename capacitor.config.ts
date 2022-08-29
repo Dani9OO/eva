@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'me.daniromo.eva',
   appName: 'eva',
   webDir: 'www',
   bundledWebRuntime: false
