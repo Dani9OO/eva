@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Platform } from '@ionic/angular';
 import { AnimationOptions } from 'ngx-lottie';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -36,6 +37,11 @@ export class AppComponent {
     await this.platform.ready();
     if (this.platform.is('ios')) await this.showSplash();
     this.initialized.next(true);
+    GoogleAuth.initialize({
+      clientId: '733249240859-k9viv6v3lagtbqn68uk0a4mnk52ng5h5.apps.googleusercontent.com',
+      scopes: ['profile', 'email'],
+      grantOfflineAccess: true,
+    });
   }
 
   private async showSplash() {
