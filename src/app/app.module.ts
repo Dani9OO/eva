@@ -9,6 +9,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './services/auth/auth.service';
 import { LottieModule } from 'ngx-lottie';
 import { lottieFactory } from './common/functions/lottie.factory';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,7 +20,10 @@ import { lottieFactory } from './common/functions/lottie.factory';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    LottieModule.forRoot({ player: lottieFactory })
+    LottieModule.forRoot({ player: lottieFactory }),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore())
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
