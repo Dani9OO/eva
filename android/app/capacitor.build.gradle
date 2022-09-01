@@ -13,8 +13,9 @@ dependencies {
     implementation project(':capacitor-haptics')
     implementation project(':capacitor-keyboard')
     implementation project(':capacitor-status-bar')
-    implementation platform('com.google.firebase:firebase-bom:30.3.1')
-    implementation "com.google.firebase:firebase-auth"
+    implementation "com.airbnb.android:lottie:4.2.1"
+    implementation "androidx.annotation:annotation:1.3.0"
+    implementation "androidx.appcompat:appcompat:1.3.0"
 }
 
 

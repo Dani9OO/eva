@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
-import { AppService } from './services/app/app.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { Platform } from '@ionic/angular';
+import { AnimationOptions } from 'ngx-lottie';
+import { Observable, BehaviorSubject } from 'rxjs';
 @Component({
-  selector: 'app-root',
+  selector: 'eva-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
   public appPages = [
@@ -15,13 +18,29 @@ export class AppComponent {
     { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  public initialized$: Observable<boolean>;
+  public splash: AnimationOptions = {
+    path: 'assets/eva.json',
+    loop: false
+  };
+  private initialized: BehaviorSubject<boolean>;
   constructor(
-    private app: AppService
+    private platform: Platform
   ) {
+    this.initialized = new BehaviorSubject(false);
+    this.initialized$ = this.initialized.asObservable();
     this.init();
   }
 
-  private init() {
-    if (this.app.isApp) return
+  private async init() {
+    await this.platform.ready();
+    if (this.platform.is('ios')) await this.showSplash();
+    this.initialized.next(true);
+  }
+
+  private async showSplash() {
+    const lottie = (window as any).lottie;
+    await lottie.splashscreen.hide();
+    await lottie.splashscreen.show('public/assets/eva.json', false);
   }
 }

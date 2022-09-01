@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-folder',
+  selector: 'eva-folder',
   templateUrl: './folder.page.html',
   styleUrls: ['./folder.page.scss'],
 })

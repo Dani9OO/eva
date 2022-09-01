@@ -6,12 +6,22 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AppService } from './services/app/app.service';
+import { AuthService } from './services/auth/auth.service';
+import { LottieModule } from 'ngx-lottie';
+import { lottieFactory } from './common/functions/lottie.factory';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, AppService ],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    LottieModule.forRoot({ player: lottieFactory })
+  ],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    AuthService
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
