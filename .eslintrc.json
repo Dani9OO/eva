@@ -36,7 +36,9 @@
             "style": "camelCase"
           }
         ],
-        "curly": "off"
+        "curly": "off",
+        "@typescript-eslint/member-delimiter-style": "off",
+        "@typescript-eslint/semi": "off"
       }
     },
     {
