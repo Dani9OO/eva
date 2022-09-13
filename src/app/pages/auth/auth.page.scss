@@ -1,0 +1,11 @@
+.content-container {
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  padding: 2rem;
+  height: 100%;
+  .logo {
+    height: 30vh;
+  }
+}

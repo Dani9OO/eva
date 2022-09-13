@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Platform } from '@ionic/angular';
-import { AnimationOptions } from 'ngx-lottie';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { User } from './models/user';
+import { AuthService } from './services/auth/auth.service';
 @Component({
   selector: 'eva-root',
   templateUrl: 'app.component.html',
@@ -11,26 +12,26 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Inbox', url: '/folder/Inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/Favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
+    { title: 'Estadísticas', url: '/summary', icon: 'podium' },
+    { title: 'Carreras', url: '/degrees', icon: 'shapes' },
+    { title: 'Rubricas', url: '/rubrics', icon: 'calculator' },
+    { title: 'Directorio', url: '/directory', icon: 'business' }
   ]
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders']
   public initialized$: Observable<boolean>
-  public splash: AnimationOptions = {
-    path: 'assets/eva.json',
-    loop: false
-  };
+  public user$: Observable<User>
   private initialized: BehaviorSubject<boolean>
   constructor(
-    private platform: Platform
+    private platform: Platform,
+    private auth: AuthService
   ) {
     this.initialized = new BehaviorSubject(false)
     this.initialized$ = this.initialized.asObservable()
+    this.user$ = this.auth.user$
     this.init()
+  }
+
+  public async signOut() {
+    await this.auth.signOut()
   }
 
   private async init() {

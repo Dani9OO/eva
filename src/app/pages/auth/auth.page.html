@@ -1,9 +1,15 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>auth</ion-title>
+    <ion-title>Bienvenido</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <div class="content-container">
+    <ion-img src="assets/eva.svg" class="logo"></ion-img>
+    <ion-button expand="block" (click)="signIn()">
+      <ion-icon name="logo-google" slot="start"></ion-icon>
+      <span>Iniciar Sesión</span>
+    </ion-button>
+  </div>
 </ion-content>

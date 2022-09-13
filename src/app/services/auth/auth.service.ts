@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Auth, authState, GoogleAuthProvider, signInWithCredential, signInWithPopup, signOut } from '@angular/fire/auth';
-import { Observable, } from 'rxjs';
+import { asyncScheduler, Observable, scheduled, } from 'rxjs';
 import { User } from '../../models/user';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { Firestore, doc, docData, DocumentReference, setDoc } from '@angular/fire/firestore';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +18,14 @@ export class AuthService {
   constructor(
     private auth: Auth,
     private firestore: Firestore,
-    private platform: Platform
+    private platform: Platform,
+    private router: Router
   ) {
     this.user$ = authState(this.auth).pipe(
-      switchMap(user => this.getUser(user.uid))
+      switchMap(user => user ? this.getUser(user.uid) : scheduled([undefined], asyncScheduler)),
+      tap(user => {
+        if (user) this.router.navigate(['/summary'], { replaceUrl: true })
+      })
     )
   }
 
@@ -38,6 +43,7 @@ export class AuthService {
 
   public async signOut() {
     await signOut(this.auth)
+    this.router.navigate(['/auth'], { replaceUrl: true })
   }
 
   private getUser(id: string) {

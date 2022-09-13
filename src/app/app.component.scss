@@ -117,3 +117,25 @@ ion-note {
 ion-item.selected {
   --color: var(--ion-color-primary);
 }
+
+ion-avatar {
+  &.ios {
+    margin-left: 1rem;
+  }
+  &.md {
+    margin: 0 0 0.5rem 0.5rem;
+  }
+}
+
+ion-button.logout {
+  &.md {
+    left: 0.5rem;
+    bottom: 0.5rem;
+    width: calc(100% - 1.25rem);
+  }
+  &.ios {
+    left: 1rem;
+    bottom: 1.25rem;
+    width: calc(100% - 2.30rem);
+  }
+}
