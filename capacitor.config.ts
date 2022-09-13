@@ -19,6 +19,8 @@ const baseConfig: CapacitorConfig = {
     preferences: {
       LottieFullScreen: 'true',
       LottieHideAfterAnimationEnd: 'true',
+      LottieBackgroundColorLight: 'ffffffff',
+      LottieBackgroundColorDark: '000000ff'
     }
   }
 };
@@ -43,8 +45,6 @@ const getConfig = (): CapacitorConfig => {
           preferences: {
             ...baseConfig.cordova.preferences,
             LottieFadeOutDuration: '500',
-            LottieBackgroundColorLight: 'ffffffff',
-            LottieBackgroundColorDark: '000000ff',
             LottieAnimationLocation: 'public/assets/eva.json'
           }
         }

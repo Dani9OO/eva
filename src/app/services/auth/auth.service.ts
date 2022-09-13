@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, authState, GoogleAuthProvider, signInWithCredential, signInWithPopup, signOut } from '@angular/fire/auth';
+import { Auth, authState, GoogleAuthProvider, OAuthCredential, signInWithCredential, signInWithPopup, signOut } from '@angular/fire/auth';
 import { asyncScheduler, Observable, scheduled, } from 'rxjs';
 import { User } from '../../models/user';
 import { switchMap, tap } from 'rxjs/operators';
@@ -30,9 +30,9 @@ export class AuthService {
   }
 
   public async signIn() {
-    const credential = this.platform.is('hybrid')
-      ? await signInWithCredential(this.auth, GoogleAuthProvider.credential((await GoogleAuth.signIn()).authentication.idToken))
-      : await signInWithPopup(this.auth, new GoogleAuthProvider());
+    const user = await GoogleAuth.signIn()
+    const oauth = GoogleAuthProvider.credential(user.authentication.idToken, user.authentication.accessToken)
+    const credential = await signInWithCredential(this.auth, oauth)
     this.updateUserData({
       uid: credential.user.uid,
       name: credential.user.displayName,
