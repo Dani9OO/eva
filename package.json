@@ -40,8 +40,6 @@
     "@ionic/angular": "^6.1.9",
     "cordova-plugin-lottie-splashscreen": "^0.9.6",
     "firebase": "^9.9.3",
-    "lottie-web": "^5.9.6",
-    "ngx-lottie": "^9.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
