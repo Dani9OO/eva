@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { DirectoryPageRoutingModule } from './directory-routing.module';
 
 import { DirectoryPage } from './directory.page';
-import { EvaHeaderComponent } from '../../components/eva-header.component';
+import { HeaderComponent } from '../../components/header.component';
 
 @NgModule({
   imports: [
@@ -15,7 +15,7 @@ import { EvaHeaderComponent } from '../../components/eva-header.component';
     FormsModule,
     IonicModule,
     DirectoryPageRoutingModule,
-    EvaHeaderComponent
+    HeaderComponent
   ],
   declarations: [DirectoryPage]
 })

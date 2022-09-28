@@ -7,14 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { SummaryPageRoutingModule } from './summary-routing.module';
 
 import { SummaryPage } from './summary.page';
-import { EvaHeaderComponent } from '../../components/eva-header.component';
+import { HeaderComponent } from '../../components/header.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EvaHeaderComponent,
+    HeaderComponent,
     SummaryPageRoutingModule
   ],
   declarations: [SummaryPage]

@@ -7,14 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { DegreesPageRoutingModule } from './degrees-routing.module';
 
 import { DegreesPage } from './degrees.page';
-import { EvaHeaderComponent } from '../../components/eva-header.component';
+import { HeaderComponent } from '../../components/header.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EvaHeaderComponent,
+    HeaderComponent,
     DegreesPageRoutingModule
   ],
   declarations: [DegreesPage]

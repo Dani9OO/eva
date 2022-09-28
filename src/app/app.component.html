@@ -1,25 +1,31 @@
+<eva-spinner [fullscreen]="true" *ngIf="spinning$ | async"></eva-spinner>
 <ion-app *ngIf="initialized$ | async">
   <ion-split-pane contentId="main-content">
     <ion-menu menuId="main-menu" contentId="main-content" type="overlay" [disabled]="(user$ | async) === undefined">
-      <ion-content *ngIf="user$ | async as user">
-        <ion-list id="inbox-list">
-          <ion-avatar>
-            <ion-img [src]="user.photo"></ion-img>
-          </ion-avatar>
-          <ion-list-header>{{ user.name | titlecase }}</ion-list-header>
-          <ion-note>{{ user.email }}</ion-note>
+      <ion-content>
+        <ng-container *ngIf="user$ | async as user; else spinner">
+          <ion-list id="inbox-list">
+            <ion-avatar>
+              <ion-img [src]="user.photo"></ion-img>
+            </ion-avatar>
+            <ion-list-header>{{ user.name | titlecase }}</ion-list-header>
+            <ion-note>{{ user.email }}</ion-note>
 
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-        </ion-list>
-        <ion-button expand="block" slot="fixed" class="logout" color="danger" (click)="signOut()">
-          <ion-icon slot="start" icon="exit-outline"></ion-icon>
-          Cerrar sesión
-        </ion-button>
+            <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+              <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+                <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+                <ion-label>{{ p.title }}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </ion-list>
+          <ion-button expand="block" slot="fixed" class="logout" color="danger" (click)="signOut()">
+            <ion-icon slot="start" icon="exit-outline"></ion-icon>
+            Cerrar sesión
+          </ion-button>
+        </ng-container>
+        <ng-template #spinner>
+          <eva-spinner [fullscreen]="true"></eva-spinner>
+        </ng-template>
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

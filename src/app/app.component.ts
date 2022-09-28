@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from './models/user';
 import { AuthService } from './services/auth/auth.service';
+import { SpinnerService } from './services/spinner/spinner.service';
 @Component({
   selector: 'eva-root',
   templateUrl: 'app.component.html',
@@ -18,12 +19,15 @@ export class AppComponent {
     { title: 'Directorio', url: '/directory', icon: 'business' }
   ]
   public initialized$: Observable<boolean>
+  public spinning$: Observable<boolean>
   public user$: Observable<User>
   private initialized: BehaviorSubject<boolean>
   constructor(
     private platform: Platform,
-    private auth: AuthService
+    private auth: AuthService,
+    private spinner: SpinnerService
   ) {
+    this.spinning$ = this.spinner.spinning$
     this.initialized = new BehaviorSubject(false)
     this.initialized$ = this.initialized.asObservable()
     this.user$ = this.auth.user$

@@ -7,14 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { RubricsPageRoutingModule } from './rubrics-routing.module';
 
 import { RubricsPage } from './rubrics.page';
-import { EvaHeaderComponent } from '../../components/eva-header.component';
+import { HeaderComponent } from '../../components/header.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EvaHeaderComponent,
+    HeaderComponent,
     RubricsPageRoutingModule
   ],
   declarations: [RubricsPage]

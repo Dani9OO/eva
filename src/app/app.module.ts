@@ -11,8 +11,9 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { EntityDataModule } from '@ngrx/data';
-import { entityConfig } from './entity-metadata';
+import { AppService } from './services/app/app.service';
+import { SpinnerService } from './services/spinner/spinner.service';
+import { SpinnerComponent } from './components/spinner.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,11 +24,13 @@ import { entityConfig } from './entity-metadata';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    EntityDataModule.forRoot(entityConfig)
+    SpinnerComponent
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AuthService
+    AuthService,
+    AppService,
+    SpinnerService
   ],
   bootstrap: [AppComponent],
 })
