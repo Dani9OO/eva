@@ -13,14 +13,14 @@ import { IonicModule, MenuController, Platform } from '@ionic/angular';
     <ion-header>
       <ion-toolbar>
         <div class="toolbar-content">
-          <ion-button fill="clear" size="small" color="medium" (click)="openMenu()" *ngIf="!desktop">
-            <ion-icon slot="icon-only" name="menu-outline" size="large"></ion-icon>
-          </ion-button>
-          <ion-label>
-            <h1>
-              <ng-content></ng-content>
-            </h1>
-          </ion-label>
+          <div>
+            <ion-button fill="clear" size="small" color="medium" (click)="openMenu()" *ngIf="!desktop">
+              <ion-icon slot="icon-only" name="menu-outline" size="large"></ion-icon>
+            </ion-button>
+          </div>
+          <ion-title>
+            <ng-content></ng-content>
+          </ion-title>
         </div>
       </ion-toolbar>
     </ion-header>
@@ -28,9 +28,7 @@ import { IonicModule, MenuController, Platform } from '@ionic/angular';
   styles: [
     '.toolbar-content { display: grid; grid-template-columns: 3.4375rem 1fr 3.4375rem; gap: var(--padding-start); }',
     'ion-toolbar.md div.toolbar-content { padding-left: var(--padding-start); align-items: center; }',
-    'h1 { margin: 0 !important }',
     'ion-button { margin: 0 }',
-    'ion-label.ios > h1 { text-align: center; }'
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
