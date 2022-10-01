@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>733249240859-ilftncvhcesqqs9je2q7tmh5desorpe5.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.733249240859-ilftncvhcesqqs9je2q7tmh5desorpe5</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>733249240859-borbp9haudtdvl5g9akn540m32on5ht0.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDvTKcd5WXbTxrdzW6KxLNoEHH2B7-9WiE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>733249240859</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>me.daniromo.eva</string>
+	<key>PROJECT_ID</key>
+	<string>eva-app-7899d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>eva-app-7899d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:733249240859:ios:965fc4e7e3f01931e45dbe</string>
+</dict>
+</plist>
