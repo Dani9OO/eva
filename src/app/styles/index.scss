@@ -1,0 +1,5 @@
+@use './classes' as classes;
+
+@mixin init() {
+  @include classes.include();
+}

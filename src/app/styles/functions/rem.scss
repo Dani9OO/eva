@@ -1,0 +1,10 @@
+@use 'sass:math';
+
+@function unit($value) {
+  @return math.div($value, $value * 0 + 1);
+}
+
+@function toRem($value) {
+  $value: unit($value);
+  @return #{math.div($value, 16)}rem;
+}

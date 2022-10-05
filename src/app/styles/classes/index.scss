@@ -1,0 +1,8 @@
+@use '../mixins' as mixins;
+@use '../functions' as functions;
+
+@mixin include() {
+  .border-radius {
+    @include mixins.border-radius(functions.toRem(10px))
+  }
+}
