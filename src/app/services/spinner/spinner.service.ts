@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { LottieComponent } from '../../components/lottie.component';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({

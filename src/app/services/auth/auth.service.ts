@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth, authState, GoogleAuthProvider, signInWithCredential, signOut } from '@angular/fire/auth';
 import { asyncScheduler, Observable, scheduled, } from 'rxjs';
-import { User } from '../../models/user';
+import { User } from '../../models/user.model';
 import { switchMap, tap } from 'rxjs/operators';
 import { Firestore, doc, docData, DocumentReference, setDoc } from '@angular/fire/firestore';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
