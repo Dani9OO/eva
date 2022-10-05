@@ -1,16 +1,12 @@
 import { Component, ChangeDetectionStrategy, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core'
-import { LottieComponent } from './lottie.component';
+import { LottieComponent } from '../lottie/lottie.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'eva-spinner',
   imports: [LottieComponent, CommonModule],
-  template: `
-    <div class="spinner-container" [ngClass]="{ 'spinner-container-fullscreen': fullscreen }">
-      <eva-lottie [style.width]="width" src="/assets/spinner.json"></eva-lottie>
-    </div>
-  `,
+  templateUrl: './spinner.component.html',
   styleUrls: ['./spinner.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

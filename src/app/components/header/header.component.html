@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="toolbar-content">
+      <div>
+        <ion-button fill="clear" size="small" color="medium" (click)="openMenu()" *ngIf="!desktop">
+          <ion-icon slot="icon-only" name="menu-outline" size="large"></ion-icon>
+        </ion-button>
+      </div>
+      <ion-title>
+        <ng-content></ng-content>
+      </ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>

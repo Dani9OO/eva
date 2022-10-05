@@ -1,0 +1,12 @@
+.toolbar-content {
+  display: grid;
+  grid-template-columns: 3.4375rem 1fr 3.4375rem;
+  gap: var(--padding-start);
+}
+
+ion-toolbar.md div.toolbar-content {
+  padding-left: var(--padding-start);
+  align-items: center;
+}
+
+ion-button { margin: 0 }

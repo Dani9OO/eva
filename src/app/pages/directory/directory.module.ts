@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { DirectoryPageRoutingModule } from './directory-routing.module';
 
 import { DirectoryPage } from './directory.page';
-import { HeaderComponent } from '../../components/header.component';
+import { HeaderComponent } from '../../components/header/header.component';
 
 @NgModule({
   imports: [

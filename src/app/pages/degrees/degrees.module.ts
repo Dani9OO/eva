@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { DegreesPageRoutingModule } from './degrees-routing.module';
 
 import { DegreesPage } from './degrees.page';
-import { HeaderComponent } from '../../components/header.component';
+import { HeaderComponent } from '../../components/header/header.component';
 
 @NgModule({
   imports: [

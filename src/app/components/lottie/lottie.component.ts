@@ -1,21 +1,11 @@
 import { Component, ChangeDetectionStrategy, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
-import { AppService } from '../services/app/app.service';
+import { AppService } from '../../services/app/app.service';
 
 @Component({
   standalone: true,
   selector: 'eva-lottie',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  template: `
-    <lottie-player
-      [attr.autoplay]="autoplay"
-      [attr.loop]="loop"
-      [attr.mode]="mode"
-      [attr.src]="src"
-      [style.height]="height"
-      [style.width]="width"
-    >
-    </lottie-player>
-  `,
+  templateUrl: './lottie.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LottieComponent implements OnInit {
