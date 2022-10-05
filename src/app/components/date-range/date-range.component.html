@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">{{ page === 0 ? 'Cancelar' : 'Regresar' }}</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()" [disabled]="!dates[page]">{{ page === 0 ? 'Continuar' : 'Confirmar' }}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="calendar-container" [@slideAnimation] *ngIf="page === 0; else endDate">
+    <div class="calendar-title">Fecha Inicio</div>
+    <ion-datetime
+      (ionChange)="selectDate($event)"
+      [locale]="locale"
+      [value]="dates[page]"
+      presentation="date"
+      class="border-radius"
+    ></ion-datetime>
+  </div>
+  <ng-template #endDate>
+    <div class="calendar-container" [@slideAnimation]>
+      <div class="calendar-title">Fecha Fin</div>
+      <ion-datetime [@slideAnimation]
+        (ionChange)="selectDate($event)"
+        [locale]="locale"
+        [value]="dates[page]"
+        presentation="date"
+        class="border-radius"
+      ></ion-datetime>
+    </div>
+  </ng-template>
+</ion-content>
