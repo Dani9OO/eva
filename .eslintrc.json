@@ -38,7 +38,8 @@
         ],
         "curly": "off",
         "@typescript-eslint/member-delimiter-style": "off",
-        "@typescript-eslint/semi": "off"
+        "@typescript-eslint/semi": "off",
+        "@typescript-eslint/no-underscore-dangle": "allowAfterThis"
       }
     },
     {
