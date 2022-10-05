@@ -13,6 +13,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/auth/auth.module').then( m => m.AuthPageModule)
   },
   {
+    path: 'calendar',
+    loadChildren: () => import('./pages/calendar/calendar.module').then( m => m.CalendarPageModule),
+    canActivate: [AppGuard]
+  },
+  {
     path: 'degrees',
     loadChildren: () => import('./pages/degrees/degrees.module').then( m => m.DegreesPageModule),
     canActivate: [AppGuard]
@@ -31,7 +36,7 @@ const routes: Routes = [
     path: 'summary',
     loadChildren: () => import('./pages/summary/summary.module').then( m => m.SummaryPageModule),
     canActivate: [AppGuard]
-  },
+  }
 ];
 
 @NgModule({

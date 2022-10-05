@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Platform } from '@ionic/angular';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { User } from './models/user';
+import { User } from './models/user.model';
 import { AuthService } from './services/auth/auth.service';
 import { SpinnerService } from './services/spinner/spinner.service';
 @Component({
@@ -16,7 +16,8 @@ export class AppComponent {
     { title: 'Estadísticas', url: '/summary', icon: 'podium' },
     { title: 'Carreras', url: '/degrees', icon: 'shapes' },
     { title: 'Rubricas', url: '/rubrics', icon: 'calculator' },
-    { title: 'Directorio', url: '/directory', icon: 'business' }
+    { title: 'Directorio', url: '/directory', icon: 'business' },
+    { title: 'Ciclo Escolar', url: '/calendar', icon: 'calendar' }
   ]
   public initialized$: Observable<boolean>
   public spinning$: Observable<boolean>

@@ -13,13 +13,15 @@ import { provideAuth,getAuth, initializeAuth, indexedDBLocalPersistence } from '
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { AppService } from './services/app/app.service';
 import { SpinnerService } from './services/spinner/spinner.service';
-import { SpinnerComponent } from './components/spinner.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 import { Capacitor } from '@capacitor/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
