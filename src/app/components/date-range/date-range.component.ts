@@ -39,7 +39,7 @@ import { trigger, transition, style, animate } from '@angular/animations'
 export class DateRangeComponent {
 
   public page = 0
-  public dates: [string?, string?] = ['', '']
+  public dates: [string?, string?] = []
   private _locale: string
 
   constructor(

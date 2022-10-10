@@ -22,7 +22,7 @@
   <ng-template #endDate>
     <div class="calendar-container" [@slideAnimation]>
       <div class="calendar-title">Fecha Fin</div>
-      <ion-datetime [@slideAnimation]
+      <ion-datetime
         (ionChange)="selectDate($event)"
         [locale]="locale"
         [value]="dates[page]"
