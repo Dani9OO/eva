@@ -1,10 +1,14 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button color="medium" (click)="cancel()">{{ page === 0 ? 'Cancelar' : 'Regresar' }}</ion-button>
+      <ion-button color="danger" (click)="cancel()">
+        {{ page === 0 ? 'Cancelar' : 'Regresar' }}
+      </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="confirm()" [disabled]="!dates[page]">{{ page === 0 ? 'Continuar' : 'Confirmar' }}</ion-button>
+      <ion-button color="primary" (click)="confirm()" [disabled]="!dates[page]">
+        {{ page === 0 ? 'Continuar' : 'Confirmar' }}
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

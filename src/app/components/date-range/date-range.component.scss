@@ -2,12 +2,14 @@
 
 ion-content {
   &.md {
-    .calendar-title {
-      text-align: left;
-      padding-left: functions.toRem(20px);
-      font-size: functions.toRem(20px);
-      font-weight: 500;
-      letter-spacing: 0.0125em;
+    .calendar {
+      &-title {
+        text-align: left;
+        padding-left: functions.toRem(20px);
+        font-size: functions.toRem(20px);
+        font-weight: 500;
+        letter-spacing: 0.0125em;
+      }
     }
   }
 }
