@@ -4,11 +4,13 @@ ion-content {
   &.md {
     .calendar {
       &-title {
-        text-align: left;
         padding-left: functions.toRem(20px);
         font-size: functions.toRem(20px);
         font-weight: 500;
         letter-spacing: 0.0125em;
+      }
+      &-buttons {
+        justify-content: flex-end;
       }
     }
   }
@@ -26,8 +28,12 @@ ion-content {
     }
   }
   &-title {
-    text-align: center;
+    padding-left: var(--padding-start);
     font-size: functions.toRem(17px);
     font-weight: 600;
+  }
+  &-buttons {
+    display: flex;
+    justify-content: flex-end;
   }
 }
