@@ -69,6 +69,7 @@ export class AppEffects {
   loginFailure$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.loginFailure),
     tap(action => {
+      this.spinner.stop()
       if (action.error instanceof UnauthorizedError) {
         this.toast.create({
           message: action.error.message,
