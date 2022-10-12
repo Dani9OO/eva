@@ -8,6 +8,10 @@ const baseConfig: CapacitorConfig = {
   webDir: 'www',
   bundledWebRuntime: false,
   plugins: {
+    SplashScreen: {
+      "launchShowDuration": 0,
+      "launchAutoHide": true,
+    },
     GoogleAuth: {
       scopes: ['profile', 'email'],
       serverClientId: '733249240859-k9viv6v3lagtbqn68uk0a4mnk52ng5h5.apps.googleusercontent.com',
