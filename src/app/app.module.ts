@@ -6,16 +6,18 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AuthService } from './services/auth/auth.service';
 import { getApp, initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth, initializeAuth, indexedDBLocalPersistence } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { AppService } from './services/app/app.service';
-import { SpinnerService } from './services/spinner/spinner.service';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { Capacitor } from '@capacitor/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { AppEffects } from './app.effects';
+import { reducer } from './app.reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,13 +32,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       return initializeAuth(getApp(), { persistence: indexedDBLocalPersistence })
     }),
     provideFirestore(() => getFirestore()),
-    SpinnerComponent
+    SpinnerComponent,
+    StoreModule.forRoot({ app: reducer }),
+    EffectsModule.forRoot([AppEffects]),
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AuthService,
-    AppService,
-    SpinnerService
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent],
 })

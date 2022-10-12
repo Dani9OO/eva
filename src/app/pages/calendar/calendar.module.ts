@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { CalendarPageRoutingModule } from './calendar-routing.module';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { CalendarPage } from './calendar.page';
 import { HeaderComponent } from '../../components/header/header.component';
@@ -18,7 +19,8 @@ import { DateRangeComponent } from '../../components/date-range/date-range.compo
     CalendarPageRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HeaderComponent
+    HeaderComponent,
+    ScrollingModule
   ],
   declarations: [CalendarPage]
 })

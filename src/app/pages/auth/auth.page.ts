@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth/auth.service';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { selectUser } from '../../app.selectors';
+import * as AuthActions from 'src/app/app.actions';
 
 @Component({
   selector: 'eva-auth',
@@ -15,18 +17,17 @@ export class AuthPage implements OnInit {
   public user$: Observable<User>
 
   constructor(
-    private auth: AuthService,
+    private readonly store: Store,
     private router: Router
   ) {
-    this.user$ = auth.user$
+    this.user$ = this.store.select(selectUser)
   }
 
   ngOnInit() {
   }
 
   async signIn() {
-    await this.auth.signIn()
-    this.router.navigate(['/summary'], { replaceUrl: true })
+    this.store.dispatch(AuthActions.login())
   }
 
 }

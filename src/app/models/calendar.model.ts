@@ -1,3 +1,5 @@
 export interface Calendar {
-  dates: [string, string]
+  id: string
+  title: string
+  dates: [Date, Date]
 }

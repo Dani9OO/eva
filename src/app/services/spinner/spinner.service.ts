@@ -10,7 +10,7 @@ export class SpinnerService {
   private spinning: BehaviorSubject<boolean>
 
   constructor() {
-    this.spinning = new BehaviorSubject(true)
+    this.spinning = new BehaviorSubject(false)
     this.spinning$ = this.spinning.asObservable()
   }
 

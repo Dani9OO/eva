@@ -1,9 +1,12 @@
 <eva-header>Ciclo Escolar</eva-header>
-<ion-content>
-  <ion-item *ngFor="let calendar of calendars.controls; index as i">
-    <ion-input readonly="true" [formControl]="calendar[0]"></ion-input>
-    <ion-input readonly="true" [formControl]="calendar[1]"></ion-input>
-  </ion-item>
+<ion-content [scrollY]="false">
+  <ion-refresher slot="fixed">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="56">
+    <!-- <ion-item *cdkVirtualFor="let calendar of calendars; index as i">
+    </ion-item> -->
+  </cdk-virtual-scroll-viewport>
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
     <ion-fab-button (click)="newCalendar()">
       <ion-icon name="add"></ion-icon>

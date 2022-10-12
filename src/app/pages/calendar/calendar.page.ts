@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, NonNullableFormBuilder } from '@angular/forms';
-import { AppService } from '../../services/app/app.service';
 import { ModalController } from '@ionic/angular';
 import { DateRangeComponent } from '../../components/date-range/date-range.component';
 
@@ -11,7 +10,7 @@ import { DateRangeComponent } from '../../components/date-range/date-range.compo
 })
 export class CalendarPage implements OnInit {
 
-  public calendars: FormArray<FormArray<FormControl<string>>>
+  public calendars$: FormArray<FormArray<FormControl<string>>>
 
   constructor(
     private fb: NonNullableFormBuilder,
@@ -21,7 +20,7 @@ export class CalendarPage implements OnInit {
   }
 
   ngOnInit() {
-    this.calendars = this.fb.array<FormArray<FormControl<string>>>([])
+    // this.calendars
   }
 
   setDate(index: number): void {
@@ -33,6 +32,10 @@ export class CalendarPage implements OnInit {
       component: DateRangeComponent
     })
     await modal.present();
+    const result = await modal.onWillDismiss();
+    if (!result.data) return;
+    const dates = (result.data as [string, string]).map(date => new Date(date));
+
   }
 
 }
