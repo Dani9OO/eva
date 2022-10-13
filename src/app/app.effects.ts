@@ -4,7 +4,7 @@ import { catchError, map, mergeMap, of, from, throwError, lastValueFrom, firstVa
 import * as AppActions from './app.actions'
 import { CalendarService } from './services/calendar/calendar.service';
 import { Router } from '@angular/router';
-import { tap, switchMap } from 'rxjs/operators';
+import { tap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { ToastController } from '@ionic/angular';
 import { AuthService } from './services/auth/auth.service';
 import { UserService } from './services/user/user.service';
@@ -39,25 +39,13 @@ export class AppEffects {
   login$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.login),
     tap(() => this.spinner.spin()),
-    mergeMap(() => from(this.auth.signIn()).pipe(
+    mergeMap(() => authState(this.fireauth).pipe(
+      switchMap(user => from(user ? [user] : this.auth.signIn())),
       tap(user => this.user.updateUserData(user)),
       switchMap(user => from(this.user.getAppUser(user.uid))),
       map(user => AppActions.loginSuccess({ user })),
       catchError(error => of(AppActions.loginFailure({ error })))
-    ))
-  ))
-
-  autoLogin$ = createEffect(() => this.actions$.pipe(
-    ofType(AppActions.autoLogin),
-    mergeMap(() => authState(this.fireauth).pipe(
-      tap(user => user
-        ? this.user.updateUserData(user)
-        : throwError(() => new Error('Not logged in'))
-      ),
-      switchMap(user => from(this.user.getAppUser(user.uid))),
-      map(user => AppActions.loginSuccess({ user })),
-      catchError(error => of(AppActions.loginFailure({ error })))
-    ))
+    )),
   ))
 
   loginSuccess$ = createEffect(() => this.actions$.pipe(

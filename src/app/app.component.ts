@@ -58,7 +58,7 @@ export class AppComponent {
       scopes: ['profile', 'email'],
       grantOfflineAccess: true,
     })
-    this.store.dispatch(AppActions.autoLogin())
+    this.store.dispatch(AppActions.login())
   }
 
   private async showSplash() {

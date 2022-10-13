@@ -22,7 +22,7 @@ export class UserService extends DataService<User> {
 
   public async updateUserData(user: FirebaseUser) {
     const data = {
-      uid: user.uid,
+      id: user.uid,
       name: user.displayName,
       photo: user.photoURL,
       email: user.email

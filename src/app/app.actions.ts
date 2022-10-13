@@ -20,10 +20,6 @@ export const login = createAction(
   '[App] Login'
 );
 
-export const autoLogin = createAction(
-  '[App] Auto Login'
-);
-
 export const loginSuccess = createAction(
   '[App] Login Success',
   props<{ user: AppUser }>()
