@@ -1,5 +1,6 @@
-export interface Calendar {
-  id: string
+export class Calendar {
+  dates: [string, string]
   title: string
-  dates: [Date, Date]
+  active: boolean = false
+  id?: string
 }

@@ -9,7 +9,10 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { CalendarPage } from './calendar.page';
 import { HeaderComponent } from '../../components/header/header.component';
-import { DateRangeComponent } from '../../components/date-range/date-range.component';
+import { StoreModule } from '@ngrx/store';
+import { reducer, calendarFeatureKey } from './calendar.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { CalendarEffects } from './calendar.effects';
 
 @NgModule({
   imports: [
@@ -20,7 +23,9 @@ import { DateRangeComponent } from '../../components/date-range/date-range.compo
     FormsModule,
     ReactiveFormsModule,
     HeaderComponent,
-    ScrollingModule
+    ScrollingModule,
+    StoreModule.forFeature(calendarFeatureKey, reducer),
+    EffectsModule.forFeature([CalendarEffects])
   ],
   declarations: [CalendarPage]
 })

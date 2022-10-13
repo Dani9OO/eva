@@ -1,11 +1,15 @@
 <eva-header>Ciclo Escolar</eva-header>
 <ion-content [scrollY]="false">
-  <ion-refresher slot="fixed">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="56">
-    <!-- <ion-item *cdkVirtualFor="let calendar of calendars; index as i">
-    </ion-item> -->
+  <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="56" minBufferPx="900" maxBufferPx="1350">
+    <ion-item *cdkVirtualFor="let calendar of calendars$ | async">
+      <ion-label>
+        <h1>{{ calendar.title }}</h1>
+        <p>{{ calendar.dates[0] | date }} - {{ calendar.dates[1] | date }}</p>
+      </ion-label>
+    </ion-item>
   </cdk-virtual-scroll-viewport>
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
     <ion-fab-button (click)="newCalendar()">

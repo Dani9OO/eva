@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, NonNullableFormBuilder } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, RefresherCustomEvent } from '@ionic/angular';
 import { DateRangeComponent } from '../../components/date-range/date-range.component';
+import * as CalendarActions from './calendar.actions'
+import { Store } from '@ngrx/store';
+import { Calendar } from '../../models/calendar.model';
+import { Observable } from 'rxjs';
+import { selectAllCalendars } from './calendar.selectors';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'eva-calendar',
@@ -10,21 +15,24 @@ import { DateRangeComponent } from '../../components/date-range/date-range.compo
 })
 export class CalendarPage implements OnInit {
 
-  public calendars$: FormArray<FormArray<FormControl<string>>>
+  public calendars$: Observable<Calendar[]>
 
   constructor(
-    private fb: NonNullableFormBuilder,
-    private modal: ModalController
+    private readonly modal: ModalController,
+    private readonly store: Store
   ) {
 
   }
 
-  ngOnInit() {
-    // this.calendars
+  public ngOnInit() {
+    this.store.dispatch(CalendarActions.loadCalendars({}))
+    this.calendars$ = this.store.select(selectAllCalendars)
   }
 
-  setDate(index: number): void {
-
+  public refresh(event: Event) {
+    const ev = event as RefresherCustomEvent
+    // this.store.dispatch(CalendarActions.loadCalendars({}))
+    ev.target.complete()
   }
 
   public async newCalendar(): Promise<void> {
@@ -34,8 +42,8 @@ export class CalendarPage implements OnInit {
     await modal.present();
     const result = await modal.onWillDismiss();
     if (!result.data) return;
-    const dates = (result.data as [string, string]).map(date => new Date(date));
-
+    const [start, end] = (result.data as [string, string]);
+    this.store.dispatch(CalendarActions.upsertCalendar({ start, end }))
   }
 
 }
