@@ -38,7 +38,7 @@ export class CalendarEffects {
 
   loadCalendars$ = createEffect(() => this.actions$.pipe(
     ofType(CalendarActions.loadCalendars),
-    concatLatestFrom(this.store.select(selectAllCalendars)),
+    concatLatestFrom(() => this.store.select(selectAllCalendars)),
     mergeMap(([action, storeCalendars]) =>
       from(storeCalendars.length === 0 || action.force ? this.calendar.getAllCalendars() : [storeCalendars]
     ).pipe(
