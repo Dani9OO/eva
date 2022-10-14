@@ -4,15 +4,22 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="56" minBufferPx="900" maxBufferPx="1350">
-    <ion-item *cdkVirtualFor="let calendar of calendars$ | async">
+    <ion-item *cdkVirtualFor="let calendar of calendars$ | async" lines="full">
+      <ion-icon ios="calendar-outline" md="calendar-sharp" color="primary" slot="start" *ngIf="calendar.active; else select"></ion-icon>
+      <ng-template #select>
+        <ion-icon ios="calendar-clear-outline" md="calendar-clear-sharp" slot="start" (click)="selectCalendar(calendar)"></ion-icon>
+      </ng-template>
       <ion-label>
         <h1>{{ calendar.title }}</h1>
         <p>{{ calendar.dates[0] | date }} - {{ calendar.dates[1] | date }}</p>
       </ion-label>
+      <ion-button slot="end" color="secondary" (click)="upsertCalendar(calendar)">
+        Editar
+      </ion-button>
     </ion-item>
   </cdk-virtual-scroll-viewport>
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button (click)="newCalendar()">
+    <ion-fab-button (click)="upsertCalendar()" color="tertiary">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

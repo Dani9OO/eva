@@ -1,5 +1,5 @@
 export class NotFoundError extends Error {
-  constructor (
+  constructor(
     public entity: string,
     public identifier?: string,
     public value?: string

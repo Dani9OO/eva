@@ -1,19 +1,19 @@
-import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, of, from, throwError, lastValueFrom, firstValueFrom } from 'rxjs';
+import { Injectable } from '@angular/core'
+import { Actions, createEffect, ofType } from '@ngrx/effects'
+import { catchError, map, mergeMap, of, from, firstValueFrom } from 'rxjs'
 import * as AppActions from './app.actions'
-import { CalendarService } from './services/calendar/calendar.service';
-import { Router } from '@angular/router';
-import { tap, switchMap, withLatestFrom } from 'rxjs/operators';
-import { ToastController } from '@ionic/angular';
-import { AuthService } from './services/auth/auth.service';
-import { UserService } from './services/user/user.service';
-import { Auth, authState } from '@angular/fire/auth';
-import { SpinnerService } from './services/spinner/spinner.service';
-import { Store } from '@ngrx/store';
-import { selectUser } from './app.selectors';
-import { Role } from './common/types/role.type';
-import { UnauthorizedError } from './common/errors/unauthorized.error';
+import { CalendarService } from './services/calendar/calendar.service'
+import { Router } from '@angular/router'
+import { tap, switchMap } from 'rxjs/operators'
+import { ToastController } from '@ionic/angular'
+import { AuthService } from './services/auth/auth.service'
+import { UserService } from './services/user/user.service'
+import { Auth, authState } from '@angular/fire/auth'
+import { SpinnerService } from './services/spinner/spinner.service'
+import { Store } from '@ngrx/store'
+import { selectUser } from './app.selectors'
+import { Role } from './common/types/role.type'
+import { UnauthorizedError } from './common/errors/unauthorized.error'
 
 @Injectable()
 export class AppEffects {
@@ -111,10 +111,10 @@ export class AppEffects {
     switch (role) {
       case 'admin':
         this.router.navigate(['/summary'], { replaceUrl: true })
-        break;
+        break
 
       default:
-        break;
+        break
     }
   }
 }

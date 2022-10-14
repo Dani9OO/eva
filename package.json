@@ -7,7 +7,7 @@
     "ng": "ng",
     "start": "ng serve",
     "start:ios": "ionic capacitor run ios -l --external",
-    "start:android": "ionic capacitor run android -l --host=192.168.0.4",
+    "start:android": "ionic capacitor run android -l --host=192.168.0.51",
     "build": "ng build",
     "build:watch": "ng build --watch",
     "sync": "npm run sync:android & npm run sync:ios",

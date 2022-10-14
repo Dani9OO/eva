@@ -1,6 +1,6 @@
-import { Component, ChangeDetectionStrategy, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core'
-import { LottieComponent } from '../lottie/lottie.component';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core'
+import { LottieComponent } from '../lottie/lottie.component'
+import { CommonModule } from '@angular/common'
 
 @Component({
   standalone: true,

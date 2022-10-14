@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { FormsModule } from '@angular/forms'
 
-import { IonicModule } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular'
 
-import { RubricsPageRoutingModule } from './rubrics-routing.module';
+import { RubricsPageRoutingModule } from './rubrics-routing.module'
 
-import { RubricsPage } from './rubrics.page';
-import { HeaderComponent } from '../../components/header/header.component';
+import { RubricsPage } from './rubrics.page'
+import { HeaderComponent } from '../../components/header/header.component'
 
 @NgModule({
   imports: [

@@ -1,24 +1,24 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing'
+import { IonicModule } from '@ionic/angular'
 
-import { SummaryPage } from './summary.page';
+import { SummaryPage } from './summary.page'
 
 describe('SummaryPage', () => {
-  let component: SummaryPage;
-  let fixture: ComponentFixture<SummaryPage>;
+  let component: SummaryPage
+  let fixture: ComponentFixture<SummaryPage>
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SummaryPage ],
       imports: [IonicModule.forRoot()]
-    }).compileComponents();
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(SummaryPage);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  }));
+    fixture = TestBed.createComponent(SummaryPage)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  }))
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

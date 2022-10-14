@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { IonicModule, MenuController, Platform } from '@ionic/angular';
+import { ChangeDetectionStrategy, Component } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { IonicModule, MenuController } from '@ionic/angular'
 
 @Component({
   standalone: true,
@@ -16,11 +16,8 @@ import { IonicModule, MenuController, Platform } from '@ionic/angular';
 export class HeaderComponent {
   public desktop: boolean
   constructor(
-    private menu: MenuController,
-    private platform: Platform
-  ) {
-    this.desktop = this.platform.is('desktop')
-  }
+    private menu: MenuController
+  ) {}
  public async openMenu(): Promise<void> {
   await this.menu.open('main-menu')
  }

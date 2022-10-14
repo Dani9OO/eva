@@ -1,14 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-import { Platform } from '@ionic/angular';
-import { Store } from '@ngrx/store';
-import { Observable, BehaviorSubject, zip, map } from 'rxjs';
-import { User } from './models/user.model';
-import { AuthService } from './services/auth/auth.service';
-import { SpinnerService } from './services/spinner/spinner.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core'
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
+import { Platform } from '@ionic/angular'
+import { Store } from '@ngrx/store'
+import { Observable, BehaviorSubject, zip, map } from 'rxjs'
+import { User } from './models/user.model'
+import { SpinnerService } from './services/spinner/spinner.service'
 import * as AppActions from './app.actions'
-import { selectUser, selectCalendar } from './app.selectors';
-import { Calendar } from './models/calendar.model';
+import { selectUser, selectCalendar } from './app.selectors'
 @Component({
   selector: 'eva-root',
   templateUrl: 'app.component.html',
@@ -26,7 +24,7 @@ export class AppComponent {
   public initialized$: Observable<boolean>
   public spinning$: Observable<boolean>
   public user$: Observable<User>
-  public calendar$: Observable<Calendar>
+  public calendar$: Observable<string>
   public menu$: Observable<boolean>
   private initialized: BehaviorSubject<boolean>
   constructor(
@@ -41,7 +39,7 @@ export class AppComponent {
     this.calendar$ = this.store.select(selectCalendar)
     this.menu$ = zip(this.user$, this.calendar$).pipe(
       map(([user, calendar]) => !user && !calendar)
-    );
+    )
     this.init()
   }
 

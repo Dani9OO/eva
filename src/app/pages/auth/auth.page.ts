@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { User } from 'src/app/models/user.model';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { selectUser } from '../../app.selectors';
-import * as AuthActions from 'src/app/app.actions';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
+import { Observable } from 'rxjs'
+import { User } from 'src/app/models/user.model'
+import { Router } from '@angular/router'
+import { Store } from '@ngrx/store'
+import { selectUser } from '../../app.selectors'
+import * as AuthActions from 'src/app/app.actions'
 
 @Component({
   selector: 'eva-auth',

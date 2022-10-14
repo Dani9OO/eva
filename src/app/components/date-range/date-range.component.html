@@ -1,55 +1,52 @@
-<ion-content class="ion-padding">
-  <div class="calendar-container" [@slideAnimation] *ngIf="page === 0; else endDate">
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Nuevo Ciclo Escolar</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="calendar-container ion-padding">
     <div class="calendar-title">Fecha Inicio</div>
     <ion-datetime
-      (ionChange)="selectDate($event)"
+      (ionChange)="selectDate($event, 0)"
       [locale]="locale"
-      [value]="dates[page]"
+      [value]="dates[0]"
       presentation="date"
       class="border-radius"
+      id="start"
     ></ion-datetime>
-    <ion-buttons class="calendar-buttons">
+  </div>
+  <div class="calendar-container ion-padding">
+    <div class="calendar-title">Fecha Fin</div>
+    <ion-datetime
+      (ionChange)="selectDate($event, 1)"
+      [locale]="locale"
+      [value]="dates[1]"
+      [min]="dates[0]"
+      presentation="date"
+      class="border-radius"
+      id="end"
+    ></ion-datetime>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
       <ion-button
         color="danger"
         fill="clear"
         (click)="cancel()">
         Cancelar
       </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
       <ion-button
         color="primary"
         fill="clear"
         (click)="confirm()"
-        [disabled]="!dates[page]">
-        Continuar
+        [disabled]="!(dates[0] && dates[1])">
+        Confirmar
       </ion-button>
     </ion-buttons>
-  </div>
-  <ng-template #endDate>
-    <div class="calendar-container" [@slideAnimation]>
-      <div class="calendar-title">Fecha Fin</div>
-      <ion-datetime
-        (ionChange)="selectDate($event)"
-        [locale]="locale"
-        [value]="dates[page]"
-        [min]="dates[0]"
-        presentation="date"
-        class="border-radius"
-      ></ion-datetime>
-      <ion-buttons class="calendar-buttons">
-        <ion-button
-          color="danger"
-          fill="clear"
-          (click)="cancel()">
-          Regresar
-        </ion-button>
-        <ion-button
-          color="primary"
-          fill="clear"
-          (click)="confirm()"
-          [disabled]="!dates[page]">
-          Confirmar
-        </ion-button>
-      </ion-buttons>
-    </div>
-  </ng-template>
-</ion-content>
+  </ion-toolbar>
+</ion-footer>

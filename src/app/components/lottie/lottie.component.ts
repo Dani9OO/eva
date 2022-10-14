@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
-import { AppService } from '../../services/app/app.service';
+import { Component, ChangeDetectionStrategy, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core'
+import { AppService } from '../../services/app/app.service'
 
 @Component({
   standalone: true,

@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AppGuard } from './services/app/app.guard';
+import { NgModule } from '@angular/core'
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router'
+import { AppGuard } from './services/app/app.guard'
 
 const routes: Routes = [
   {
@@ -37,7 +37,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/summary/summary.module').then( m => m.SummaryPageModule),
     canActivate: [AppGuard]
   }
-];
+]
 
 @NgModule({
   imports: [

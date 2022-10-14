@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { FormsModule } from '@angular/forms'
 
-import { IonicModule } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular'
 
-import { SummaryPageRoutingModule } from './summary-routing.module';
+import { SummaryPageRoutingModule } from './summary-routing.module'
 
-import { SummaryPage } from './summary.page';
-import { HeaderComponent } from '../../components/header/header.component';
+import { SummaryPage } from './summary.page'
+import { HeaderComponent } from '../../components/header/header.component'
 
 @NgModule({
   imports: [

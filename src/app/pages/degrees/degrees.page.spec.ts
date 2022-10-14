@@ -1,24 +1,24 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing'
+import { IonicModule } from '@ionic/angular'
 
-import { DegreesPage } from './degrees.page';
+import { DegreesPage } from './degrees.page'
 
 describe('DegreesPage', () => {
-  let component: DegreesPage;
-  let fixture: ComponentFixture<DegreesPage>;
+  let component: DegreesPage
+  let fixture: ComponentFixture<DegreesPage>
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ DegreesPage ],
       imports: [IonicModule.forRoot()]
-    }).compileComponents();
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(DegreesPage);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  }));
+    fixture = TestBed.createComponent(DegreesPage)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  }))
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

@@ -1,10 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Auth, authState, GoogleAuthProvider, signInWithCredential, signOut } from '@angular/fire/auth';
-import { firstValueFrom, } from 'rxjs';
-import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-import { SpinnerService } from '../spinner/spinner.service';
-import { Store } from '@ngrx/store';
-import * as AuthActions from 'src/app/app.actions'
+import { Injectable } from '@angular/core'
+import { Auth, GoogleAuthProvider, signInWithCredential, signOut } from '@angular/fire/auth'
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +8,7 @@ import * as AuthActions from 'src/app/app.actions'
 export class AuthService {
 
   constructor(
-    private auth: Auth,
-    private spinner: SpinnerService,
-    private store: Store
+    private auth: Auth
   ) {}
 
   public async signIn() {

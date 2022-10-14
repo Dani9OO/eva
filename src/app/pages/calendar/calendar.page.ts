@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, RefresherCustomEvent } from '@ionic/angular';
-import { DateRangeComponent } from '../../components/date-range/date-range.component';
+import { Component, OnInit } from '@angular/core'
+import { ModalController, RefresherCustomEvent } from '@ionic/angular'
+import { DateRangeComponent } from '../../components/date-range/date-range.component'
 import * as CalendarActions from './calendar.actions'
-import { Store } from '@ngrx/store';
-import { Calendar } from '../../models/calendar.model';
-import { Observable } from 'rxjs';
-import { selectAllCalendars } from './calendar.selectors';
-import { Actions, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store'
+import { Calendar } from '../../models/calendar.model'
+import { Observable } from 'rxjs'
+import { selectAllCalendars } from './calendar.selectors'
 
 @Component({
   selector: 'eva-calendar',
@@ -35,15 +34,22 @@ export class CalendarPage implements OnInit {
     ev.target.complete()
   }
 
-  public async newCalendar(): Promise<void> {
+  public async upsertCalendar(calendar?: Calendar): Promise<void> {
     const modal = await this.modal.create({
-      component: DateRangeComponent
+      component: DateRangeComponent,
+      componentProps: {
+        dates: calendar ? calendar.dates : []
+      }
     })
-    await modal.present();
-    const result = await modal.onWillDismiss();
-    if (!result.data) return;
-    const [start, end] = (result.data as [string, string]);
-    this.store.dispatch(CalendarActions.upsertCalendar({ start, end }))
+    await modal.present()
+    const result = await modal.onWillDismiss()
+    if (!result.data) return
+    const [start, end] = (result.data as [string, string])
+    this.store.dispatch(CalendarActions.upsertCalendar({ start, end, id: calendar?.id }))
+  }
+
+  public selectCalendar(calendar: Calendar) {
+    this.store.dispatch(CalendarActions.selectCurrentCalendar({ calendar }))
   }
 
 }
