@@ -30,7 +30,7 @@ export class CalendarPage implements OnInit {
 
   public refresh(event: Event) {
     const ev = event as RefresherCustomEvent
-    // this.store.dispatch(CalendarActions.loadCalendars({}))
+    this.store.dispatch(CalendarActions.loadCalendars({}))
     ev.target.complete()
   }
 
