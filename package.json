@@ -99,6 +99,6 @@
   },
   "description": "An Ionic project",
   "lint-staged": {
-    "src/**/*.{ts,html}": "ng lint --fix --lint-file-patterns"
+    "src/**/*.{ts,html}": "eslint --fix"
   }
 }
