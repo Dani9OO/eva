@@ -10,25 +10,24 @@ import { selectAllCalendars } from './calendar.selectors'
 @Component({
   selector: 'eva-calendar',
   templateUrl: './calendar.page.html',
-  styleUrls: ['./calendar.page.scss'],
+  styleUrls: ['./calendar.page.scss']
 })
 export class CalendarPage implements OnInit {
-
   public calendars$: Observable<Calendar[]>
 
-  constructor(
+  public constructor(
     private readonly modal: ModalController,
     private readonly store: Store
   ) {
 
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.store.dispatch(CalendarActions.loadCalendars({}))
     this.calendars$ = this.store.select(selectAllCalendars)
   }
 
-  public refresh(event: Event) {
+  public refresh(event: Event): void {
     const ev = event as RefresherCustomEvent
     this.store.dispatch(CalendarActions.loadCalendars({}))
     ev.target.complete()
@@ -48,8 +47,7 @@ export class CalendarPage implements OnInit {
     this.store.dispatch(CalendarActions.upsertCalendar({ start, end, id: calendar?.id }))
   }
 
-  public selectCalendar(calendar: Calendar) {
+  public selectCalendar(calendar: Calendar): void {
     this.store.dispatch(CalendarActions.selectCurrentCalendar({ calendar }))
   }
-
 }

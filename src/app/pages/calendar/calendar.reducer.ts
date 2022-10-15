@@ -25,12 +25,12 @@ export const reducer = createReducer(
   ),
   on(CalendarActions.clearCalendars,
     state => adapter.removeAll(state)
-  ),
+  )
 )
 
 export const {
   selectIds,
   selectEntities,
   selectAll,
-  selectTotal,
+  selectTotal
 } = adapter.getSelectors()

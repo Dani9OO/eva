@@ -15,7 +15,7 @@ export class DataService<T extends { id?: string } = DocumentData> {
   protected collection: CollectionReference<T>
   protected entity: string
 
-  constructor(
+  public constructor(
     entity: string,
     protected readonly firestore: Firestore
   ) {
@@ -41,5 +41,4 @@ export class DataService<T extends { id?: string } = DocumentData> {
   protected doc(path: string, ...pathSegments: string[]): DocumentReference<T> {
     return doc(this.firestore, path, ...pathSegments) as DocumentReference<T>
   }
-
 }

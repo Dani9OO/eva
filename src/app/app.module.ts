@@ -6,9 +6,9 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular'
 
 import { AppComponent } from './app.component'
 import { AppRoutingModule } from './app-routing.module'
-import { getApp, initializeApp,provideFirebaseApp } from '@angular/fire/app'
+import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app'
 import { environment } from '../environments/environment'
-import { provideAuth,getAuth, initializeAuth, indexedDBLocalPersistence } from '@angular/fire/auth'
+import { provideAuth, getAuth, initializeAuth, indexedDBLocalPersistence } from '@angular/fire/auth'
 import { provideFirestore, getFirestore } from '@angular/fire/firestore'
 import { SpinnerComponent } from './components/spinner/spinner.component'
 import { Capacitor } from '@capacitor/core'
@@ -38,6 +38,6 @@ import { reducer } from './app.reducer'
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

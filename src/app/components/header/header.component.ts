@@ -15,10 +15,11 @@ import { IonicModule, MenuController } from '@ionic/angular'
 })
 export class HeaderComponent {
   public desktop: boolean
-  constructor(
+  public constructor(
     private menu: MenuController
   ) {}
- public async openMenu(): Promise<void> {
-  await this.menu.open('main-menu')
- }
+
+  public async openMenu(): Promise<void> {
+    await this.menu.open('main-menu')
+  }
 }

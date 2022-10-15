@@ -1,5 +1,5 @@
 export class UnexpectedError extends Error {
-  constructor(action: string) {
+  public constructor(action: string) {
     super(`Unexpected error ocurred while ${action}`)
   }
 }

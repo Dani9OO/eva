@@ -9,8 +9,7 @@ import { selectUser } from '../../app.selectors'
   providedIn: 'root'
 })
 export class AppGuard implements CanActivate {
-
-  constructor(
+  public constructor(
     private readonly store: Store,
     private readonly router: Router
   ) {}
@@ -20,6 +19,4 @@ export class AppGuard implements CanActivate {
       map(user => !!user || this.router.createUrlTree(['/auth']))
     )
   }
-
-
 }

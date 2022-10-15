@@ -5,11 +5,10 @@ import { Device } from '@capacitor/device'
   providedIn: 'root'
 })
 export class AppService {
-
   private _locale: string
   private lottie = false
 
-  constructor() {
+  public constructor() {
     this.init()
   }
 

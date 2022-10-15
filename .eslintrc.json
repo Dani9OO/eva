@@ -18,7 +18,9 @@
       "extends": [
         "plugin:@angular-eslint/ng-cli-compat",
         "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:@ngrx/all-requiring-type-checking",
+        "standard"
       ],
       "rules": {
         "@angular-eslint/component-class-suffix": [
@@ -46,16 +48,32 @@
             "style": "camelCase"
           }
         ],
-        "curly": "off",
         "@typescript-eslint/member-delimiter-style": "off",
         "@typescript-eslint/semi": "off",
         "@typescript-eslint/no-underscore-dangle": "off",
-        "no-unused-vars": "error",
         "@typescript-eslint/no-empty-interface": "off",
-        "semi": [
+        "curly": "off",
+        "no-useless-constructor": "off",
+        "@ngrx/prefer-effect-callback-in-block-statement": "off",
+        "@typescript-eslint/explicit-function-return-type": "error",
+        "@typescript-eslint/explicit-member-accessibility": "error",
+        "space-before-function-paren": ["error", "never"],
+        "require-await": "error",
+        "no-underscore-dangle": "off",
+        "no-empty-function": [
           "error",
-          "never"
+          {
+            "allow": ["constructors"]
+          }
         ]
+      }
+    },
+    {
+      "files": [
+        "*.spec.ts"
+      ],
+      "rules": {
+        "no-undef": "off"
       }
     },
     {
@@ -66,18 +84,6 @@
         "plugin:@angular-eslint/template/recommended"
       ],
       "rules": {}
-    },
-    {
-      "files": [
-        "*.ts"
-      ],
-      "extends": [
-        "plugin:@ngrx/all-requiring-type-checking"
-      ],
-      "rules": {
-        "@ngrx/prefer-effect-callback-in-block-statement": "off",
-        "no-underscore-dangle": "off"
-      }
     }
   ]
 }

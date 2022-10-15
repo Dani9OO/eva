@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'eva-degrees',
   templateUrl: './degrees.page.html',
-  styleUrls: ['./degrees.page.scss'],
+  styleUrls: ['./degrees.page.scss']
 })
-export class DegreesPage implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class DegreesPage {
+  public constructor() { }
 }

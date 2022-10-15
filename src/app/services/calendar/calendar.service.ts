@@ -3,28 +3,27 @@ import { Calendar } from '../../models/calendar.model'
 import { Firestore, setDoc, docData, doc, DocumentReference } from '@angular/fire/firestore'
 import { DataService } from '../../common/classes/data-service.class'
 import { switchMap, tap } from 'rxjs/operators'
-import { map, from } from 'rxjs'
+import { map, from, Observable } from 'rxjs'
 import { UnexpectedError } from '../../common/errors/unexpected.error'
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarService extends DataService<Calendar> {
-
-  constructor(
+  public constructor(
     protected readonly firestore: Firestore
   ) {
     super('Calendar', firestore)
   }
 
-  public getCurrentCalendar() {
+  public getCurrentCalendar(): Observable<string> {
     return docData(doc(this.firestore, 'calendar', 'current') as DocumentReference<{ id: string }>).pipe(
-      tap(calendar => { if(!calendar) throw new UnexpectedError('retrieving current calendar') }),
+      tap(calendar => { if (!calendar) throw new UnexpectedError('retrieving current calendar') }),
       map(calendar => calendar.id)
     )
   }
 
-  public upsertCalendar(start: string, end: string, id?: string) {
+  public upsertCalendar(start: string, end: string, id?: string): Observable<Calendar> {
     const dates: [Date, Date] = [new Date(start), new Date(end)]
     const entity: Calendar = {
       dates: [start, end],
@@ -34,7 +33,7 @@ export class CalendarService extends DataService<Calendar> {
     return this.upsert(entity)
   }
 
-  public getAllCalendars() {
+  public getAllCalendars(): Observable<Calendar[]> {
     return this.getCurrentCalendar().pipe(
       switchMap(current => this.getAll().pipe(
         map(calendars => {
@@ -47,14 +46,13 @@ export class CalendarService extends DataService<Calendar> {
     )
   }
 
-  public selectCurrentCalendar(calendar: Calendar) {
+  public selectCurrentCalendar(calendar: Calendar): Observable<{ id: string }> {
     return from(setDoc(doc(this.firestore, 'calendar', 'current'), { id: calendar.id }, { merge: true })).pipe(
       map(() => ({ id: calendar.id }))
     )
   }
 
-  private getMonth(date: Date) {
+  private getMonth(date: Date): string {
     return new Intl.DateTimeFormat('es-MX', { month: 'short' }).format(date).toUpperCase()
   }
-
 }

@@ -15,11 +15,10 @@ import { AppService } from '../../services/app/app.service'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DateRangeComponent implements OnInit {
-
   @Input() public dates: [string?, string?] = []
   private _locale: string
 
-  constructor(
+  public constructor(
     private app: AppService,
     private modal: ModalController
   ) {

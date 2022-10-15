@@ -10,7 +10,7 @@ export const environment = {
     locationId: 'us-central',
     apiKey: 'AIzaSyAzuYaDKTd2kmch7AYe7oey8b8kP8W7OZQ',
     authDomain: 'eva-app-7899d.firebaseapp.com',
-    messagingSenderId: '733249240859',
+    messagingSenderId: '733249240859'
   },
   production: false
 }

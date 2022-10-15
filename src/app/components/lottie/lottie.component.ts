@@ -9,12 +9,12 @@ import { AppService } from '../../services/app/app.service'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LottieComponent implements OnInit {
-  @Input() autoplay = true
-  @Input() loop = true
-  @Input() mode = 'normal'
-  @Input() src: string
-  @Input() width = 'auto'
-  @Input() height = 'auto'
-  constructor(private app: AppService) {}
-  ngOnInit(): void { this.app.initLottie() }
+  @Input() public autoplay = true
+  @Input() public loop = true
+  @Input() public mode = 'normal'
+  @Input() public src: string
+  @Input() public width = 'auto'
+  @Input() public height = 'auto'
+  public constructor(private app: AppService) {}
+  public ngOnInit(): void { this.app.initLottie() }
 }

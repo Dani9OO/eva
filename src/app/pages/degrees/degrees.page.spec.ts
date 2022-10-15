@@ -9,7 +9,7 @@ describe('DegreesPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ DegreesPage ],
+      declarations: [DegreesPage],
       imports: [IonicModule.forRoot()]
     }).compileComponents()
 

@@ -10,11 +10,9 @@ import { Store } from '@ngrx/store'
 import { selectAllCalendars } from './calendar.selectors'
 import * as AppActions from 'src/app/app.actions'
 
-
 @Injectable()
 export class CalendarEffects {
-
-  upsertCalendar$ = createEffect(() => this.actions$.pipe(
+  public upsertCalendar$ = createEffect(() => this.actions$.pipe(
     ofType(CalendarActions.upsertCalendar),
     mergeMap(action => this.calendar.upsertCalendar(action.start, action.end, action.id).pipe(
       map((calendar) => CalendarActions.upsertCalendarSuccess({ calendar })),
@@ -24,7 +22,7 @@ export class CalendarEffects {
     ))
   ))
 
-  upsertCalendarFailure$ = createEffect(() => this.actions$.pipe(
+  public upsertCalendarFailure$ = createEffect(() => this.actions$.pipe(
     ofType(CalendarActions.upsertCalendarFailure),
     tap(action => {
       console.error(action.error)
@@ -36,20 +34,19 @@ export class CalendarEffects {
     })
   ), { dispatch: false })
 
-  loadCalendars$ = createEffect(() => this.actions$.pipe(
+  public loadCalendars$ = createEffect(() => this.actions$.pipe(
     ofType(CalendarActions.loadCalendars),
     concatLatestFrom(() => this.store.select(selectAllCalendars)),
     mergeMap(([action, storeCalendars]) =>
-      from(storeCalendars.length === 0 || action.force ? this.calendar.getAllCalendars() : [storeCalendars]
-    ).pipe(
-      map((calendars) => CalendarActions.loadCalendarsSuccess({ calendars })),
-      catchError(() => of(CalendarActions.loadCalendarsFailure({
-        error: new UnexpectedError('retrieving calendars')
-      })))
-    ))
+      from(storeCalendars.length === 0 || action.force ? this.calendar.getAllCalendars() : [storeCalendars]).pipe(
+        map((calendars) => CalendarActions.loadCalendarsSuccess({ calendars })),
+        catchError(() => of(CalendarActions.loadCalendarsFailure({
+          error: new UnexpectedError('retrieving calendars')
+        })))
+      ))
   ))
 
-  loadCalendarsFailure$ = createEffect(() => this.actions$.pipe(
+  public loadCalendarsFailure$ = createEffect(() => this.actions$.pipe(
     ofType(CalendarActions.loadCalendarsFailure),
     tap(action => {
       this.toast.create({
@@ -60,7 +57,7 @@ export class CalendarEffects {
     })
   ), { dispatch: false })
 
-  selectCurrentCalendar$ = createEffect(() => this.actions$.pipe(
+  public selectCurrentCalendar$ = createEffect(() => this.actions$.pipe(
     ofType(CalendarActions.selectCurrentCalendar),
     mergeMap(action => this.calendar.selectCurrentCalendar(action.calendar).pipe(
       map(calendar => CalendarActions.selectCurrentCalendarSuccess({ ...calendar })),
@@ -70,12 +67,12 @@ export class CalendarEffects {
     ))
   ))
 
-  selectCurrentCalendarSuccess$ = createEffect(() => this.actions$.pipe(
+  public selectCurrentCalendarSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(CalendarActions.selectCurrentCalendarSuccess),
     map(() => AppActions.getCalendar())
   ))
 
-  constructor(
+  public constructor(
     private readonly actions$: Actions,
     private readonly calendar: CalendarService,
     private readonly toast: ToastController,

@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpinnerComponent {
-  @Input() width = '30%'
-  @Input() fullscreen = false
-  constructor() {}
+  @Input() public width = '30%'
+  @Input() public fullscreen = false
+  public constructor() {}
 }

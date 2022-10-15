@@ -5,20 +5,19 @@ import { BehaviorSubject, Observable } from 'rxjs'
   providedIn: 'root'
 })
 export class SpinnerService {
-
   public spinning$: Observable<boolean>
   private spinning: BehaviorSubject<boolean>
 
-  constructor() {
+  public constructor() {
     this.spinning = new BehaviorSubject(false)
     this.spinning$ = this.spinning.asObservable()
   }
 
-  public async spin(): Promise<void> {
+  public spin(): void {
     this.spinning.next(true)
   }
 
-  public async stop(): Promise<void> {
+  public stop(): void {
     this.spinning.next(false)
   }
 }

@@ -21,13 +21,14 @@ export class AppComponent {
     { title: 'Directorio', url: '/directory', icon: 'business' },
     { title: 'Ciclo Escolar', url: '/calendar', icon: 'calendar' }
   ]
+
   public initialized$: Observable<boolean>
   public spinning$: Observable<boolean>
   public user$: Observable<User>
   public calendar$: Observable<string>
   public menu$: Observable<boolean>
   private initialized: BehaviorSubject<boolean>
-  constructor(
+  public constructor(
     private platform: Platform,
     private spinner: SpinnerService,
     private store: Store
@@ -43,23 +44,23 @@ export class AppComponent {
     this.init()
   }
 
-  public signOut() {
+  public signOut(): void {
     this.store.dispatch(AppActions.logout())
   }
 
-  private async init() {
+  private async init(): Promise<void> {
     await this.platform.ready()
     if (this.platform.is('ios') && this.platform.is('hybrid')) await this.showSplash()
     this.initialized.next(true)
     GoogleAuth.initialize({
       clientId: '733249240859-k9viv6v3lagtbqn68uk0a4mnk52ng5h5.apps.googleusercontent.com',
       scopes: ['profile', 'email'],
-      grantOfflineAccess: true,
+      grantOfflineAccess: true
     })
     this.store.dispatch(AppActions.login())
   }
 
-  private async showSplash() {
+  private async showSplash(): Promise<void> {
     const lottie = (window as any).lottie
     await lottie.splashscreen.hide()
     await lottie.splashscreen.show('public/assets/eva.json', false)

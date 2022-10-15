@@ -17,8 +17,7 @@ import { UnauthorizedError } from './common/errors/unauthorized.error'
 
 @Injectable()
 export class AppEffects {
-
-  getCalendar$ = createEffect(() => this.actions$.pipe(
+  public getCalendar$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.getCalendar),
     mergeMap(() => this.calendars.getCurrentCalendar().pipe(
       map(calendar => AppActions.getCalendarSuccess({ calendar })),
@@ -26,35 +25,35 @@ export class AppEffects {
     ))
   ))
 
-  getCalendarSuccess = createEffect(() => this.actions$.pipe(
+  public getCalendarSuccess = createEffect(() => this.actions$.pipe(
     ofType(AppActions.getCalendarSuccess),
     tap(() => this.spinner.stop())
   ), { dispatch: false })
 
-  getCalendarFailure$ = createEffect(() => this.actions$.pipe(
+  public getCalendarFailure$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.getCalendarFailure),
     tap(() => this.noCalendar())
   ), { dispatch: false })
 
-  login$ = createEffect(() => this.actions$.pipe(
+  public login$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.login),
     tap(() => this.spinner.spin()),
     mergeMap(() => authState(this.fireauth).pipe(
       switchMap(user => from(user ? [user] : this.auth.signIn())),
-      tap(user => this.user.updateUserData(user)),
-      switchMap(user => from(this.user.getAppUser(user.uid))),
+      switchMap(user => this.user.updateUserData(user)),
+      switchMap(user => from(this.user.getRoles(user))),
       map(user => AppActions.loginSuccess({ user })),
       catchError(error => of(AppActions.loginFailure({ error })))
-    )),
+    ))
   ))
 
-  loginSuccess$ = createEffect(() => this.actions$.pipe(
+  public loginSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.loginSuccess),
     tap((action) => this.loginNavigate(action.user.role)),
     map(() => AppActions.getCalendar())
   ))
 
-  loginFailure$ = createEffect(() => this.actions$.pipe(
+  public loginFailure$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.loginFailure),
     tap(action => {
       this.spinner.stop()
@@ -68,12 +67,12 @@ export class AppEffects {
     })
   ), { dispatch: false })
 
-  logout$ = createEffect(() => this.actions$.pipe(
+  public logout$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.logout),
     tap(() => this.auth.signOut().finally(() => this.router.navigate(['/auth'], { replaceUrl: true })))
   ), { dispatch: false })
 
-  constructor(
+  public constructor(
     private actions$: Actions,
     private calendars: CalendarService,
     private fireauth: Auth,
@@ -85,7 +84,7 @@ export class AppEffects {
     private store: Store
   ) {}
 
-  private async noCalendar() {
+  private async noCalendar(): Promise<void> {
     const role = (await firstValueFrom(this.store.select(selectUser))).role
     await this.spinner.stop()
     if (role === 'admin') {
@@ -107,7 +106,7 @@ export class AppEffects {
     }
   }
 
-  private loginNavigate(role: Role) {
+  private loginNavigate(role: Role): void {
     switch (role) {
       case 'admin':
         this.router.navigate(['/summary'], { replaceUrl: true })

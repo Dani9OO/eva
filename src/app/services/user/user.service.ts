@@ -1,40 +1,37 @@
-import { Role } from './../../common/types/role.type'
 import { Injectable } from '@angular/core'
 import { User } from 'src/app/models/user.model'
 import { DataService } from '../../common/classes/data-service.class'
-import { Firestore, setDoc, doc, docData } from '@angular/fire/firestore'
+import { Firestore, doc, docData, DocumentReference } from '@angular/fire/firestore'
 import { User as FirebaseUser } from 'firebase/auth'
 import { AppUser } from '../../models/user.model'
 import { UnauthorizedError } from '../../common/errors/unauthorized.error'
-import { zip, map, Observable, from } from 'rxjs'
-import { switchMap } from 'rxjs/operators'
+import { zip, map, Observable } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService extends DataService<User> {
-
-  constructor(
+  public constructor(
     protected readonly firestore: Firestore
   ) {
     super('User', firestore)
   }
 
-  public updateUserData(user: FirebaseUser) {
-    const data = {
+  public updateUserData(user: FirebaseUser): Observable<User> {
+    const entity = {
       id: user.uid,
       name: user.displayName,
       photo: user.photoURL,
       email: user.email
     }
-    return from(setDoc(this.getUserRef(user.uid), data, { merge: true }))
+    return this.upsert(entity)
   }
 
-  public getUser(id: string) {
+  public getUser(id: string): Observable<User> {
     return docData(this.getUserRef(id))
   }
 
-  public getRoles(user: User): Observable<{ role: Role, permissions: string[]}> {
+  public getRoles(user: User): Observable<AppUser> {
     return zip([
       docData(doc(this.firestore, 'roles', user.email.split('@')[1])),
       docData(doc(this.firestore, 'admins', user.email)),
@@ -42,14 +39,17 @@ export class UserService extends DataService<User> {
     ]).pipe(
       map(([domain, admin, coordinator]) => {
         if (admin) return {
+          ...user,
           role: 'admin',
           permissions: ['*']
         }
         if (coordinator) return {
+          ...user,
           role: 'coordinator',
           permissions: coordinator.permissions
         }
         if (domain) return {
+          ...user,
           role: domain.role,
           permissions: []
         }
@@ -58,16 +58,7 @@ export class UserService extends DataService<User> {
     )
   }
 
-  public getAppUser(id: string): Observable<AppUser> {
-    return this.getUser(id).pipe(
-      switchMap(user => this.getRoles(user).pipe(
-        map(roles => ({ ...user, ...roles }))
-      ))
-    )
-  }
-
-  private getUserRef(id: string) {
+  private getUserRef(id: string): DocumentReference<User> {
     return this.doc(this.path, id)
   }
-
 }
