@@ -1,8 +1,8 @@
 {
   "name": "eva",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "@dani9oo",
+  "homepage": "https://eva.daniromo.me/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -22,7 +22,7 @@
     "e2e": "ng e2e",
     "prepare": "husky install"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "^14.2.5",
     "@angular/cdk": "^14.2.4",
@@ -97,7 +97,7 @@
     "ts-node": "~8.3.0",
     "typescript": "~4.7.3"
   },
-  "description": "An Ionic project",
+  "description": "Hybrid Mobile Application made to evaluate university projects with customizable formats depending on careers and grades coordinated by Dr. Ana Romo for the Technological University of Jalisco",
   "lint-staged": {
     "src/**/*.{ts,html}": "eslint --fix"
   }
