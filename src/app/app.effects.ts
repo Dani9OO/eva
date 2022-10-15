@@ -86,7 +86,7 @@ export class AppEffects {
 
   private async noCalendar(): Promise<void> {
     const role = (await firstValueFrom(this.store.select(selectUser))).role
-    await this.spinner.stop()
+    this.spinner.stop()
     if (role === 'admin') {
       this.router.navigate(['/calendar'])
       const toast = await this.toast.create({
