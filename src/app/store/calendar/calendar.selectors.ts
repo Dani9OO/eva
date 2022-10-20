@@ -7,3 +7,8 @@ export const selectAllCalendars = createSelector(
   selectCalendarState,
   selectAll
 )
+
+export const selectLoading = createSelector(
+  selectCalendarState,
+  (state) => state.loading
+)

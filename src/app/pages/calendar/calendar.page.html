@@ -4,6 +4,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="56" minBufferPx="900" maxBufferPx="1350">
+    <eva-spinner *ngIf="loading$ | async"></eva-spinner>
     <ion-item *cdkVirtualFor="let calendar of calendars$ | async" lines="full">
       <ion-icon ios="calendar-outline" md="calendar-sharp" color="primary" slot="start" *ngIf="calendar.active; else select"></ion-icon>
       <ng-template #select>

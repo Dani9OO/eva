@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store'
 import { Calendar } from '@models/calendar'
 import { Observable } from 'rxjs'
 import { CalendarActions } from '@store/calendar'
-import { selectAllCalendars } from '@selectors/calendar'
+import { selectAllCalendars, selectLoading } from '@selectors/calendar'
 
 @Component({
   selector: 'eva-calendar',
@@ -14,6 +14,7 @@ import { selectAllCalendars } from '@selectors/calendar'
 })
 export class CalendarPage implements OnInit {
   public calendars$: Observable<Calendar[]>
+  public loading$: Observable<boolean>
 
   public constructor(
     private readonly modal: ModalController,
@@ -25,11 +26,12 @@ export class CalendarPage implements OnInit {
   public ngOnInit(): void {
     this.store.dispatch(CalendarActions.loadCalendars({}))
     this.calendars$ = this.store.select(selectAllCalendars)
+    this.loading$ = this.store.select(selectLoading)
   }
 
   public refresh(event: Event): void {
     const ev = event as RefresherCustomEvent
-    this.store.dispatch(CalendarActions.loadCalendars({}))
+    this.store.dispatch(CalendarActions.loadCalendars({ force: true }))
     ev.target.complete()
   }
 

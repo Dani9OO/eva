@@ -10,6 +10,7 @@ import { DirectoryPage } from './directory.page'
 import { HeaderComponent } from '@components/header/header.component'
 import { ScrollingModule } from '@angular/cdk/scrolling'
 import { UserStoreModule } from '../../store/user/user-store.module'
+import { SpinnerComponent } from '@components/spinner/spinner.component'
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { UserStoreModule } from '../../store/user/user-store.module'
     DirectoryPageRoutingModule,
     HeaderComponent,
     ScrollingModule,
-    UserStoreModule
+    UserStoreModule,
+    SpinnerComponent
   ],
   declarations: [DirectoryPage]
 })

@@ -4,6 +4,7 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
 import { User as FirebaseUser } from 'firebase/auth'
 import { Observable, map } from 'rxjs'
 import { traceUntilFirst } from '@angular/fire/performance'
+import { SpinnerService } from '@services/spinner'
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class AuthService {
   public readonly state$: Observable<FirebaseUser>
 
   public constructor(
-    private readonly auth: Auth
+    private readonly auth: Auth,
+    private readonly spinner: SpinnerService
   ) {
     this.state$ = authState(this.auth).pipe(
       traceUntilFirst('auth'),
@@ -21,10 +23,15 @@ export class AuthService {
   }
 
   public async signIn(): Promise<FirebaseUser> {
-    const user = await GoogleAuth.signIn()
-    const oauth = GoogleAuthProvider.credential(user.authentication.idToken, user.authentication.accessToken)
-    const credential = await signInWithCredential(this.auth, oauth)
-    return credential.user.toJSON() as FirebaseUser
+    this.spinner.spin()
+    try {
+      const user = await GoogleAuth.signIn()
+      const oauth = GoogleAuthProvider.credential(user.authentication.idToken, user.authentication.accessToken)
+      const credential = await signInWithCredential(this.auth, oauth)
+      return credential.user.toJSON() as FirebaseUser
+    } catch (error) {
+      this.spinner.stop()
+    }
   }
 
   public async signOut(): Promise<void> {

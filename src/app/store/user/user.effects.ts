@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core'
 import { Actions, createEffect, ofType, concatLatestFrom } from '@ngrx/effects'
 import { mergeMap, map, catchError, of, from } from 'rxjs'
-import { UserService } from '../../services/user/user.service'
+import { UserService } from '@services/user'
 import { Store } from '@ngrx/store'
-import { selectAllUsers } from './user.selectors'
+import { selectAllUsers } from '@selectors/user'
 import { UserActions } from '@store/user'
 
 @Injectable()
@@ -28,8 +28,8 @@ export class UserEffects {
   ))
 
   public constructor(
-    private actions$: Actions,
-    private users: UserService,
-    private store: Store
+    private readonly actions$: Actions,
+    private readonly users: UserService,
+    private readonly store: Store
   ) {}
 }

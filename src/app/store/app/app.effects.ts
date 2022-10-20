@@ -6,7 +6,6 @@ import { CalendarService } from '@services/calendar'
 import { Router } from '@angular/router'
 import { tap, switchMap } from 'rxjs/operators'
 import { ToastController } from '@ionic/angular'
-import { AuthService } from '@services/auth'
 import { UserService } from '@services/user'
 import { SpinnerService } from '@services/spinner'
 import { Store } from '@ngrx/store'
@@ -50,7 +49,10 @@ export class AppEffects {
 
   public loginSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.loginSuccess),
-    tap(action => this.loginNavigate(action.user.role))
+    tap(action => {
+      this.spinner.stop()
+      this.loginNavigate(action.user.role)
+    })
   ), { dispatch: false })
 
   public loginFailure$ = createEffect(() => this.actions$.pipe(
@@ -68,14 +70,13 @@ export class AppEffects {
   ), { dispatch: false })
 
   public constructor(
-    private actions$: Actions,
-    private calendars: CalendarService,
-    private auth: AuthService,
-    private user: UserService,
-    private router: Router,
-    private toast: ToastController,
-    private spinner: SpinnerService,
-    private store: Store
+    private readonly actions$: Actions,
+    private readonly calendars: CalendarService,
+    private readonly user: UserService,
+    private readonly router: Router,
+    private readonly toast: ToastController,
+    private readonly spinner: SpinnerService,
+    private readonly store: Store
   ) {}
 
   private async noCalendar(): Promise<void> {

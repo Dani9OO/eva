@@ -32,10 +32,10 @@ export class AppComponent {
   public menu$: Observable<boolean>
   private initialized: BehaviorSubject<boolean>
   public constructor(
-    private platform: Platform,
-    private spinner: SpinnerService,
-    private store: Store,
-    private auth: AuthService
+    private readonly platform: Platform,
+    private readonly spinner: SpinnerService,
+    private readonly store: Store,
+    private readonly auth: AuthService
   ) {
     this.spinning$ = this.spinner.spinning$
     this.initialized = new BehaviorSubject(false)

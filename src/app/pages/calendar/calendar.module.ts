@@ -10,6 +10,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling'
 import { CalendarPage } from './calendar.page'
 import { HeaderComponent } from '@components/header/header.component'
 import { CalendarStoreModule } from '../../store/calendar/calendar-store.module'
+import { SpinnerComponent } from '@components/spinner/spinner.component'
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { CalendarStoreModule } from '../../store/calendar/calendar-store.module'
     ReactiveFormsModule,
     HeaderComponent,
     ScrollingModule,
-    CalendarStoreModule
+    CalendarStoreModule,
+    SpinnerComponent
   ],
   declarations: [CalendarPage]
 })

@@ -6,13 +6,13 @@ import { UserActions } from '@store/user'
 export const usersFeatureKey = 'users'
 
 export interface UserState extends EntityState<AppUser> {
-  // additional entities state properties
+  loading: boolean
 }
 
 export const adapter: EntityAdapter<AppUser> = createEntityAdapter<AppUser>()
 
 export const initialState: UserState = adapter.getInitialState({
-  // additional entity state properties
+  loading: false
 })
 
 export const reducer = createReducer(
@@ -20,8 +20,14 @@ export const reducer = createReducer(
   on(UserActions.updateUser,
     (state, action) => adapter.updateOne(action.user, state)
   ),
+  on(UserActions.loadUsers,
+    (state, action): UserState => ({ ...state, loading: action.force || state.ids.length === 0 })
+  ),
   on(UserActions.loadUsersSuccess,
-    (state, action) => adapter.setAll(action.users, state)
+    (state, action) => adapter.setAll(action.users, ({ ...state, loading: false }))
+  ),
+  on(UserActions.loadUsersFailure,
+    (state, action): UserState => ({ ...state, loading: false })
   ),
   on(UserActions.toggleAdminSuccess,
     (state, action) => adapter.updateOne(action.user, state)

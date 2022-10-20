@@ -6,13 +6,13 @@ import { CalendarActions } from '@store/calendar'
 export const calendarFeatureKey = 'calendar'
 
 export interface CalendarState extends EntityState<Calendar> {
-  // additional entities state properties
+  loading: boolean
 }
 
 export const adapter: EntityAdapter<Calendar> = createEntityAdapter<Calendar>()
 
 export const initialState: CalendarState = adapter.getInitialState({
-  // additional entity state properties
+  loading: false
 })
 
 export const reducer = createReducer(
@@ -20,8 +20,14 @@ export const reducer = createReducer(
   on(CalendarActions.upsertCalendarSuccess,
     (state, action) => adapter.upsertOne(action.calendar, state)
   ),
+  on(CalendarActions.loadCalendars,
+    (state, action): CalendarState => ({ ...state, loading: action.force || state.ids.length === 0 })
+  ),
   on(CalendarActions.loadCalendarsSuccess,
-    (state, action) => adapter.setAll(action.calendars, state)
+    (state, action) => adapter.setAll(action.calendars, { ...state, loading: false })
+  ),
+  on(CalendarActions.loadCalendarsFailure,
+    (state, action): CalendarState => ({ ...state, loading: false })
   ),
   on(CalendarActions.clearCalendars,
     state => adapter.removeAll(state)
