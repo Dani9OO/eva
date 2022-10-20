@@ -18,8 +18,8 @@ const routes: Routes = [
     canActivate: [AppGuard]
   },
   {
-    path: 'degrees',
-    loadChildren: () => import('./pages/degrees/degrees.module').then(m => m.DegreesPageModule),
+    path: 'careers',
+    loadChildren: () => import('./pages/careers/careers.module').then(m => m.DegreesPageModule),
     canActivate: [AppGuard]
   },
   {

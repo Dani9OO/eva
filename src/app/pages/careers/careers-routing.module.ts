@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 
-import { DegreesPage } from './degrees.page'
+import { CareersPage } from './careers.page'
 
 const routes: Routes = [
   {
     path: '',
-    component: DegreesPage
+    component: CareersPage
   }
 ]
 

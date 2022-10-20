@@ -19,7 +19,7 @@ import { Capacitor } from '@capacitor/core'
 export class AppComponent {
   public appPages = [
     { title: 'Estadísticas', url: '/summary', icon: 'podium' },
-    { title: 'Carreras', url: '/degrees', icon: 'shapes' },
+    { title: 'Carreras', url: '/careers', icon: 'shapes' },
     { title: 'Rubricas', url: '/rubrics', icon: 'calculator' },
     { title: 'Directorio', url: '/directory', icon: 'business' },
     { title: 'Ciclo Escolar', url: '/calendar', icon: 'calendar' }

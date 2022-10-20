@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms'
 
 import { IonicModule } from '@ionic/angular'
 
-import { DegreesPageRoutingModule } from './degrees-routing.module'
+import { DegreesPageRoutingModule } from './careers-routing.module'
 
-import { DegreesPage } from './degrees.page'
+import { CareersPage } from './careers.page'
 import { HeaderComponent } from '@components/header/header.component'
 
 @NgModule({
@@ -17,6 +17,6 @@ import { HeaderComponent } from '@components/header/header.component'
     HeaderComponent,
     DegreesPageRoutingModule
   ],
-  declarations: [DegreesPage]
+  declarations: [CareersPage]
 })
 export class DegreesPageModule {}
