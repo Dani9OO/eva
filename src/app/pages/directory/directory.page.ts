@@ -4,7 +4,8 @@ import { AppUser } from '@models/user'
 import { Store } from '@ngrx/store'
 import { selectAllUsers, selectLoading } from '@selectors/user'
 import { UserActions } from '@store/user'
-import { RefresherCustomEvent } from '@ionic/angular'
+import { RefresherCustomEvent, SearchbarCustomEvent } from '@ionic/angular'
+import { selectFilteredUsers } from '../../store/user/user.selectors'
 
 @Component({
   selector: 'eva-directory',
@@ -33,5 +34,10 @@ export class DirectoryPage implements OnInit {
     const ev = event as RefresherCustomEvent
     this.store.dispatch(UserActions.loadUsers({ force: true }))
     ev.target.complete()
+  }
+
+  public filter(event: Event): void {
+    const ev = event as SearchbarCustomEvent
+    this.users$ = this.store.select(ev.target.value ? selectFilteredUsers(ev.target.value) : selectAllUsers)
   }
 }
