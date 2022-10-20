@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core'
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects'
-import * as CalendarActions from './calendar.actions'
 import { mergeMap, from, map, catchError, of } from 'rxjs'
-import { CalendarService } from '../../services/calendar/calendar.service'
-import { UnexpectedError } from '../../common/errors/unexpected.error'
+import { CalendarService } from '@services/calendar'
+import { UnexpectedError } from '@errors/unexpected'
 import { tap } from 'rxjs/operators'
 import { ToastController } from '@ionic/angular'
 import { Store } from '@ngrx/store'
-import { selectAllCalendars } from './calendar.selectors'
-import * as AppActions from 'src/app/app.actions'
+import { CalendarActions } from '@store/calendar'
+import { selectAllCalendars } from '@selectors/calendar'
+import { AppActions } from '@store/app'
 
 @Injectable()
 export class CalendarEffects {

@@ -1,7 +1,7 @@
 <eva-spinner [fullscreen]="true" *ngIf="spinning$ | async"></eva-spinner>
 <ion-app *ngIf="initialized$ | async">
   <ion-split-pane contentId="main-content">
-    <ion-menu menuId="main-menu" contentId="main-content" type="overlay" [disabled]="menu$ | async">
+    <ion-menu menuId="main-menu" contentId="main-content" type="overlay">
       <ion-content>
         <ng-container *ngIf="user$ | async as user; else spinner">
           <ion-list id="inbox-list">

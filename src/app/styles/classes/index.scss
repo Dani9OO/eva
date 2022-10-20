@@ -5,4 +5,8 @@
   .border-radius {
     @include mixins.border-radius(functions.toRem(10px))
   }
+
+  .flex {
+    display: flex
+  }
 }

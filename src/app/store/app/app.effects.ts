@@ -1,57 +1,57 @@
 import { Injectable } from '@angular/core'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
-import { catchError, map, mergeMap, of, from, firstValueFrom } from 'rxjs'
-import * as AppActions from './app.actions'
-import { CalendarService } from './services/calendar/calendar.service'
+import { catchError, map, of, firstValueFrom } from 'rxjs'
+import { AppActions } from '@store/app'
+import { CalendarService } from '@services/calendar'
 import { Router } from '@angular/router'
 import { tap, switchMap } from 'rxjs/operators'
 import { ToastController } from '@ionic/angular'
-import { AuthService } from './services/auth/auth.service'
-import { UserService } from './services/user/user.service'
-import { Auth, authState } from '@angular/fire/auth'
-import { SpinnerService } from './services/spinner/spinner.service'
+import { AuthService } from '@services/auth'
+import { UserService } from '@services/user'
+import { SpinnerService } from '@services/spinner'
 import { Store } from '@ngrx/store'
-import { selectUser } from './app.selectors'
-import { Role } from './common/types/role.type'
-import { UnauthorizedError } from './common/errors/unauthorized.error'
+import { selectUser } from '@selectors/app'
+import { UnauthorizedError } from '@errors/unauthorized'
+import { Role } from '@models/role'
 
 @Injectable()
 export class AppEffects {
   public getCalendar$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.getCalendar),
-    mergeMap(() => this.calendars.getCurrentCalendar().pipe(
-      map(calendar => AppActions.getCalendarSuccess({ calendar })),
-      catchError(error => of(AppActions.getCalendarFailure({ error })))
-    ))
+    switchMap(() => this.calendars.getCurrentCalendar()),
+    map(calendar => AppActions.getCalendarSuccess({ calendar })),
+    catchError(error => of(AppActions.getCalendarFailure({ error })))
   ))
-
-  public getCalendarSuccess = createEffect(() => this.actions$.pipe(
-    ofType(AppActions.getCalendarSuccess),
-    tap(() => this.spinner.stop())
-  ), { dispatch: false })
 
   public getCalendarFailure$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.getCalendarFailure),
     tap(() => this.noCalendar())
   ), { dispatch: false })
 
+  public autoLogin$ = createEffect(() => this.actions$.pipe(
+    ofType(AppActions.autoLogin),
+    map(action => AppActions.loginMiddleware({ user: action.user })),
+    catchError(error => of(AppActions.loginFailure({ error })))
+  ))
+
   public login$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.login),
-    tap(() => this.spinner.spin()),
-    mergeMap(() => authState(this.fireauth).pipe(
-      switchMap(user => from(user ? [user] : this.auth.signIn())),
-      switchMap(user => this.user.updateUserData(user)),
-      switchMap(user => from(this.user.getRoles(user))),
-      map(user => AppActions.loginSuccess({ user })),
-      catchError(error => of(AppActions.loginFailure({ error })))
-    ))
+    map(action => AppActions.loginMiddleware({ user: action.user })),
+    catchError(error => of(AppActions.loginFailure({ error })))
+  ))
+
+  public loginMiddleware$ = createEffect(() => this.actions$.pipe(
+    ofType(AppActions.loginMiddleware),
+    switchMap(action => this.user.updateUserData(action.user)),
+    switchMap(user => this.user.getRoles(user)),
+    map(user => AppActions.loginSuccess({ user })),
+    catchError(error => of(AppActions.loginFailure({ error })))
   ))
 
   public loginSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.loginSuccess),
-    tap((action) => this.loginNavigate(action.user.role)),
-    map(() => AppActions.getCalendar())
-  ))
+    tap(action => this.loginNavigate(action.user.role))
+  ), { dispatch: false })
 
   public loginFailure$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.loginFailure),
@@ -67,15 +67,9 @@ export class AppEffects {
     })
   ), { dispatch: false })
 
-  public logout$ = createEffect(() => this.actions$.pipe(
-    ofType(AppActions.logout),
-    tap(() => this.auth.signOut().finally(() => this.router.navigate(['/auth'], { replaceUrl: true })))
-  ), { dispatch: false })
-
   public constructor(
     private actions$: Actions,
     private calendars: CalendarService,
-    private fireauth: Auth,
     private auth: AuthService,
     private user: UserService,
     private router: Router,

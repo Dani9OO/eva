@@ -1,5 +1,27 @@
 <eva-header>Directorio</eva-header>
 
-<ion-content>
-
+<ion-content [scrollY]="false">
+  <ion-searchbar color="light" placeholder="Buscar"></ion-searchbar>
+  <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="56" minBufferPx="900" maxBufferPx="1350">
+    <ion-item lines="full" *cdkVirtualFor="let user of users$ | async">
+        <ion-avatar slot="start">
+          <ion-img alt="Silhouette of a person's head" [src]="user.photo"></ion-img>
+        </ion-avatar>
+        <ion-label>
+          <h1>
+            {{ user.name }}
+          </h1>
+          <p class="ion-text-lowercase ion-text-wrap">
+            {{ user.email }} <ion-text color="primary">{{ user.role }}</ion-text>
+          </p>
+        </ion-label>
+        <ion-icon
+          (click)="toggleAdmin(user)"
+          ios="shield-checkmark-outline"
+          md="shield-checkmark-sharp"
+          [color]="user.role === 'admin' ? 'primary' : 'medium'"
+          slot="end">
+        </ion-icon>
+    </ion-item>
+  </cdk-virtual-scroll-viewport>
 </ion-content>

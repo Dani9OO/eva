@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store'
-import { Calendar } from 'src/app/models/calendar.model'
+import { Calendar } from '@models/calendar'
 
 export const loadCalendars = createAction(
   '[Calendar/API] Load Calendars',

@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular'
 import { RubricsPageRoutingModule } from './rubrics-routing.module'
 
 import { RubricsPage } from './rubrics.page'
-import { HeaderComponent } from '../../components/header/header.component'
+import { HeaderComponent } from '@components/header/header.component'
 
 @NgModule({
   imports: [

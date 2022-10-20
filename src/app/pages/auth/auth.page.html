@@ -7,7 +7,7 @@
 <ion-content>
   <div class="content-container">
     <ion-img src="assets/eva.svg" class="logo"></ion-img>
-    <ion-button expand="block" (click)="signIn()">
+    <ion-button expand="block" (click)="signIn()" [disabled]="user$ | async">
       <ion-icon name="logo-google" slot="start"></ion-icon>
       <span>Iniciar Sesión</span>
     </ion-button>

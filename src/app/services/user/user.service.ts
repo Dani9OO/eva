@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core'
-import { User } from 'src/app/models/user.model'
-import { DataService } from '../../common/classes/data-service.class'
-import { Firestore, doc, docData, DocumentReference } from '@angular/fire/firestore'
+import { User } from '@models/user'
+import { DataService } from '../../common/classes/data-service'
+import { Firestore, doc, docData, DocumentReference, query, where, collectionData, deleteDoc, setDoc } from '@angular/fire/firestore'
 import { User as FirebaseUser } from 'firebase/auth'
-import { AppUser } from '../../models/user.model'
-import { UnauthorizedError } from '../../common/errors/unauthorized.error'
-import { zip, map, Observable } from 'rxjs'
+import { AppUser } from '../../models/user'
+import { UnauthorizedError } from '../../common/errors/unauthorized'
+import { zip, map, Observable, from } from 'rxjs'
+import { switchMap } from 'rxjs/operators'
+import { Update } from '@ngrx/entity'
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,8 @@ export class UserService extends DataService<User> {
       id: user.uid,
       name: user.displayName,
       photo: user.photoURL,
-      email: user.email
+      email: user.email,
+      domain: user.email.split('@')[1]
     }
     return this.upsert(entity)
   }
@@ -56,6 +59,27 @@ export class UserService extends DataService<User> {
         throw new UnauthorizedError(user.email)
       })
     )
+  }
+
+  public getAppUsers(): Observable<AppUser[]> {
+    return collectionData(query(this.collection, where('domain', '!=', 'soy.utj.edu.mx'))).pipe(
+      switchMap(users => zip(users.map(u => this.getRoles(u))))
+    )
+  }
+
+  public toggleAdmin(user: AppUser): Observable<Update<AppUser>> {
+    const document = doc(this.firestore, 'admins', user.email)
+    if (user.role === 'admin') {
+      return from(deleteDoc(document)).pipe(
+        switchMap(() => this.getRoles(user)),
+        map((u) => ({ id: u.id, changes: { role: u.role, permissions: u.permissions } }))
+      )
+    } else {
+      return from(setDoc(document, {})).pipe(
+        switchMap(() => this.getRoles(user)),
+        map((u) => ({ id: u.id, changes: { role: u.role, permissions: u.permissions } }))
+      )
+    }
   }
 
   private getUserRef(id: string): DocumentReference<User> {

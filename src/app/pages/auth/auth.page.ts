@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { Observable } from 'rxjs'
-import { User } from 'src/app/models/user.model'
+import { User } from '@models/user'
 import { Store } from '@ngrx/store'
-import { selectUser } from '../../app.selectors'
-import * as AuthActions from 'src/app/app.actions'
+import { selectUser } from '@selectors/app'
+import { AppActions } from '@store/app'
+import { AuthService } from '@services/auth'
 
 @Component({
   selector: 'eva-auth',
@@ -15,12 +16,18 @@ export class AuthPage {
   public user$: Observable<User>
 
   public constructor(
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly auth: AuthService
   ) {
     this.user$ = this.store.select(selectUser)
   }
 
-  public signIn(): void {
-    this.store.dispatch(AuthActions.login())
+  public async signIn(): Promise<void> {
+    try {
+      const user = await this.auth.signIn()
+      this.store.dispatch(AppActions.login({ user }))
+    } catch (error) {
+      this.store.dispatch(AppActions.loginFailure({ error }))
+    }
   }
 }

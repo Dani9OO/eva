@@ -12,7 +12,24 @@
     "importHelpers": true,
     "target": "es2020",
     "module": "es2020",
-    "lib": ["es2018", "dom"]
+    "lib": ["es2018", "dom"],
+    "paths": {
+      "@models/*": ["src/app/models/*"],
+      "@services/*": ["src/app/services/*"],
+      "@components/*": ["src/app/components/*"],
+      "@store/*": ["src/app/store/*"],
+      "@classes/*": ["src/app/common/classes/*"],
+      "@errors/*": ["src/app/common/errors/*"],
+      "@selectors/app": [
+        "src/app/store/app/app.selectors"
+      ],
+      "@selectors/user": [
+        "src/app/store/user/user.selectors"
+      ],
+      "@selectors/calendar": [
+        "src/app/store/calendar/calendar.selectors"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

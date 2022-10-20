@@ -1,6 +1,8 @@
 import { createReducer, on } from '@ngrx/store'
-import * as AppActions from './app.actions'
-import { AppUser } from './models/user.model'
+import { AppUser } from '@models/user'
+import { AppActions } from '@store/app'
+
+export const appFeatureKey = 'app'
 
 export interface AppState {
   calendar?: string,

@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store'
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
-import { Calendar } from 'src/app/models/calendar.model'
-import * as CalendarActions from './calendar.actions'
+import { Calendar } from '@models/calendar'
+import { CalendarActions } from '@store/calendar'
 
 export const calendarFeatureKey = 'calendar'
 

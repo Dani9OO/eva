@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store'
-import { AppUser } from './models/user.model'
+import { AppUser } from '@models/user'
+import { User as FirebaseUser } from 'firebase/auth'
 
 export const getCalendar = createAction(
   '[App] Get Calendar'
@@ -16,7 +17,18 @@ export const getCalendarFailure = createAction(
 )
 
 export const login = createAction(
-  '[App] Login'
+  '[App] Login',
+  props<{ user: FirebaseUser }>()
+)
+
+export const autoLogin = createAction(
+  '[App] Auto Login',
+  props<{ user: FirebaseUser }>()
+)
+
+export const loginMiddleware = createAction(
+  '[App] Login Middleware',
+  props<{ user: FirebaseUser }>()
 )
 
 export const loginSuccess = createAction(

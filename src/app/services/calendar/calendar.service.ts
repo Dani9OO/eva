@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core'
-import { Calendar } from '../../models/calendar.model'
+import { Calendar } from '../../models/calendar'
 import { Firestore, setDoc, docData, doc, DocumentReference } from '@angular/fire/firestore'
-import { DataService } from '../../common/classes/data-service.class'
+import { DataService } from '../../common/classes/data-service'
 import { switchMap, tap } from 'rxjs/operators'
 import { map, from, Observable } from 'rxjs'
-import { UnexpectedError } from '../../common/errors/unexpected.error'
+import { UnexpectedError } from '../../common/errors/unexpected'
 
 @Injectable({
   providedIn: 'root'

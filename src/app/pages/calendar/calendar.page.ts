@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core'
 import { ModalController, RefresherCustomEvent } from '@ionic/angular'
-import { DateRangeComponent } from '../../components/date-range/date-range.component'
-import * as CalendarActions from './calendar.actions'
+import { DateRangeComponent } from '@components/date-range/date-range.component'
 import { Store } from '@ngrx/store'
-import { Calendar } from '../../models/calendar.model'
+import { Calendar } from '@models/calendar'
 import { Observable } from 'rxjs'
-import { selectAllCalendars } from './calendar.selectors'
+import { CalendarActions } from '@store/calendar'
+import { selectAllCalendars } from '@selectors/calendar'
 
 @Component({
   selector: 'eva-calendar',

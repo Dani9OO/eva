@@ -2,11 +2,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
 import { Platform } from '@ionic/angular'
 import { Store } from '@ngrx/store'
-import { Observable, BehaviorSubject, zip, map } from 'rxjs'
-import { User } from './models/user.model'
-import { SpinnerService } from './services/spinner/spinner.service'
-import * as AppActions from './app.actions'
-import { selectUser, selectCalendar } from './app.selectors'
+import { Observable, BehaviorSubject, zip, map, firstValueFrom } from 'rxjs'
+import { User } from '@models/user'
+import { SpinnerService } from '@services/spinner'
+import { AuthService } from '@services/auth'
+import { selectCalendar, selectUser } from '@selectors/app'
+import { AppActions } from '@store/app'
+import { App } from '@capacitor/app'
+import { Capacitor } from '@capacitor/core'
 @Component({
   selector: 'eva-root',
   templateUrl: 'app.component.html',
@@ -31,7 +34,8 @@ export class AppComponent {
   public constructor(
     private platform: Platform,
     private spinner: SpinnerService,
-    private store: Store
+    private store: Store,
+    private auth: AuthService
   ) {
     this.spinning$ = this.spinner.spinning$
     this.initialized = new BehaviorSubject(false)
@@ -44,8 +48,10 @@ export class AppComponent {
     this.init()
   }
 
-  public signOut(): void {
-    this.store.dispatch(AppActions.logout())
+  public async signOut(): Promise<void> {
+    await this.auth.signOut()
+    if (Capacitor.getPlatform() === 'web') window.location.reload()
+    else await App.exitApp()
   }
 
   private async init(): Promise<void> {
@@ -57,7 +63,9 @@ export class AppComponent {
       scopes: ['profile', 'email'],
       grantOfflineAccess: true
     })
-    this.store.dispatch(AppActions.login())
+    this.store.dispatch(AppActions.getCalendar())
+    const user = await firstValueFrom(this.auth.state$)
+    if (user) this.store.dispatch(AppActions.autoLogin({ user }))
   }
 
   private async showSplash(): Promise<void> {

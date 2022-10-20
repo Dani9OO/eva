@@ -73,7 +73,8 @@
         "*.spec.ts"
       ],
       "rules": {
-        "no-undef": "off"
+        "no-undef": "off",
+        "no-empty-function": "off"
       }
     },
     {

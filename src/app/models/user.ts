@@ -1,8 +1,10 @@
-import { Role } from '../common/types/role.type'
+import { Role } from '@models/role'
+
 export interface User {
   id: string
   name: string
   email: string
+  domain: string
   photo: string
 }
 

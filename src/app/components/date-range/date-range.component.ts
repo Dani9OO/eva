@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { DatetimeCustomEvent, IonicModule, ModalController } from '@ionic/angular'
-import { AppService } from '../../services/app/app.service'
+import { AppService } from '@services/app'
 
 @Component({
   standalone: true,

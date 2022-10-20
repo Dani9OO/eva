@@ -33,3 +33,8 @@ ion-modal.transparent-modal {
   --background: transparent;
   --box-shadow: unset;
 }
+
+cdk-virtual-scroll-viewport {
+  height: 100%;
+  width: 100%;
+}

@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular'
 import { SummaryPageRoutingModule } from './summary-routing.module'
 
 import { SummaryPage } from './summary.page'
-import { HeaderComponent } from '../../components/header/header.component'
+import { HeaderComponent } from '@components/header/header.component'
 
 @NgModule({
   imports: [
