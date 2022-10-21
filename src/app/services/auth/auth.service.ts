@@ -5,6 +5,7 @@ import { User as FirebaseUser } from 'firebase/auth'
 import { Observable, map } from 'rxjs'
 import { traceUntilFirst } from '@angular/fire/performance'
 import { SpinnerService } from '@services/spinner'
+import { Capacitor } from '@capacitor/core'
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,6 @@ export class AuthService {
 
   public async signOut(): Promise<void> {
     await signOut(this.auth)
+    if (Capacitor.getPlatform() !== 'web') await GoogleAuth.signOut()
   }
 }
