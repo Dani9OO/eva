@@ -1,4 +1,27 @@
 <eva-header>Carreras</eva-header>
-<ion-content>
-
+<ion-content [scrollY]="false">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="56" minBufferPx="900" maxBufferPx="1350">
+    <eva-spinner *ngIf="loading$ | async"></eva-spinner>
+    <ion-item *ngIf="inactives$ | async" detail="true" lines="full" routerLink="archived">
+      <ion-icon ios="archive-outline" md="archive-sharp" slot="start" size="small" color="medium" class="icon-padding"></ion-icon>
+      <ion-text color="medium">Archivadas</ion-text>
+    </ion-item>
+    <ion-item-sliding *cdkVirtualFor="let career of careers$ | async; odd as odd">
+      <eva-career-item [career]="career" [color]="odd ? 'tertiary' : 'primary'"></eva-career-item>
+      <ion-item-options side="end" (ionSwipe)="archive(career)">
+        <ion-item-option color="medium" expandable (click)="archive(career)">
+          <ion-icon slot="start" ios="archive-outline" md="archive-sharp"></ion-icon>
+          Archivar
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </cdk-virtual-scroll-viewport>
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="upsertCareer()" color="tertiary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

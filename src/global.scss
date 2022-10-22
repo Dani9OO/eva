@@ -10,6 +10,7 @@
  */
 
 @use './app/styles' as styles;
+@use './app/styles/functions' as functions;
 
 /* Core CSS required for Ionic components to work properly */
 @import "~@ionic/angular/css/core.css";
@@ -37,4 +38,19 @@ ion-modal.transparent-modal {
 cdk-virtual-scroll-viewport {
   height: 100%;
   width: 100%;
+}
+
+ion-footer {
+  ion-toolbar {
+    padding-top: 0 !important;
+  }
+}
+
+.icon-button {
+  &-small {
+    height: functions.toRem(32px);
+    width: functions.toRem(32px);
+  }
+  height: functions.toRem(96px);
+  width: functions.toRem(96px);
 }

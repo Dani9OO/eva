@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon ios="chevron-back-outline" md="chevroin-back-sharp"></ion-icon>
+        Volver
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Carreras Archivadas
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item-sliding *ngFor="let career of careers$ | async">
+    <eva-career-item [career]="career" color="medium"></eva-career-item>
+    <ion-item-options side="end" (ionSwipe)="unarchive(career)">
+      <ion-item-option color="success" expandable (click)="unarchive(career)">
+        <ion-icon slot="start" ios="archive-outline" md="archive-sharp"></ion-icon>
+        Desarchivar
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-content>

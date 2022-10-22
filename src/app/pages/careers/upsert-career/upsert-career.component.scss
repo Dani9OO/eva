@@ -1,0 +1,8 @@
+@use '/src/app/styles/functions' as functions;
+
+.dial-icon {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: functions.toRem(10px);
+  padding: functions.toRem(20px);
+}

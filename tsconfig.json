@@ -28,6 +28,9 @@
       ],
       "@selectors/calendar": [
         "src/app/store/calendar/calendar.selectors"
+      ],
+      "@selectors/career": [
+        "src/app/store/career/career.selectors"
       ]
     }
   },

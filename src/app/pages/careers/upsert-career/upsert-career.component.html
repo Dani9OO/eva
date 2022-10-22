@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Nueva Carrera</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ng-container [formGroup]="form">
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label>Carrera</ion-label>
+      </ion-item-divider>
+      <ion-item lines="full">
+        <ion-label position="stacked">Nombre</ion-label>
+        <ion-input formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="stacked">Abreviación</ion-label>
+        <ion-input [readonly]="true" formControlName="abrv"></ion-input>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label>Grado</ion-label>
+      </ion-item-divider>
+      <ion-radio-group formControlName="degree">
+        <ion-item lines="full">
+          <ion-label>Técnico Superior Universitario</ion-label>
+          <ion-radio slot="end" value="TSU"></ion-radio>
+        </ion-item>
+        <ion-item lines="full">
+          <ion-label>Licenciatura</ion-label>
+          <ion-radio slot="end" value="LIC"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label>Ícono</ion-label>
+      </ion-item-divider>
+      <div class="dial-icon">
+        <ng-container *ngFor="let icon of icons; index as i">
+          <ion-button class="icon-button"
+            [color]="form.controls.icon.value === icon ? 'primary' : 'tertiary'"
+            (click)="selectIcon(i)"
+            *ngIf="i < 9 else lastIcon">
+            <ion-icon size="large" [ios]="icon + '-outline'" [md]="icon + '-sharp'"></ion-icon>
+          </ion-button>
+          <ng-template #lastIcon>
+            <span></span>
+            <ion-button class="icon-button"
+              [color]="form.controls.icon.value === icon ? 'primary' : 'tertiary'"
+              (click)="selectIcon(i)">
+              <ion-icon size="large" [ios]="icon + '-outline'" [md]="icon + '-sharp'"></ion-icon>
+            </ion-button>
+            <span></span>
+          </ng-template>
+        </ng-container>
+      </div>
+    </ion-item-group>
+  </ng-container>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button
+        color="danger"
+        fill="clear"
+        (click)="cancel()">
+        Cancelar
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button
+        color="primary"
+        fill="clear"
+        (click)="confirm()"
+        [disabled]="form.invalid">
+        Confirmar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
