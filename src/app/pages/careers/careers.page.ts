@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core'
 import { Career } from '@models/career'
 import { Store } from '@ngrx/store'
 import { Observable } from 'rxjs'
 import { selectLoading, selectActiveCareers, selectInactiveCareersCount } from '@selectors/career'
-import { RefresherCustomEvent, ModalController } from '@ionic/angular'
+import { RefresherCustomEvent, ModalController, IonList } from '@ionic/angular'
 import { CareerActions } from '@store/career'
 import { UpsertCareerComponent } from './upsert-career/upsert-career.component'
+import { ArchivedComponent } from './archived/archived.component'
 
 @Component({
   selector: 'eva-careers',
@@ -14,9 +15,10 @@ import { UpsertCareerComponent } from './upsert-career/upsert-career.component'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CareersPage implements OnInit {
+  @ViewChild('list') public list: IonList
   public careers$: Observable<Career[]>
   public loading$: Observable<boolean>
-  public inactives$: Observable<number>
+  public archived$: Observable<number>
 
   public constructor(
     private readonly store: Store,
@@ -26,7 +28,7 @@ export class CareersPage implements OnInit {
   public ngOnInit(): void {
     this.store.dispatch(CareerActions.loadCareers({}))
     this.careers$ = this.store.select(selectActiveCareers)
-    this.inactives$ = this.store.select(selectInactiveCareersCount)
+    this.archived$ = this.store.select(selectInactiveCareersCount)
     this.loading$ = this.store.select(selectLoading)
   }
 
@@ -37,6 +39,7 @@ export class CareersPage implements OnInit {
   }
 
   public archive(career: Career): void {
+    this.list.closeSlidingItems()
     this.store.dispatch(CareerActions.toggleArchived({ career }))
   }
 
@@ -49,5 +52,12 @@ export class CareersPage implements OnInit {
     const data = await modal.onWillDismiss<Omit<Career, 'archived'>>()
     if (data.role !== 'confirm' || !data.data) return
     this.store.dispatch(CareerActions.upsertCareer({ career: data.data }))
+  }
+
+  public async archived(): Promise<void> {
+    const modal = await this.modal.create({
+      component: ArchivedComponent
+    })
+    await modal.present()
   }
 }

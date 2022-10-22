@@ -5,4 +5,5 @@
   grid-template-columns: repeat(3, 1fr);
   gap: functions.toRem(10px);
   padding: functions.toRem(20px);
+  place-items: center;
 }

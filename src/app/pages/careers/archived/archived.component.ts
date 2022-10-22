@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store'
 import { Observable } from 'rxjs'
 import { Career } from '@models/career'
 import { selectInactiveCareers } from '@selectors/career'
-import { NavController } from '@ionic/angular'
+import { ModalController } from '@ionic/angular'
 import { CareerActions } from '@store/career'
 
 @Component({
@@ -17,7 +17,7 @@ export class ArchivedComponent implements OnInit {
 
   public constructor(
     private readonly store: Store,
-    private readonly nav: NavController
+    private readonly modal: ModalController
   ) { }
 
   public ngOnInit(): void {
@@ -25,7 +25,7 @@ export class ArchivedComponent implements OnInit {
   }
 
   public back(): void {
-    this.nav.back({ animationDirection: 'back' })
+    this.modal.dismiss()
   }
 
   public unarchive(career: Career): void {
