@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core'
-import { ModalController, RefresherCustomEvent } from '@ionic/angular'
+import { Component, OnInit, ViewChild } from '@angular/core'
+import { IonList, ModalController, RefresherCustomEvent } from '@ionic/angular'
 import { DateRangeComponent } from '@components/date-range/date-range.component'
 import { Store } from '@ngrx/store'
 import { Calendar } from '@models/calendar'
@@ -13,6 +13,7 @@ import { selectAllCalendars, selectLoading } from '@selectors/calendar'
   styleUrls: ['./calendar.page.scss']
 })
 export class CalendarPage implements OnInit {
+  @ViewChild('list') public list: IonList
   public calendars$: Observable<Calendar[]>
   public loading$: Observable<boolean>
 
@@ -36,6 +37,7 @@ export class CalendarPage implements OnInit {
   }
 
   public async upsertCalendar(calendar?: Calendar): Promise<void> {
+    this.list.closeSlidingItems()
     const modal = await this.modal.create({
       component: DateRangeComponent,
       componentProps: {

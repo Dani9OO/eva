@@ -5,19 +5,26 @@
   </ion-refresher>
   <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="56" minBufferPx="900" maxBufferPx="1350">
     <eva-spinner *ngIf="loading$ | async"></eva-spinner>
-    <ion-item *cdkVirtualFor="let calendar of calendars$ | async" lines="full">
-      <ion-icon ios="calendar-outline" md="calendar-sharp" color="primary" slot="start" *ngIf="calendar.active; else select"></ion-icon>
-      <ng-template #select>
-        <ion-icon ios="calendar-clear-outline" md="calendar-clear-sharp" slot="start" (click)="selectCalendar(calendar)"></ion-icon>
-      </ng-template>
-      <ion-label>
-        <h1>{{ calendar.title }}</h1>
-        <p>{{ calendar.dates[0] | date }} - {{ calendar.dates[1] | date }}</p>
-      </ion-label>
-      <ion-button slot="end" color="secondary" (click)="upsertCalendar(calendar)">
-        Editar
-      </ion-button>
-    </ion-item>
+    <ion-list #list>
+      <ion-item-sliding *cdkVirtualFor="let calendar of calendars$ | async">
+        <ion-item lines="full">
+          <ion-icon ios="calendar-outline" md="calendar-sharp" color="primary" slot="start" *ngIf="calendar.active; else select"></ion-icon>
+          <ng-template #select>
+            <ion-icon ios="calendar-clear-outline" md="calendar-clear-sharp" slot="start" (click)="selectCalendar(calendar)"></ion-icon>
+          </ng-template>
+          <ion-label>
+            <h1>{{ calendar.title }}</h1>
+            <p>{{ calendar.dates[0] | date }} - {{ calendar.dates[1] | date }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item-options side="end" (ionSwipe)="upsertCalendar(calendar)">
+          <ion-item-option color="primary" expandable (click)="upsertCalendar(calendar)">
+            <ion-icon slot="start" ios="pencil-outline" md="pencil-sharp"></ion-icon>
+            Editar
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
   </cdk-virtual-scroll-viewport>
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
     <ion-fab-button (click)="upsertCalendar()" color="tertiary">

@@ -15,7 +15,7 @@
   <ion-item-sliding *ngFor="let career of careers$ | async">
     <eva-career-item [career]="career" color="medium"></eva-career-item>
     <ion-item-options side="end" (ionSwipe)="unarchive(career)">
-      <ion-item-option color="success" expandable (click)="unarchive(career)">
+      <ion-item-option color="medium" expandable (click)="unarchive(career)">
         <ion-icon slot="start" ios="archive-outline" md="archive-sharp"></ion-icon>
         Desarchivar
       </ion-item-option>

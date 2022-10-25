@@ -47,6 +47,7 @@ export class CareersPage implements OnInit {
   }
 
   public async upsertCareer(career?: Career): Promise<void> {
+    this.list.closeSlidingItems()
     const modal = await this.modal.create({
       component: UpsertCareerComponent,
       componentProps: { career }
@@ -54,7 +55,7 @@ export class CareersPage implements OnInit {
     await modal.present()
     const data = await modal.onWillDismiss<Omit<Career, 'archived'>>()
     if (data.role !== 'confirm' || !data.data) return
-    this.store.dispatch(CareerActions.upsertCareer({ career: data.data }))
+    this.store.dispatch(CareerActions.upsertCareer({ career: { id: career?.id, ...data.data } }))
   }
 
   public async archived(): Promise<void> {
