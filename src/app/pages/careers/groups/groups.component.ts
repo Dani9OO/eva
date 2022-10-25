@@ -147,10 +147,12 @@ export class GroupsComponent implements OnInit {
     quarters.forEach(quarter => {
       this.quarters[shift].push(String(quarter))
       const quarterForm: { [k: string]: FormControl<boolean> } = {}
-      const letters = groups.map(g => g.letter)
       const index = alphabet.findIndex(letter => letter === groups.at(-1).letter) + 1
-      alphabet.slice(0, index).forEach(letter => {
-        quarterForm[letter] = this.fb.control(letters.some(l => l === letter))
+      alphabet.slice(0, index).forEach((letter, i) => {
+        const condition = !groups.some(g => g.letter === letter && g.quarter === quarter)
+        if (condition && i !== 0) return
+        if (condition && i === 0) quarterForm[letter] = this.fb.control(false)
+        else quarterForm[letter] = this.fb.control(true)
       })
       form[String(quarter)] = this.fb.group(quarterForm)
     })
