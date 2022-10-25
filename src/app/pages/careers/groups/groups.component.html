@@ -1,0 +1,61 @@
+<ng-container *ngIf="groups && shifts && calendar$ | async as calendar; else spinner">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>
+        {{ calendar.title }}
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <eva-career-item [career]="career"></eva-career-item>
+    <ion-item-group [formGroup]="shifts">
+      <ion-item lines="full" [color]="shifts.controls.morning.value ? 'primary': 'tertiary'">
+        <ion-label><h2>Matutino</h2></ion-label>
+        <ion-checkbox slot="end" formControlName="morning"></ion-checkbox>
+      </ion-item>
+      <ng-container *ngIf="quarters.morning.length > 0">
+        <ng-container *ngTemplateOutlet="shiftTemplate; context: { shift: 'morning' }"></ng-container>
+      </ng-container>
+      <ion-item lines="full" [color]="shifts.controls.evening.value ? 'primary': 'tertiary'">
+        <ion-label><h2>Vespertino</h2></ion-label>
+        <ion-checkbox slot="end" formControlName="evening"></ion-checkbox>
+      </ion-item>
+      <ng-container *ngIf="quarters.evening.length > 0">
+        <ng-container *ngTemplateOutlet="shiftTemplate; context: { shift: 'evening' }"></ng-container>
+      </ng-container>
+    </ion-item-group>
+  </ion-content>
+  <ion-footer>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button (click)="back()" color="danger">
+          Regresar
+        </ion-button>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button (click)="save(calendar)" color="primary">
+          Guardar
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+</ng-container>
+
+<ng-template #shiftTemplate let-shift="shift">
+  <ion-item-group *ngFor="let quarter of quarters[shift]">
+    <ng-container *ngIf="getGroups(shift, quarter) as list">
+      <ion-item-divider>
+        <ion-label>{{ quarter | quarter }}</ion-label>
+        <ion-button size="small" slot="end" fill="clear" color="secondary" (click)="addGroup(shift, quarter)" [disabled]="list.length > 25">Añadir Grupo</ion-button>
+      </ion-item-divider>
+      <ion-item lines="full" *ngFor="let group of list; even as even">
+        <ion-label>{{ quarter }}{{ group }}</ion-label>
+        <ion-checkbox slot="end" color="secondary" [formControl]="groups.controls[shift].controls[quarter].controls[group]"></ion-checkbox>
+      </ion-item>
+    </ng-container>
+  </ion-item-group>
+</ng-template>
+
+<ng-template #spinner>
+  <eva-spinner></eva-spinner>
+</ng-template>

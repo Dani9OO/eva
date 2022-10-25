@@ -1,12 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core'
 import { Career } from '@models/career'
 import { Store } from '@ngrx/store'
-import { Observable } from 'rxjs'
+import { Observable, firstValueFrom } from 'rxjs'
 import { selectLoading, selectActiveCareers, selectInactiveCareersCount } from '@selectors/career'
 import { RefresherCustomEvent, ModalController, IonList } from '@ionic/angular'
 import { CareerActions } from '@store/career'
 import { UpsertCareerComponent } from './upsert-career/upsert-career.component'
 import { ArchivedComponent } from './archived/archived.component'
+import { GroupsComponent } from './groups/groups.component'
+import { CalendarActions } from '@store/calendar'
+import { selectCalendar } from '@store/app/app.selectors'
 
 @Component({
   selector: 'eva-careers',
@@ -57,6 +60,17 @@ export class CareersPage implements OnInit {
   public async archived(): Promise<void> {
     const modal = await this.modal.create({
       component: ArchivedComponent
+    })
+    await modal.present()
+  }
+
+  public async groups(career: Career): Promise<void> {
+    const calendar = await firstValueFrom(this.store.select(selectCalendar))
+    this.store.dispatch(CalendarActions.loadCalendars({}))
+    const modal = await this.modal.create({
+      id: career.id,
+      component: GroupsComponent,
+      componentProps: { career, calendar }
     })
     await modal.present()
   }

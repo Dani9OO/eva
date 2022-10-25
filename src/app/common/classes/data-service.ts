@@ -7,7 +7,8 @@ import {
   DocumentReference,
   setDoc,
   doc,
-  collectionData
+  collectionData,
+  writeBatch
 } from '@angular/fire/firestore'
 import { from, map, Observable } from 'rxjs'
 
@@ -32,6 +33,17 @@ export class DataService<T extends { id?: string } = DocumentData> {
     return from(setDoc(document, entity, { merge: true })).pipe(
       map(() => ({ ...entity, id: document.id }))
     )
+  }
+
+  public upsertMany(entities: T[]): Observable<T[]> {
+    const batch = writeBatch(this.firestore)
+    const result: T[] = []
+    entities.forEach(entity => {
+      const document = entity.id ? this.doc(this.path, entity.id) : doc(this.collection)
+      batch.set(document, entity, { merge: true })
+      result.push({ id: document.id, ...entity })
+    })
+    return from(batch.commit()).pipe(map(() => result))
   }
 
   public getAll(): Observable<T[]> {

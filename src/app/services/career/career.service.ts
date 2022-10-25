@@ -31,7 +31,7 @@ export class CareerService extends DataService<Career> {
   public getAbbreviation(name: string): string {
     return name
       .split(' ')
-      .filter(word => word && word.length > 2)
+      .filter(word => word && word.length > 2 && word !== 'área' && word !== 'area')
       .map(word => word[0].toUpperCase())
       .join('')
   }

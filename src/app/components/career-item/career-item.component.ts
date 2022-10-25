@@ -12,5 +12,6 @@ import { IonicModule } from '@ionic/angular'
 })
 export class CareerItemComponent {
   @Input() public color = 'primary'
+  @Input() public detail = false
   @Input() public career: Career
 }

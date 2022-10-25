@@ -3,11 +3,15 @@ import { Store } from '@ngrx/store'
 import { Observable } from 'rxjs'
 import { Career } from '@models/career'
 import { selectInactiveCareers } from '@selectors/career'
-import { ModalController } from '@ionic/angular'
+import { ModalController, IonicModule } from '@ionic/angular'
 import { CareerActions } from '@store/career'
+import { CommonModule } from '@angular/common'
+import { CareerItemComponent } from '@components/career-item/career-item.component'
 
 @Component({
   selector: 'eva-archived',
+  standalone: true,
+  imports: [CommonModule, IonicModule, CareerItemComponent],
   templateUrl: './archived.component.html',
   styleUrls: ['./archived.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -13,7 +13,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling'
 import { CareerStoreModule } from '@store/career/career-store.module'
 import { UpsertCareerComponent } from './upsert-career/upsert-career.component'
 import { CareerItemComponent } from '../../components/career-item/career-item.component'
-import { ArchivedComponent } from './archived/archived.component'
 
 @NgModule({
   imports: [
@@ -29,6 +28,6 @@ import { ArchivedComponent } from './archived/archived.component'
     ReactiveFormsModule,
     CareerItemComponent
   ],
-  declarations: [CareersPage, UpsertCareerComponent, ArchivedComponent]
+  declarations: [CareersPage, UpsertCareerComponent]
 })
 export class DegreesPageModule {}

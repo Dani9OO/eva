@@ -79,6 +79,14 @@
     },
     {
       "files": [
+        "*.selectors.ts"
+      ],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off"
+      }
+    },
+    {
+      "files": [
         "*.html"
       ],
       "extends": [

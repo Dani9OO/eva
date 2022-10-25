@@ -16,22 +16,17 @@
     "paths": {
       "@models/*": ["src/app/models/*"],
       "@services/*": ["src/app/services/*"],
+      "@pipes/*": ["src/app/pipes/*"],
       "@components/*": ["src/app/components/*"],
       "@store/*": ["src/app/store/*"],
       "@classes/*": ["src/app/common/classes/*"],
       "@errors/*": ["src/app/common/errors/*"],
-      "@selectors/app": [
-        "src/app/store/app/app.selectors"
-      ],
-      "@selectors/user": [
-        "src/app/store/user/user.selectors"
-      ],
-      "@selectors/calendar": [
-        "src/app/store/calendar/calendar.selectors"
-      ],
-      "@selectors/career": [
-        "src/app/store/career/career.selectors"
-      ]
+      "@constants/*": ["src/app/common/constants/*"],
+      "@selectors/app": ["src/app/store/app/app.selectors"],
+      "@selectors/user": ["src/app/store/user/user.selectors"],
+      "@selectors/calendar": ["src/app/store/calendar/calendar.selectors"],
+      "@selectors/career": ["src/app/store/career/career.selectors"],
+      "@selectors/group": ["src/app/store/group/group.selectors"],
     }
   },
   "angularCompilerOptions": {
