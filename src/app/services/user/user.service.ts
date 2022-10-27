@@ -12,7 +12,8 @@ import {
   collection,
   CollectionReference,
   getCountFromServer,
-  getDocs
+  getDocs,
+  setDoc
 } from '@angular/fire/firestore'
 import { User as FirebaseUser } from 'firebase/auth'
 import { UnauthorizedError } from '@errors/unauthorized'
@@ -84,8 +85,9 @@ export class UserService extends DataService<User> {
   }
 
   public toggleAdmin(user: AppUser): Observable<Update<AppUser>> {
-    const document = doc(this.firestore, 'admins', user.email)
-    return from(deleteDoc(document)).pipe(
+    const ref = doc(this.firestore, 'admins', user.email)
+    return from(getDoc(ref)).pipe(
+      switchMap(document => from(document.exists() ? deleteDoc(ref) : setDoc(ref, {}))),
       switchMap(() => this.getRoles(user)),
       map((u) => ({ id: u.id, changes: { role: u.role } }))
     )
