@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core'
+import { ChangeDetectionStrategy, Component, EnvironmentInjector } from '@angular/core'
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
 import { Platform } from '@ionic/angular'
 import { Store } from '@ngrx/store'
@@ -10,6 +10,7 @@ import { selectCalendar, selectUser } from '@selectors/app'
 import { AppActions } from '@store/app'
 import { App } from '@capacitor/app'
 import { Capacitor } from '@capacitor/core'
+import { Calendar } from '@models/calendar'
 @Component({
   selector: 'eva-root',
   templateUrl: 'app.component.html',
@@ -20,7 +21,6 @@ export class AppComponent {
   public appPages = [
     { title: 'Estadísticas', url: '/summary', icon: 'podium' },
     { title: 'Carreras', url: '/careers', icon: 'shapes' },
-    { title: 'Rubricas', url: '/rubrics', icon: 'calculator' },
     { title: 'Directorio', url: '/directory', icon: 'business' },
     { title: 'Ciclo Escolar', url: '/calendar', icon: 'calendar' }
   ]
@@ -28,10 +28,11 @@ export class AppComponent {
   public initialized$: Observable<boolean>
   public spinning$: Observable<boolean>
   public user$: Observable<User>
-  public calendar$: Observable<string>
+  public calendar$: Observable<Calendar>
   public menu$: Observable<boolean>
   private initialized: BehaviorSubject<boolean>
   public constructor(
+    public readonly injector: EnvironmentInjector,
     private readonly platform: Platform,
     private readonly spinner: SpinnerService,
     private readonly store: Store,

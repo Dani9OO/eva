@@ -3,13 +3,12 @@ import { Career } from '@models/career'
 import { Store } from '@ngrx/store'
 import { Observable, firstValueFrom } from 'rxjs'
 import { selectLoading, selectActiveCareers, selectInactiveCareersCount } from '@selectors/career'
-import { RefresherCustomEvent, ModalController, IonList } from '@ionic/angular'
+import { RefresherCustomEvent, ModalController, IonList, NavController } from '@ionic/angular'
 import { CareerActions } from '@store/career'
 import { UpsertCareerComponent } from './upsert-career/upsert-career.component'
 import { ArchivedComponent } from './archived/archived.component'
-import { GroupsComponent } from './groups/groups.component'
-import { CalendarActions } from '@store/calendar'
 import { selectCalendar } from '@store/app/app.selectors'
+import { CoordinatorActions } from '@store/coordinator'
 
 @Component({
   selector: 'eva-careers',
@@ -25,7 +24,8 @@ export class CareersPage implements OnInit {
 
   public constructor(
     private readonly store: Store,
-    private readonly modal: ModalController
+    private readonly modal: ModalController,
+    private readonly nav: NavController
   ) {}
 
   public ngOnInit(): void {
@@ -65,14 +65,9 @@ export class CareersPage implements OnInit {
     await modal.present()
   }
 
-  public async groups(career: Career): Promise<void> {
+  public async detail(career: Career): Promise<void> {
     const calendar = await firstValueFrom(this.store.select(selectCalendar))
-    this.store.dispatch(CalendarActions.loadCalendars({}))
-    const modal = await this.modal.create({
-      id: career.id,
-      component: GroupsComponent,
-      componentProps: { career, calendar }
-    })
-    await modal.present()
+    this.store.dispatch(CoordinatorActions.loadCoordinators({ calendar: calendar.id, career: career.id }))
+    this.nav.navigateForward(['careers', career.id])
   }
 }

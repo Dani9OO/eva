@@ -1,0 +1,14 @@
+<ion-item lines="full" [detail]="detail">
+  <ion-avatar slot="start">
+    <ion-img [src]="user.photo"></ion-img>
+  </ion-avatar>
+  <ion-label>
+    <h2>
+      {{ user.name }}
+    </h2>
+    <p class="ion-text-lowercase ion-text-wrap">
+      {{ user.email }} <ion-text color="primary">{{ user.role }}</ion-text>
+    </p>
+  </ion-label>
+  <ng-content></ng-content>
+</ion-item>

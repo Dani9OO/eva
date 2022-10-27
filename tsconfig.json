@@ -27,6 +27,7 @@
       "@selectors/calendar": ["src/app/store/calendar/calendar.selectors"],
       "@selectors/career": ["src/app/store/career/career.selectors"],
       "@selectors/group": ["src/app/store/group/group.selectors"],
+      "@selectors/coordinator": ["src/app/store/coordinator/coordinator.selectors"]
     }
   },
   "angularCompilerOptions": {

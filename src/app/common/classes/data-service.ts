@@ -7,11 +7,11 @@ import {
   DocumentReference,
   setDoc,
   doc,
-  collectionData,
-  writeBatch
+  writeBatch,
+  getDocs
 } from '@angular/fire/firestore'
 import { from, map, Observable } from 'rxjs'
-
+import { take } from 'rxjs/operators'
 export class DataService<T extends { id?: string } = DocumentData> {
   protected collection: CollectionReference<T>
   protected entity: string
@@ -29,6 +29,7 @@ export class DataService<T extends { id?: string } = DocumentData> {
   }
 
   public upsert(entity: T): Observable<T> {
+    if (entity.id === undefined) delete entity.id
     const document = entity.id ? this.doc(this.path, entity.id) : doc(this.collection)
     return from(setDoc(document, entity, { merge: true })).pipe(
       map(() => ({ ...entity, id: document.id }))
@@ -47,7 +48,10 @@ export class DataService<T extends { id?: string } = DocumentData> {
   }
 
   public getAll(): Observable<T[]> {
-    return collectionData(this.collection, { idField: 'id' })
+    return from(getDocs(this.collection)).pipe(
+      take(1),
+      map(result => result.docs.map(document => ({ id: document.id, ...document.data() })))
+    )
   }
 
   protected doc(path: string, ...pathSegments: string[]): DocumentReference<T> {

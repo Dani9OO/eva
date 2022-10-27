@@ -17,6 +17,21 @@ export const loadUsersFailure = createAction(
   props<{ error: Error }>()
 )
 
+export const loadUser = createAction(
+  '[User/API] Load User',
+  props<{ id: string }>()
+)
+
+export const loadUserSuccess = createAction(
+  '[User/API] Load User Success',
+  props<{ user: AppUser }>()
+)
+
+export const loadUserFailure = createAction(
+  '[User/API] Load User Failure',
+  props<{ error: Error }>()
+)
+
 export const toggleAdmin = createAction(
   '[User/API] Toggle Admin',
   props<{ user: AppUser }>()

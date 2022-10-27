@@ -1,20 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { IonicModule, ModalController } from '@ionic/angular'
 import { CareerItemComponent } from '@components/career-item/career-item.component'
 import { Career } from '@models/career'
 import { NonNullableFormBuilder, FormGroup, FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { FormFrom } from '../../../common/types/from-form'
-import { Subscription, Observable, take } from 'rxjs'
+import { Subscription } from 'rxjs'
 import { Group, Quarter, Shift } from '@models/group'
 import { Store } from '@ngrx/store'
 import { Calendar } from '@models/calendar'
-import { selectCalendarById } from '@store/calendar/calendar.selectors'
 import { alphabet } from '@constants/alphabet'
 import { QuarterPipe } from '@pipes/quarter'
 import { GroupStoreModule } from '@store/group/group-store.module'
 import { GroupActions } from '@store/group'
-import { Actions, ofType } from '@ngrx/effects'
 import { SpinnerComponent } from '@components/spinner/spinner.component'
 
 interface ShiftForm extends FormFrom<{ morning: boolean, evening: boolean }> {}
@@ -36,66 +34,57 @@ interface GroupsForm extends FormFrom<{ [k: string]: { [k: string]: { [k: string
     SpinnerComponent
   ],
   templateUrl: './groups.component.html',
-  styleUrls: ['./groups.component.scss']
+  styleUrls: ['./groups.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupsComponent implements OnInit {
   @Input() public career: Career
-  @Input() public calendar: string
+  @Input() public calendar: Calendar
+  @Input() public groups?: Group[]
   public shifts: FormGroup<ShiftForm>
-  public groups: FormGroup<GroupsForm>
+  public groupsForm: FormGroup<GroupsForm>
   public sub: Subscription
   public quarters: { morning: string[], evening: string[] }
-  public calendar$: Observable<Calendar>
-  private _groups?: Group[]
   private _quarters: Quarter[]
 
   public constructor(
     private readonly fb: NonNullableFormBuilder,
     private readonly store: Store,
-    private readonly modal: ModalController,
-    private readonly actions: Actions
+    private readonly modal: ModalController
   ) {
     this.sub = new Subscription()
     this.quarters = { morning: [], evening: [] }
   }
 
   public ngOnInit(): void {
-    this.calendar$ = this.store.select(selectCalendarById(this.calendar))
-    this.store.dispatch(GroupActions.loadGroups({ calendar: this.calendar, career: this.career.id }))
-    this.actions.pipe(
-      ofType(GroupActions.loadGroupsSuccess),
-      take(1)
-    ).subscribe((action) => {
-      this._groups = action.groups
-      this._quarters = this.career.degree === 'TSU' ? [1, 2, 3, 4, 5, 6] : [7, 8, 9, 10]
-      this.shifts = this.fb.group({
-        morning: this.fb.control<boolean>(this._groups?.some(g => g.shift === 'morning')),
-        evening: this.fb.control<boolean>(this._groups?.some(g => g.shift === 'evening'))
-      })
-      this.groups = this.getFormFromGroups(this._groups)
-      this.sub.add(this.shifts.controls.morning.valueChanges.subscribe(s => this.shiftChange('morning', s)))
-      this.sub.add(this.shifts.controls.evening.valueChanges.subscribe(s => this.shiftChange('evening', s)))
+    this._quarters = this.career.degree === 'TSU' ? [1, 2, 3, 4, 5, 6] : [7, 8, 9, 10]
+    this.shifts = this.fb.group({
+      morning: this.fb.control<boolean>(this.groups?.some(g => g.shift === 'morning')),
+      evening: this.fb.control<boolean>(this.groups?.some(g => g.shift === 'evening'))
     })
+    this.groupsForm = this.getFormFromGroups(this.groups)
+    this.sub.add(this.shifts.controls.morning.valueChanges.subscribe(s => this.shiftChange('morning', s)))
+    this.sub.add(this.shifts.controls.evening.valueChanges.subscribe(s => this.shiftChange('evening', s)))
   }
 
   public back(): void {
-    this.modal.dismiss(undefined, 'cancel', this.career.id)
+    this.modal.dismiss(undefined, 'cancel')
   }
 
   public addGroup(shift: Shift, quarter: string): void {
-    if (!this.groups.controls[shift].controls[quarter]) return
-    const count = Object.keys(this.groups.controls[shift].controls[quarter].controls).length
-    this.groups.controls[shift].controls[quarter].addControl(alphabet[count], this.fb.control(false))
+    if (!this.groupsForm.controls[shift].controls[quarter]) return
+    const count = Object.keys(this.groupsForm.controls[shift].controls[quarter].controls).length
+    this.groupsForm.controls[shift].controls[quarter].addControl(alphabet[count], this.fb.control(false))
   }
 
   public getGroups(shift: Shift, quarter: string): string[] {
-    return this.groups.controls[shift].controls[quarter]?.controls
-      ? Object.keys(this.groups.controls[shift].controls[quarter].controls)
+    return this.groupsForm.controls[shift].controls[quarter]?.controls
+      ? Object.keys(this.groupsForm.controls[shift].controls[quarter].controls)
       : []
   }
 
   public save(calendar: Calendar): void {
-    const { morning, evening } = this.groups.value
+    const { morning, evening } = this.groupsForm.value
     const groups = [
       ...this.mapFormToGroups(calendar, 'morning', morning),
       ...this.mapFormToGroups(calendar, 'evening', evening)
@@ -108,15 +97,15 @@ export class GroupsComponent implements OnInit {
     const morning = shift === 'morning'
     if (!enabled) {
       this.quarters[shift] = []
-      this.quarters[shift].forEach(q => this.groups.controls.shift.removeControl(q))
+      this.quarters[shift].forEach(q => this.groupsForm.controls.shift.removeControl(q))
       return
     }
     const quarters = [...this._quarters]
     if (morning && this.career.degree === 'TSU') quarters.pop()
     const form = this.fb.group({})
     quarters.forEach(q => form.addControl(String(q), this.newQuarterForm()))
-    this.groups.addControl(shift, form)
-    this.quarters[shift] = Object.keys(this.groups.controls[shift].controls)
+    this.groupsForm.addControl(shift, form)
+    this.quarters[shift] = Object.keys(this.groupsForm.controls[shift].controls)
   }
 
   private newQuarterForm(): FormGroup<{ [k: string]: FormControl<boolean> }> {

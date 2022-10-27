@@ -7,25 +7,14 @@
   <ion-searchbar color="light" placeholder="Buscar" (ionChange)="filter($event)" [debounce]="500"></ion-searchbar>
   <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="56" minBufferPx="900" maxBufferPx="1350">
     <eva-spinner *ngIf="loading$ | async"></eva-spinner>
-    <ion-item lines="full" *cdkVirtualFor="let user of users$ | async">
-        <ion-avatar slot="start">
-          <ion-img alt="Silhouette of a person's head" [src]="user.photo"></ion-img>
-        </ion-avatar>
-        <ion-label>
-          <h2>
-            {{ user.name }}
-          </h2>
-          <p class="ion-text-lowercase ion-text-wrap">
-            {{ user.email }} <ion-text color="primary">{{ user.role }}</ion-text>
-          </p>
-        </ion-label>
-        <ion-icon
-          (click)="toggleAdmin(user)"
-          ios="shield-checkmark-outline"
-          md="shield-checkmark-sharp"
-          [color]="user.role === 'admin' ? 'primary' : 'medium'"
-          slot="end">
-        </ion-icon>
-    </ion-item>
+    <eva-user-item lines="full" *cdkVirtualFor="let user of users$ | async" [user]="user">
+      <ion-icon
+        (click)="toggleAdmin(user)"
+        ios="shield-checkmark-outline"
+        md="shield-checkmark-sharp"
+        [color]="user.role === 'admin' ? 'primary' : 'medium'"
+        slot="end">
+      </ion-icon>
+    </eva-user-item>
   </cdk-virtual-scroll-viewport>
 </ion-content>

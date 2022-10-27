@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core'
-import { Calendar } from '../../models/calendar'
-import { Firestore, setDoc, docData, doc, DocumentReference } from '@angular/fire/firestore'
-import { DataService } from '../../common/classes/data-service'
-import { switchMap, tap } from 'rxjs/operators'
+import { Calendar } from '@models/calendar'
+import { Firestore, setDoc, doc, DocumentReference, getDoc } from '@angular/fire/firestore'
+import { DataService } from '@classes/data-service'
+import { switchMap, tap, take } from 'rxjs/operators'
 import { map, from, Observable } from 'rxjs'
-import { UnexpectedError } from '../../common/errors/unexpected'
+import { UnexpectedError } from '@errors/unexpected'
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +16,15 @@ export class CalendarService extends DataService<Calendar> {
     super('Calendar', firestore)
   }
 
-  public getCurrentCalendar(): Observable<string> {
-    return docData(doc(this.firestore, 'calendar', 'current') as DocumentReference<{ id: string }>).pipe(
-      tap(calendar => { if (!calendar) throw new UnexpectedError('retrieving current calendar') }),
-      map(calendar => calendar.id)
+  public getCurrentCalendar(): Observable<Calendar> {
+    const ref = doc(this.firestore, 'calendar', 'current') as DocumentReference<{ id: string }>
+    return from(getDoc(ref)).pipe(
+      take(1),
+      tap(result => { if (!result.exists()) throw new UnexpectedError('retrieving current calendar') }),
+      switchMap(calendar => from(getDoc(this.doc(this.path, calendar.data().id))).pipe(
+        take(1),
+        map(result => ({ id: result.id, ...result.data() }))
+      ))
     )
   }
 
@@ -37,7 +42,7 @@ export class CalendarService extends DataService<Calendar> {
     return this.getCurrentCalendar().pipe(
       switchMap(current => this.getAll().pipe(
         map(calendars => {
-          const index = calendars.findIndex(calendar => calendar.id === current)
+          const index = calendars.findIndex(calendar => calendar.id === current.id)
           if (index === -1) return calendars
           calendars.splice(index, 1, { ...calendars[index], active: true })
           return calendars

@@ -6,7 +6,13 @@ import { CareersPage } from './careers.page'
 const routes: Routes = [
   {
     path: '',
-    component: CareersPage
+    children: [
+      { path: '', component: CareersPage },
+      {
+        path: ':career',
+        loadComponent: () => import('./details/details.component').then(c => c.DetailsComponent)
+      }
+    ]
   }
 ]
 

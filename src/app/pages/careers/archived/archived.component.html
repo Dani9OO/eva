@@ -1,11 +1,5 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="back()">
-        <ion-icon ios="chevron-back-outline" md="chevron-back-sharp"></ion-icon>
-        Volver
-      </ion-button>
-    </ion-buttons>
     <ion-title>
       Archivo
     </ion-title>
@@ -22,3 +16,12 @@
     </ion-item-options>
   </ion-item-sliding>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()" color="danger">
+        Regresar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

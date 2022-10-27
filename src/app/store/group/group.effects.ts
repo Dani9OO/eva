@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core'
-import { Actions, createEffect, ofType } from '@ngrx/effects'
-import { mergeMap, map, catchError, of } from 'rxjs'
+import { Actions, createEffect, ofType, concatLatestFrom } from '@ngrx/effects'
+import { mergeMap, map, catchError, of, asapScheduler, scheduled } from 'rxjs'
 import { GroupService } from '@services/group'
 import { UnexpectedError } from '@errors/unexpected'
 import { tap } from 'rxjs/operators'
 import { ToastController } from '@ionic/angular'
 import { GroupActions } from '@store/group'
+import { Store } from '@ngrx/store'
+import { selectGroups } from './group.selectors'
 
 @Injectable()
 export class GroupEffects {
@@ -33,7 +35,13 @@ export class GroupEffects {
 
   public loadGroups$ = createEffect(() => this.actions$.pipe(
     ofType(GroupActions.loadGroups),
-    mergeMap(action => this.group.getGroups(action.calendar, action.career).pipe(
+    concatLatestFrom((action) => this.store.select(selectGroups(action.calendar, action.career))),
+    mergeMap(([action, storeGroups]) => scheduled(
+      storeGroups.length > 0
+        ? [storeGroups]
+        : this.group.getGroups(action.calendar, action.career),
+      asapScheduler
+    ).pipe(
       map((groups) => GroupActions.loadGroupsSuccess({ groups })),
       catchError(() => of(GroupActions.loadGroupsFailure({
         error: new UnexpectedError('retrieving groups')
@@ -55,6 +63,7 @@ export class GroupEffects {
   public constructor(
     private readonly actions$: Actions,
     private readonly group: GroupService,
-    private readonly toast: ToastController
+    private readonly toast: ToastController,
+    private readonly store: Store
   ) {}
 }

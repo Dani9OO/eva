@@ -1,11 +1,11 @@
-<ng-container *ngIf="groups && shifts && calendar$ | async as calendar; else spinner">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>
-        {{ calendar.title }}
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      {{ calendar.title }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ng-container *ngIf="groupsForm && shifts; else spinner">
   <ion-content>
     <eva-career-item [career]="career"></eva-career-item>
     <ion-item-group [formGroup]="shifts">
@@ -50,7 +50,7 @@
       </ion-item-divider>
       <ion-item lines="full" *ngFor="let group of list; even as even">
         <ion-label>{{ quarter }}{{ group }}</ion-label>
-        <ion-checkbox slot="end" color="secondary" [formControl]="groups.controls[shift].controls[quarter].controls[group]"></ion-checkbox>
+        <ion-checkbox slot="end" color="secondary" [formControl]="groupsForm.controls[shift].controls[quarter].controls[group]"></ion-checkbox>
       </ion-item>
     </ng-container>
   </ion-item-group>

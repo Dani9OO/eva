@@ -17,6 +17,14 @@ export const initialState: GroupState = adapter.getInitialState({
 
 export const reducer = createReducer(
   initialState,
+  on(GroupActions.upsertGroups,
+    (state, action) => adapter.removeMany(
+      Object.values(state.entities)
+        .filter(group => group.calendar === action.calendar && group.career === action.career)
+        .map(group => group.id),
+      state
+    )
+  ),
   on(GroupActions.upsertGroupsSuccess,
     (state, action) => adapter.upsertMany(action.groups, state)
   ),

@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { selectAll, CareerState, careerFeatureKey } from './career.reducer'
+import { selectAll, CareerState, careerFeatureKey, selectEntities } from './career.reducer'
 
 export const selectCareerState = createFeatureSelector<CareerState>(careerFeatureKey)
 
@@ -23,7 +23,17 @@ export const selectInactiveCareersCount = createSelector(
   (careers) => careers.length
 )
 
+export const selectCareerEntities = createSelector(
+  selectCareerState,
+  selectEntities
+)
+
 export const selectLoading = createSelector(
   selectCareerState,
   (state) => state.loading
+)
+
+export const selectCareerById = (id: string) => createSelector(
+  selectCareerEntities,
+  (careers) => careers[id]
 )

@@ -26,8 +26,11 @@ export const reducer = createReducer(
   on(UserActions.loadUsersSuccess,
     (state, action) => adapter.setAll(action.users, ({ ...state, loading: false }))
   ),
+  on(UserActions.loadUserSuccess,
+    (state, action) => adapter.upsertOne(action.user, state)
+  ),
   on(UserActions.loadUsersFailure,
-    (state, action): UserState => ({ ...state, loading: false })
+    (state): UserState => ({ ...state, loading: false })
   ),
   on(UserActions.toggleAdminSuccess,
     (state, action) => adapter.updateOne(action.user, state)

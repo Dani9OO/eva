@@ -8,6 +8,7 @@ import { ToastController } from '@ionic/angular'
 import { Store } from '@ngrx/store'
 import { CareerActions } from '@store/career'
 import { selectAllCareers } from '@selectors/career'
+import { environment } from 'src/environments/environment'
 
 @Injectable()
 export class CareerEffects {
@@ -37,11 +38,14 @@ export class CareerEffects {
     ofType(CareerActions.loadCareers),
     concatLatestFrom(() => this.store.select(selectAllCareers)),
     mergeMap(([action, storeCareers]) =>
-      from(storeCareers.length === 0 || action.force ? this.career.getAll() : [storeCareers]).pipe(
+      from(storeCareers.length === 0 || action.force ? this.career.getAllCareers() : [storeCareers]).pipe(
         map((careers) => CareerActions.loadCareersSuccess({ careers })),
-        catchError(() => of(CareerActions.loadCareersFailure({
-          error: new UnexpectedError('retrieving careers')
-        })))
+        catchError((error) => {
+          if (!environment.production) console.error(error)
+          return of(CareerActions.loadCareersFailure({
+            error: new UnexpectedError('retrieving careers')
+          }))
+        })
       ))
   ))
 

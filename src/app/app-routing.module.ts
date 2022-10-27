@@ -28,11 +28,6 @@ const routes: Routes = [
     canActivate: [AppGuard]
   },
   {
-    path: 'rubrics',
-    loadChildren: () => import('./pages/rubrics/rubrics.module').then(m => m.RubricsPageModule),
-    canActivate: [AppGuard]
-  },
-  {
     path: 'summary',
     loadChildren: () => import('./pages/summary/summary.module').then(m => m.SummaryPageModule),
     canActivate: [AppGuard]

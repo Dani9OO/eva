@@ -11,7 +11,7 @@
     </ion-item>
     <ion-list #list>
       <ion-item-sliding *cdkVirtualFor="let career of careers$ | async; odd as odd">
-        <eva-career-item [career]="career" [color]="odd ? 'tertiary' : 'primary'" [detail]="true" (click)="groups(career)"></eva-career-item>
+        <eva-career-item [career]="career" [color]="odd ? 'tertiary' : 'primary'" [detail]="true" (click)="detail(career)"></eva-career-item>
         <ion-item-options side="end" (ionSwipe)="archive(career)">
           <ion-item-option color="medium" expandable (click)="archive(career)">
             <ion-icon slot="start" ios="archive-outline" md="archive-sharp"></ion-icon>

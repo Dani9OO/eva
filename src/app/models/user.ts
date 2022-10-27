@@ -9,6 +9,5 @@ export interface User {
 }
 
 export interface AppUser extends User {
-  role: Role,
-  permissions: string[]
+  role: Role
 }

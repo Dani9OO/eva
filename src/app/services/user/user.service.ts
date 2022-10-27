@@ -1,13 +1,27 @@
 import { Injectable } from '@angular/core'
-import { User } from '@models/user'
-import { DataService } from '../../common/classes/data-service'
-import { Firestore, doc, docData, DocumentReference, query, where, collectionData, deleteDoc, setDoc } from '@angular/fire/firestore'
+import { User, AppUser } from '@models/user'
+import { DataService } from '@classes/data-service'
+import {
+  Firestore,
+  doc,
+  getDoc,
+  DocumentReference,
+  query,
+  where,
+  deleteDoc,
+  collection,
+  CollectionReference,
+  getCountFromServer,
+  getDocs
+} from '@angular/fire/firestore'
 import { User as FirebaseUser } from 'firebase/auth'
-import { AppUser } from '../../models/user'
-import { UnauthorizedError } from '../../common/errors/unauthorized'
-import { zip, map, Observable, from } from 'rxjs'
-import { switchMap } from 'rxjs/operators'
+import { UnauthorizedError } from '@errors/unauthorized'
+import { zip, map, Observable, from, scheduled, asapScheduler } from 'rxjs'
+import { switchMap, take } from 'rxjs/operators'
 import { Update } from '@ngrx/entity'
+import { RoleDocument } from '@models/role'
+import { Coordinator } from '@models/coordinator'
+import { orderBy } from 'firebase/firestore'
 
 @Injectable({
   providedIn: 'root'
@@ -31,55 +45,50 @@ export class UserService extends DataService<User> {
   }
 
   public getUser(id: string): Observable<User> {
-    return docData(this.getUserRef(id))
+    return from(getDoc(this.getUserRef(id))).pipe(take(1), map(result => ({ id: result.id, ...result.data() })))
   }
 
-  public getRoles(user: User): Observable<AppUser> {
+  public getRoles(user: User, calendar?: string): Observable<AppUser> {
+    const ref = calendar ? collection(this.firestore, 'coordinators') as CollectionReference<Coordinator> : undefined
+    const q = calendar ? query(ref, where('user', '==', user.id), where('calendar', '==', calendar)) : undefined
     return zip([
-      docData(doc(this.firestore, 'roles', user.email.split('@')[1])),
-      docData(doc(this.firestore, 'admins', user.email)),
-      docData(doc(this.firestore, 'coordinators', user.email))
+      from(getDoc(doc(this.firestore, 'roles', user.domain) as DocumentReference<RoleDocument>)).pipe(
+        take(1), map(result => ({ ...result.data() }))
+      ),
+      from(getDoc(doc(this.firestore, 'admins', user.email))).pipe(take(1), map(result => result.exists())),
+      calendar ? from(getCountFromServer(q)).pipe(take(1), map(result => result.data().count > 0)) : scheduled([false], asapScheduler)
     ]).pipe(
       map(([domain, admin, coordinator]) => {
         if (admin) return {
           ...user,
-          role: 'admin',
-          permissions: ['*']
+          role: 'admin'
         }
         if (coordinator) return {
           ...user,
-          role: 'coordinator',
-          permissions: coordinator.permissions
+          role: 'coordinator'
         }
         if (domain) return {
           ...user,
-          role: domain.role,
-          permissions: []
+          role: domain.role
         }
         throw new UnauthorizedError(user.email)
       })
     )
   }
 
-  public getAppUsers(): Observable<AppUser[]> {
-    return collectionData(query(this.collection, where('domain', '!=', 'soy.utj.edu.mx'))).pipe(
-      switchMap(users => zip(users.map(u => this.getRoles(u))))
+  public getAppUsers(calendar?: string): Observable<AppUser[]> {
+    return from(getDocs(query(this.collection, orderBy('domain'), where('domain', '!=', 'soy.utj.edu.mx'), orderBy('name')))).pipe(
+      take(1),
+      switchMap(result => zip(result.docs.map(document => this.getRoles({ id: document.id, ...document.data() }, calendar))))
     )
   }
 
   public toggleAdmin(user: AppUser): Observable<Update<AppUser>> {
     const document = doc(this.firestore, 'admins', user.email)
-    if (user.role === 'admin') {
-      return from(deleteDoc(document)).pipe(
-        switchMap(() => this.getRoles(user)),
-        map((u) => ({ id: u.id, changes: { role: u.role, permissions: u.permissions } }))
-      )
-    } else {
-      return from(setDoc(document, {})).pipe(
-        switchMap(() => this.getRoles(user)),
-        map((u) => ({ id: u.id, changes: { role: u.role, permissions: u.permissions } }))
-      )
-    }
+    return from(deleteDoc(document)).pipe(
+      switchMap(() => this.getRoles(user)),
+      map((u) => ({ id: u.id, changes: { role: u.role } }))
+    )
   }
 
   private getUserRef(id: string): DocumentReference<User> {

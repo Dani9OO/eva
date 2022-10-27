@@ -1,11 +1,12 @@
 import { createReducer, on } from '@ngrx/store'
 import { AppUser } from '@models/user'
 import { AppActions } from '@store/app'
+import { Calendar } from '@models/calendar'
 
 export const appFeatureKey = 'app'
 
 export interface AppState {
-  calendar?: string,
+  calendar?: Calendar,
   user?: AppUser
 }
 

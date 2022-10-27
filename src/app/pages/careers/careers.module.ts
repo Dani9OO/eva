@@ -13,6 +13,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling'
 import { CareerStoreModule } from '@store/career/career-store.module'
 import { UpsertCareerComponent } from './upsert-career/upsert-career.component'
 import { CareerItemComponent } from '../../components/career-item/career-item.component'
+import { CoordinatorStoreModule } from '@store/coordinator/coordinator-store.module'
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { CareerItemComponent } from '../../components/career-item/career-item.co
     CareerStoreModule,
     FormsModule,
     ReactiveFormsModule,
-    CareerItemComponent
+    CareerItemComponent,
+    CoordinatorStoreModule
   ],
   declarations: [CareersPage, UpsertCareerComponent]
 })

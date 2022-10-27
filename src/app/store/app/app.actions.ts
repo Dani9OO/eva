@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store'
 import { AppUser } from '@models/user'
 import { User as FirebaseUser } from 'firebase/auth'
+import { Calendar } from '@models/calendar'
 
 export const getCalendar = createAction(
   '[App] Get Calendar'
@@ -8,7 +9,7 @@ export const getCalendar = createAction(
 
 export const getCalendarSuccess = createAction(
   '[App] Get Calendar Success',
-  props<{ calendar: string }>()
+  props<{ calendar: Calendar }>()
 )
 
 export const getCalendarFailure = createAction(

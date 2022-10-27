@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core'
 import { DataService } from '@classes/data-service'
 import { Group } from '@models/group'
-import { Firestore, getDocs, query, where, collectionData } from '@angular/fire/firestore'
-import { Observable, from } from 'rxjs'
-import { switchMap } from 'rxjs/operators'
+import { Firestore, query, where, getDocs } from '@angular/fire/firestore'
+import { Observable, from, map } from 'rxjs'
+import { switchMap, take } from 'rxjs/operators'
 import { writeBatch } from 'firebase/firestore'
 
 @Injectable({
@@ -19,6 +19,7 @@ export class GroupService extends DataService<Group> {
   public upsertGroups(calendar: string, career: string, groups: Group[]): Observable<Group[]> {
     const q = query(this.collection, where('calendar', '==', calendar), where('career', '==', career))
     return from(getDocs(q)).pipe(
+      take(1),
       switchMap(result => {
         const batch = writeBatch(this.firestore)
         result.docs.forEach(document => batch.delete(document.ref))
@@ -29,6 +30,14 @@ export class GroupService extends DataService<Group> {
   }
 
   public getGroups(calendar: string, career: string): Observable<Group[]> {
-    return collectionData(query(this.collection, where('calendar', '==', calendar), where('career', '==', career)), { idField: 'id' })
+    const q = query(
+      this.collection,
+      where('calendar', '==', calendar),
+      where('career', '==', career)
+    )
+    return from(getDocs(q)).pipe(
+      take(1),
+      map(result => result.docs.map(document => ({ id: document.id, ...document.data() })))
+    )
   }
 }

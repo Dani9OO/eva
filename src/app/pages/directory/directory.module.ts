@@ -11,6 +11,7 @@ import { HeaderComponent } from '@components/header/header.component'
 import { ScrollingModule } from '@angular/cdk/scrolling'
 import { UserStoreModule } from '../../store/user/user-store.module'
 import { SpinnerComponent } from '@components/spinner/spinner.component'
+import { UserItemComponent } from '@components/user-item/user-item.component'
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { SpinnerComponent } from '@components/spinner/spinner.component'
     HeaderComponent,
     ScrollingModule,
     UserStoreModule,
-    SpinnerComponent
+    SpinnerComponent,
+    UserItemComponent
   ],
   declarations: [DirectoryPage]
 })

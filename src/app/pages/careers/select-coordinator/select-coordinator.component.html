@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      {{ calendar.title }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [scrollY]="false">
+  <ng-container *ngIf="users$ | async as users">
+    <eva-career-item [career]="career"></eva-career-item>
+    <ion-radio-group [formControl]="form">
+      <eva-user-item *ngFor="let user of users" [user]="user">
+        <ion-radio slot="end" [value]="user.id"></ion-radio>
+      </eva-user-item>
+    </ion-radio-group>
+  </ng-container>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()" color="danger">
+        Regresar
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="save()" color="primary">
+        Guardar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
+<ng-template #spinner>
+  <eva-spinner></eva-spinner>
+</ng-template>
