@@ -29,6 +29,13 @@ export const reducer = createReducer(
   on(CalendarActions.loadCalendarsFailure,
     (state, action): CalendarState => ({ ...state, loading: false })
   ),
+  on(
+    CalendarActions.selectCurrentCalendarSuccess,
+    (state, action): CalendarState => adapter.setAll(
+      Object.values(state.entities).map(calendar => ({ ...calendar, active: calendar.id === action.id })),
+      state
+    )
+  ),
   on(CalendarActions.clearCalendars,
     state => adapter.removeAll(state)
   )
