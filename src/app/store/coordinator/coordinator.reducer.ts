@@ -17,6 +17,14 @@ export const initialState: CoordinatorState = adapter.getInitialState({
 
 export const reducer = createReducer(
   initialState,
+  on(CoordinatorActions.upsertCoordinator,
+    (state, action) => adapter.removeMany(
+      Object.values(state.entities)
+        .filter(coordinator => coordinator.calendar === action.coordinator.calendar && coordinator.career === action.coordinator.career)
+        .map(group => group.id),
+      state
+    )
+  ),
   on(CoordinatorActions.upsertCoordinatorSuccess,
     (state, action) => adapter.upsertOne(action.coordinator, state)
   ),

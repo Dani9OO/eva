@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store'
 import { IonicModule, NavController, ModalController } from '@ionic/angular'
 import { CareerItemComponent } from '@components/career-item/career-item.component'
 import { ActivatedRoute } from '@angular/router'
-import { switchMap } from 'rxjs/operators'
+import { filter, switchMap } from 'rxjs/operators'
 import { selectCareerById } from '@selectors/career'
 import { Career } from '@models/career'
 import { AppUser } from '@models/user'
@@ -62,12 +62,16 @@ export class DetailsComponent implements OnInit {
     this.calendar$ = this.store.select(selectCalendar)
     this.career$ = this._career$.pipe(switchMap(career => this.store.select(selectCareerById(career))))
     this.coordinator$ = this.actions.pipe(
-      ofType(CoordinatorActions.loadCoordinatorsSuccess)
-    ).pipe(
+      ofType(CoordinatorActions.loadCoordinatorsSuccess),
       concatLatestFrom(() => zip(this.calendar$, this._career$)),
-      switchMap(([_, [calendar, career]]) => this.store.select(selectCoordinator(calendar.id, career))),
+      switchMap(([_, [calendar, career]]) => this.store.select(selectCoordinator(calendar.id, career))
+        .pipe(filter(coordinator => !!coordinator))
+      ),
       switchMap(coordinator => this.store.select(selectUserById(coordinator.user))),
-      catchError(() => scheduled([undefined], asapScheduler))
+      catchError((error) => {
+        console.error(error)
+        return scheduled([undefined], asapScheduler)
+      })
     )
   }
 
