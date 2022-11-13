@@ -1,0 +1,10 @@
+<ion-content [scrollY]="false">
+  <ion-router-outlet [environmentInjector]="injector"></ion-router-outlet>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="danger" (click)="back()">Regresar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

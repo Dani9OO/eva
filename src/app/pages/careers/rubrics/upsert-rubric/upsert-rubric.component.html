@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      {{ calendar.title }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <eva-career-item [career]="career"></eva-career-item>
+  <ng-container [formGroup]="form">
+    <ion-item lines="full">
+      <ion-label position="stacked">Criterio</ion-label>
+      <ion-textarea formControlName="criteria" placeholder="Funciona de acuerdo a lo establecido en su planteamiento"></ion-textarea>
+    </ion-item>
+    <ion-item-group>
+      <ion-item-divider>Clasificación</ion-item-divider>
+      <ion-radio-group formControlName="skills">
+        <ion-item>
+          <ion-label>Habilidades Blandas</ion-label>
+          <ion-radio slot="end" value="SOFT"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Habilidades Técnologicas</ion-label>
+          <ion-radio slot="end" value="HARD"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider>Categoría</ion-item-divider>
+      <ion-item lines="full">
+        <ion-input formControlName="category" placeholder="Funcionalidad"></ion-input>
+      </ion-item>
+    </ion-item-group>
+  </ng-container>
+  <ion-item-group>
+    <ion-item-divider>Ponderación</ion-item-divider>
+    <ng-container *ngIf="career.degree === 'LIC'; else tsu" [formGroup]="weight">
+      <ion-item lines="full" formGroupName="weight">
+        <ion-label position="stacked">{{ quarters.all[0] | quarter }} a {{ quarters.all.at(-1) | quarter }}</ion-label>
+        <ion-input formControlName="advanced" inputmode="numeric"></ion-input>
+      </ion-item>
+    </ng-container>
+  </ion-item-group>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()" color="danger">
+        Regresar
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="save()" color="primary" [disabled]="form.invalid || weight.invalid">
+        Guardar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+
+<ng-template #tsu>
+  <ng-container [formGroup]="weight">
+    <ion-item lines="full">
+      <ion-label>Sólo de {{ quarters.advanced[0] | quarter }} a {{ quarters.advanced.at(-1) | quarter }}</ion-label>
+      <ion-toggle slot="end" formControlName="advanced"></ion-toggle>
+    </ion-item>
+    <ion-row formGroupName="weight">
+      <ion-col *ngIf="!weight.controls.advanced.value">
+        <ion-item lines="full">
+          <ion-label position="stacked">{{ quarters.standard[0] | quarter }} a {{ quarters.standard.at(-1) | quarter }}</ion-label>
+          <ion-input formControlName="standard" inputmode="numeric"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item lines="full">
+          <ion-label position="stacked">{{ quarters.advanced[0] | quarter }} a {{ quarters.advanced.at(-1) | quarter }}</ion-label>
+          <ion-input formControlName="advanced" inputmode="numeric"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ng-container>
+</ng-template>

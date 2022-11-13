@@ -3,9 +3,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { catchError, map, of, firstValueFrom } from 'rxjs'
 import { AppActions } from '@store/app'
 import { CalendarService } from '@services/calendar'
-import { Router } from '@angular/router'
 import { tap, switchMap } from 'rxjs/operators'
-import { ToastController } from '@ionic/angular'
+import { ToastController, NavController, MenuController } from '@ionic/angular'
 import { UserService } from '@services/user'
 import { SpinnerService } from '@services/spinner'
 import { Store } from '@ngrx/store'
@@ -69,21 +68,28 @@ export class AppEffects {
     })
   ), { dispatch: false })
 
+  public logout$ = createEffect(() => this.actions$.pipe(
+    ofType(AppActions.logout),
+    tap(() => this.logoutNavigate()),
+    map(() => AppActions.getCalendar())
+  ))
+
   public constructor(
     private readonly actions$: Actions,
     private readonly calendars: CalendarService,
     private readonly user: UserService,
-    private readonly router: Router,
+    private readonly nav: NavController,
     private readonly toast: ToastController,
     private readonly spinner: SpinnerService,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly menu: MenuController
   ) {}
 
   private async noCalendar(): Promise<void> {
     const role = (await firstValueFrom(this.store.select(selectUser))).role
     this.spinner.stop()
     if (role === 'admin') {
-      this.router.navigate(['/calendar'])
+      this.nav.navigateForward(['/calendar'])
       const toast = await this.toast.create({
         message: 'Es necesario seleccionar un ciclo escolar para proceder.',
         duration: 3000,
@@ -104,11 +110,16 @@ export class AppEffects {
   private loginNavigate(role: Role): void {
     switch (role) {
       case 'admin':
-        this.router.navigate(['/summary'], { replaceUrl: true })
+        this.nav.navigateForward(['/summary'], { replaceUrl: true })
         break
 
       default:
         break
     }
+  }
+
+  private async logoutNavigate(): Promise<void> {
+    await this.menu.close()
+    await this.nav.navigateRoot('/auth')
   }
 }

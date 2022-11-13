@@ -8,8 +8,6 @@ import { SpinnerService } from '@services/spinner'
 import { AuthService } from '@services/auth'
 import { selectCalendar, selectUser } from '@selectors/app'
 import { AppActions } from '@store/app'
-import { App } from '@capacitor/app'
-import { Capacitor } from '@capacitor/core'
 import { Calendar } from '@models/calendar'
 @Component({
   selector: 'eva-root',
@@ -51,8 +49,7 @@ export class AppComponent {
 
   public async signOut(): Promise<void> {
     await this.auth.signOut()
-    if (Capacitor.getPlatform() === 'web') window.location.reload()
-    else await App.exitApp()
+    this.store.dispatch(AppActions.logout())
   }
 
   private async init(): Promise<void> {

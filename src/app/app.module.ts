@@ -16,6 +16,7 @@ import { StoreModule } from '@ngrx/store'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { AppStoreModule } from './store/app/app-store.module'
+import { logout } from '@store/app/app.meta-reducers'
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +31,7 @@ import { AppStoreModule } from './store/app/app-store.module'
     }),
     provideFirestore(() => getFirestore()),
     SpinnerComponent,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot({}, { metaReducers: [logout] }),
     EffectsModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     AppStoreModule

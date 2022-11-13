@@ -10,7 +10,7 @@ const routes: Routes = [
       { path: '', component: CareersPage },
       {
         path: ':career',
-        loadComponent: () => import('./details/details.component').then(c => c.DetailsComponent)
+        loadChildren: () => import('./details/details.module').then(m => m.DetailsPageModule)
       }
     ]
   }

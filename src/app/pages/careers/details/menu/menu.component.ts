@@ -1,48 +1,36 @@
-import { selectCalendar } from '@selectors/app'
-import { Component, OnInit } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { HeaderComponent } from '@components/header/header.component'
-import { Observable, zip, map, catchError, scheduled, asapScheduler, firstValueFrom } from 'rxjs'
-import { Calendar } from '@models/calendar'
-import { Store } from '@ngrx/store'
-import { IonicModule, NavController, ModalController } from '@ionic/angular'
-import { CareerItemComponent } from '@components/career-item/career-item.component'
+import { Component, EnvironmentInjector, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { filter, switchMap } from 'rxjs/operators'
-import { selectCareerById } from '@selectors/career'
+import { NavController, ModalController, IonicModule } from '@ionic/angular'
+import { Calendar } from '@models/calendar'
 import { Career } from '@models/career'
 import { AppUser } from '@models/user'
-import { Actions, concatLatestFrom, ofType } from '@ngrx/effects'
+import { ofType, concatLatestFrom, Actions } from '@ngrx/effects'
+import { Store } from '@ngrx/store'
+import { SpinnerService } from '@services/spinner'
+import { selectCalendar } from '@selectors/app'
+import { selectCareerById } from '@selectors/career'
 import { CoordinatorActions } from '@store/coordinator'
 import { selectCoordinator } from '@selectors/coordinator'
-import { selectUserById } from '@selectors/user'
 import { GroupActions } from '@store/group'
-import { GroupsComponent } from '../groups/groups.component'
-import { GroupStoreModule } from '../../../store/group/group-store.module'
-import { SpinnerService } from '@services/spinner'
-import { SelectCoordinatorComponent } from '../select-coordinator/select-coordinator.component'
+import { RubricActions } from '@store/rubric'
 import { UserActions } from '@store/user'
-import { UserStoreModule } from '@store/user/user-store.module'
+import { selectUserById } from '@selectors/user'
+import { Observable, map, switchMap, zip, filter, catchError, scheduled, asapScheduler, firstValueFrom } from 'rxjs'
+import { GroupsComponent } from '../../groups/groups.component'
+import { SelectCoordinatorComponent } from '../../select-coordinator/select-coordinator.component'
+import { CommonModule } from '@angular/common'
 import { UserItemComponent } from '@components/user-item/user-item.component'
-import { CoordinatorStoreModule } from '@store/coordinator/coordinator-store.module'
+import { HeaderComponent } from '@components/header/header.component'
+import { CareerItemComponent } from '@components/career-item/career-item.component'
 
 @Component({
-  selector: 'eva-details',
+  selector: 'eva-group-details-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss'],
   standalone: true,
-  imports: [
-    CommonModule,
-    IonicModule,
-    HeaderComponent,
-    CareerItemComponent,
-    GroupStoreModule,
-    UserStoreModule,
-    UserItemComponent,
-    CoordinatorStoreModule
-  ],
-  templateUrl: './details.component.html',
-  styleUrls: ['./details.component.scss']
+  imports: [CommonModule, IonicModule, UserItemComponent, HeaderComponent, CareerItemComponent]
 })
-export class DetailsComponent implements OnInit {
+export class MenuComponent implements OnInit {
   public calendar$: Observable<Calendar>
   public career$: Observable<Career>
   public coordinator$: Observable<AppUser | undefined>
@@ -54,7 +42,8 @@ export class DetailsComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly actions: Actions,
     private readonly modal: ModalController,
-    private readonly spinner: SpinnerService
+    private readonly spinner: SpinnerService,
+    public readonly injector: EnvironmentInjector
   ) { }
 
   public ngOnInit(): void {
@@ -75,10 +64,6 @@ export class DetailsComponent implements OnInit {
     )
   }
 
-  public back(): void {
-    this.nav.back()
-  }
-
   public async groups(career: Career, calendar: Calendar): Promise<void> {
     try {
       this.spinner.spin()
@@ -93,6 +78,11 @@ export class DetailsComponent implements OnInit {
     } catch (error) {
       this.spinner.stop()
     }
+  }
+
+  public async rubrics(calendar: Calendar, career: Career): Promise<void> {
+    this.store.dispatch(RubricActions.loadRubrics({ calendar: calendar.id, career: career.id }))
+    await this.nav.navigateForward(['careers', career.id, 'rubrics'])
   }
 
   public async selectCoordinator(career: Career, calendar: Calendar, coordinator?: string): Promise<void> {

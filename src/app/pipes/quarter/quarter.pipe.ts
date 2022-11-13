@@ -5,7 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core'
   standalone: true
 })
 export class QuarterPipe implements PipeTransform {
-  public transform(quarter: string): string {
+  public transform(input: string | number): string {
+    const quarter = input.toString()
     switch (quarter) {
       case '1': return 'Primero'
       case '2': return 'Segundo'

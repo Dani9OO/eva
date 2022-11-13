@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core'
 import { NonNullableFormBuilder, FormGroup, Validators } from '@angular/forms'
-import { FormFrom } from '../../../common/types/from-form'
+import { FormFrom } from '@generics/from-form'
 import { Career, Degree } from '@models/career'
 import { ModalController } from '@ionic/angular'
 import { Subscription } from 'rxjs'

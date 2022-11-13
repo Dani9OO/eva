@@ -3,7 +3,7 @@ import { Quarter } from './group'
 export type Skills = 'SOFT' | 'HARD'
 
 export type Weight = {
-  [k in Quarter]: number;
+  [k in Quarter as string]?: number;
 };
 
 export interface Rubric {
