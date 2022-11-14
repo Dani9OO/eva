@@ -22,8 +22,8 @@ interface RubricForm extends FormFrom<Omit<Rubric, 'calendar' | 'career' | 'id' 
 interface WeightSettings {
   advanced: boolean
   weight: {
-    standard: string
-    advanced: string
+    standard: number
+    advanced: number
   }
 }
 
@@ -55,21 +55,21 @@ export class UpsertRubricComponent implements OnInit {
   public ngOnInit(): void {
     this.quarters = new Quarters(this.career.degree)
     this.form = this.fb.group({
-      criteria: this.fb.control(this.rubric?.criteria || ''),
+      criteria: this.fb.control(this.rubric?.criteria || '', [Validators.required]),
       skills: this.fb.control<Skills>(this.rubric?.skills || 'HARD'),
-      category: this.fb.control(this.rubric?.category || ''),
+      category: this.fb.control(this.rubric?.category || '', [Validators.required]),
       weight: this.weightForm()
     })
     this.weight = this.fb.group({
       advanced: this.fb.control<boolean>(false),
       weight: this.fb.group({
-        standard: this.fb.control(this.rubric?.weight[this.quarters.all.at(0)].toString() || '', [
+        standard: this.fb.control(this.rubric?.weight[this.quarters.all.at(0)] || 0, [
           Validators.min(0),
           Validators.max(10),
           Validators.pattern(numberWithOneDecimal),
           Validators.required
         ]),
-        advanced: this.fb.control(this.rubric?.weight[this.quarters.all.at(-1)].toString(), [
+        advanced: this.fb.control(this.rubric?.weight[this.quarters.all.at(-1)] || 0, [
           Validators.min(0),
           Validators.max(10),
           Validators.pattern(numberWithOneDecimal),
