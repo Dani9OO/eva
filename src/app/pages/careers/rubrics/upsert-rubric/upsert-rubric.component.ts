@@ -89,7 +89,7 @@ export class UpsertRubricComponent implements OnInit {
   }
 
   public save(): void {
-    const rubric = this.form.getRawValue()
+    const rubric = this.rubric ? { ...this.rubric, ...this.form.getRawValue() } : this.form.getRawValue()
     Object.keys(rubric.weight).forEach(k => { if (!rubric.weight[k]) delete rubric.weight[k] })
     this.store.dispatch(RubricActions.upsertRubric({
       rubric: { calendar: this.calendar.id, career: this.career.id, ...rubric }

@@ -52,6 +52,11 @@ export class RubricEffects {
     })
   ), { dispatch: false })
 
+  public deleteRubric$ = createEffect(() => this.actions$.pipe(
+    ofType(RubricActions.deleteRubric),
+    tap(action => this.rubric.delete(action.rubric))
+  ), { dispatch: false })
+
   public constructor(
     private readonly actions$: Actions,
     private readonly rubric: RubricService,

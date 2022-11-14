@@ -31,7 +31,8 @@ export const reducer = createReducer(
   ),
   on(RubricActions.clearRubrics,
     state => adapter.removeAll(state)
-  )
+  ),
+  on(RubricActions.deleteRubric, (state, action) => adapter.removeOne(action.rubric.id, state))
 )
 
 export const {

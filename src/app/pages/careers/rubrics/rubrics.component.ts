@@ -77,6 +77,6 @@ export class RubricsComponent implements OnInit {
   }
 
   public remove(rubric: Rubric): void {
-    console.log(rubric)
+    this.store.dispatch(RubricActions.deleteRubric({ rubric }))
   }
 }

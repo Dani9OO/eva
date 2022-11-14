@@ -2,33 +2,28 @@
   <ng-container *ngIf="career$ | async as career">
     <eva-header>{{ calendar.title }}</eva-header>
     <eva-career-item [career]="career"></eva-career-item>
-    <ion-content [scrollY]="false">
-      <ion-refresher slot="fixed" (ionRefresh)="refresh($event, calendar, career)">
-        <ion-refresher-content></ion-refresher-content>
-      </ion-refresher>
-      <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="56" minBufferPx="900" maxBufferPx="1350">
-        <eva-spinner *ngIf="loading$ | async; else rubricList"></eva-spinner>
-        <ng-template #rubricList>
-          <ion-list #list *ngIf="rubrics$ | async as rubrics">
-            <ion-item-group *cdkVirtualFor="let category of categories$ | async">
-              <ion-item-divider>
-                <ion-label>{{ category }}</ion-label>
-              </ion-item-divider>
-              <ion-item-sliding *ngFor="let rubric of rubrics[category]">
-                <ion-item [detail]="true" (click)="upsertRubric(calendar, career, rubric)" lines="full">
-                  {{ rubric.criteria }}
-                </ion-item>
-                <ion-item-options side="end" (ionSwipe)="remove(rubric)">
-                  <ion-item-option color="medium" expandable (click)="remove(rubric)">
-                    <ion-icon slot="start" ios="trash-outline" md="trash-sharp"></ion-icon>
-                    Eliminar
-                  </ion-item-option>
-                </ion-item-options>
-              </ion-item-sliding>
-            </ion-item-group>
-          </ion-list>
-        </ng-template>
-      </cdk-virtual-scroll-viewport>
+    <ion-content>
+      <eva-spinner *ngIf="loading$ | async; else rubricList"></eva-spinner>
+      <ng-template #rubricList>
+        <ion-list #list *ngIf="rubrics$ | async as rubrics">
+          <ion-item-group *ngFor="let category of categories$ | async">
+            <ion-item-divider>
+              <ion-label>{{ category }}</ion-label>
+            </ion-item-divider>
+            <ion-item-sliding *ngFor="let rubric of rubrics[category]">
+              <ion-item [detail]="true" (click)="upsertRubric(calendar, career, rubric)" lines="full">
+                {{ rubric.criteria }}
+              </ion-item>
+              <ion-item-options side="end" (ionSwipe)="remove(rubric)">
+                <ion-item-option color="danger" expandable (click)="remove(rubric)">
+                  <ion-icon slot="start" ios="trash-outline" md="trash-sharp"></ion-icon>
+                  Eliminar
+                </ion-item-option>
+              </ion-item-options>
+            </ion-item-sliding>
+          </ion-item-group>
+        </ion-list>
+      </ng-template>
       <ion-fab vertical="bottom" horizontal="center" slot="fixed">
         <ion-fab-button color="tertiary" (click)="upsertRubric(calendar, career)">
           <ion-icon name="add"></ion-icon>

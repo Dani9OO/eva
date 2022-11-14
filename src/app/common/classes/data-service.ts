@@ -8,10 +8,12 @@ import {
   setDoc,
   doc,
   writeBatch,
-  getDocs
+  getDocs,
+  deleteDoc
 } from '@angular/fire/firestore'
 import { from, map, Observable } from 'rxjs'
 import { take } from 'rxjs/operators'
+import { Rubric } from '@models/rubric'
 export class DataService<T extends { id?: string } = DocumentData> {
   protected collection: CollectionReference<T>
   protected entity: string
@@ -52,6 +54,10 @@ export class DataService<T extends { id?: string } = DocumentData> {
       take(1),
       map(result => result.docs.map(document => ({ id: document.id, ...document.data() })))
     )
+  }
+
+  public delete(rubric: Rubric): void {
+    deleteDoc(this.doc(this.path, rubric.id))
   }
 
   protected doc(path: string, ...pathSegments: string[]): DocumentReference<T> {

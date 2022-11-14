@@ -27,6 +27,11 @@ export const upsertRubricFailure = createAction(
   props<{ error: Error }>()
 )
 
+export const deleteRubric = createAction(
+  '[Rubric/API] Delete Rubric',
+  props<{ rubric: Rubric }>()
+)
+
 export const clearRubrics = createAction(
   '[Rubric/API] Clear Rubrics'
 )
