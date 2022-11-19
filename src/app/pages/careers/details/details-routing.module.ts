@@ -8,7 +8,7 @@ const routes: Routes = [
     component: DetailsPage,
     children: [
       { path: '', loadComponent: () => import('./menu/menu.component').then(c => c.MenuComponent) },
-      { path: 'rubrics', loadComponent: () => import('../rubrics/rubrics.component').then(c => c.RubricsComponent) }
+      { path: 'rubrics', loadComponent: () => import('../../../components/rubrics/rubrics.component').then(c => c.RubricsComponent) }
     ]
   }
 ]

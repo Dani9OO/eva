@@ -38,6 +38,10 @@ const routes: Routes = [
     path: 'team',
     loadChildren: () => import('./pages/team/team.module').then(m => m.TeamPageModule),
     canActivate: [AppGuard, AlumniGuard]
+  },
+  {
+    path: 'assessment',
+    loadChildren: () => import('./pages/assessment/assessment.module').then(m => m.AssessmentPageModule)
   }
 ]
 

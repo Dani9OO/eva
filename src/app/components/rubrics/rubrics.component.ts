@@ -1,4 +1,4 @@
-import { UpsertRubricComponent } from './upsert-rubric/upsert-rubric.component'
+import { UpsertRubricComponent } from '../upsert-rubric/upsert-rubric.component'
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { IonicModule, ModalController, RefresherCustomEvent } from '@ionic/angular'
@@ -16,7 +16,7 @@ import { CareerItemComponent } from '@components/career-item/career-item.compone
 import { Router } from '@angular/router'
 import { selectCalendar } from '@selectors/app'
 import { selectCareerById } from '@selectors/career'
-import { HeaderComponent } from '../../../components/header/header.component'
+import { HeaderComponent } from '../header/header.component'
 
 @Component({
   selector: 'eva-rubrics',

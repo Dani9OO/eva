@@ -11,7 +11,7 @@ import { Calendar } from '@models/calendar'
 import { Subscription } from 'rxjs'
 import { ModalController, IonicModule } from '@ionic/angular'
 import { RubricStoreModule } from '@store/rubric/rubric-store.module'
-import { CareerItemComponent } from '../../../../components/career-item/career-item.component'
+import { CareerItemComponent } from '../career-item/career-item.component'
 import { QuarterPipe } from '@pipes/quarter'
 import { numberWithOneDecimal } from '@constants/regexp'
 
