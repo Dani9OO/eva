@@ -34,6 +34,9 @@ export const reducer = createReducer(
   ),
   on(CareerActions.clearCareers,
     state => adapter.removeAll(state)
+  ),
+  on(CareerActions.loadCareerSuccess,
+    (state, action) => adapter.upsertOne(action.career, state)
   )
 )
 

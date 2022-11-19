@@ -1,0 +1,27 @@
+@use '../../styles/functions' as functions;
+
+.qr-container {
+  display: grid;
+  place-items: center;
+}
+
+.code {
+  cursor: pointer;
+  width: functions.toRem(256px);
+  height: functions.toRem(256px);
+  display: grid;
+  place-items: center;
+}
+
+qrcode {
+  @media (prefers-color-scheme: dark) {
+    filter: invert(100%);
+  }
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.buttons {
+  width: 100%;
+}

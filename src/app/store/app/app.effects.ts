@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Actions, createEffect, ofType } from '@ngrx/effects'
+import { Actions, createEffect, ofType, concatLatestFrom } from '@ngrx/effects'
 import { catchError, map, of, firstValueFrom } from 'rxjs'
 import { AppActions } from '@store/app'
 import { CalendarService } from '@services/calendar'
@@ -8,9 +8,10 @@ import { ToastController, NavController, MenuController } from '@ionic/angular'
 import { UserService } from '@services/user'
 import { SpinnerService } from '@services/spinner'
 import { Store } from '@ngrx/store'
-import { selectUser } from '@selectors/app'
+import { selectUser, selectCalendar } from '@selectors/app'
 import { UnauthorizedError } from '@errors/unauthorized'
 import { Role } from '@models/role'
+import { TeamService } from '@services/team'
 
 @Injectable()
 export class AppEffects {
@@ -48,11 +49,10 @@ export class AppEffects {
 
   public loginSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.loginSuccess),
-    tap(action => {
-      this.spinner.stop()
-      this.loginNavigate(action.user.role)
-    })
-  ), { dispatch: false })
+    concatLatestFrom(() => this.store.select(selectCalendar)),
+    map(([action, calendar]) => AppActions.findUserTeam({ user: action.user.id, calendar: calendar.id, role: action.user.role })),
+    catchError(error => of(AppActions.findUserTeamFailure({ error })))
+  ))
 
   public loginFailure$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.loginFailure),
@@ -74,6 +74,31 @@ export class AppEffects {
     map(() => AppActions.getCalendar())
   ))
 
+  public findUserTeam$ = createEffect(() => this.actions$.pipe(
+    ofType(AppActions.findUserTeam),
+    switchMap(action => this.team.findUserTeam(action.calendar, action.user, action.role)),
+    map(team => AppActions.setUserTeam({ team })),
+    catchError(error => of(AppActions.findUserTeamFailure({ error })))
+  ))
+
+  public setUserTeam$ = createEffect(() => this.actions$.pipe(
+    ofType(AppActions.setUserTeam),
+    concatLatestFrom(() => this.store.select(selectUser)),
+    tap(([_action, user]) => {
+      this.spinner.stop()
+      this.loginNavigate(user.role)
+    })
+  ), { dispatch: false })
+
+  public findUserTeamFailure$ = createEffect(() => this.actions$.pipe(
+    ofType(AppActions.findUserTeamFailure),
+    concatLatestFrom(() => this.store.select(selectUser)),
+    tap(([_action, user]) => {
+      this.spinner.stop()
+      this.loginNavigate(user.role)
+    })
+  ), { dispatch: false })
+
   public constructor(
     private readonly actions$: Actions,
     private readonly calendars: CalendarService,
@@ -82,7 +107,8 @@ export class AppEffects {
     private readonly toast: ToastController,
     private readonly spinner: SpinnerService,
     private readonly store: Store,
-    private readonly menu: MenuController
+    private readonly menu: MenuController,
+    private readonly team: TeamService
   ) {}
 
   private async noCalendar(): Promise<void> {
@@ -112,7 +138,9 @@ export class AppEffects {
       case 'admin':
         this.nav.navigateForward(['/summary'], { replaceUrl: true })
         break
-
+      case 'alumni':
+        this.nav.navigateForward(['/team'], { replaceUrl: true })
+        break
       default:
         break
     }

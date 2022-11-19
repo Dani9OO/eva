@@ -3,12 +3,13 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
 import { Platform } from '@ionic/angular'
 import { Store } from '@ngrx/store'
 import { Observable, BehaviorSubject, zip, map, firstValueFrom } from 'rxjs'
-import { User } from '@models/user'
 import { SpinnerService } from '@services/spinner'
 import { AuthService } from '@services/auth'
 import { selectCalendar, selectUser } from '@selectors/app'
 import { AppActions } from '@store/app'
 import { Calendar } from '@models/calendar'
+import { AppUser } from '@models/user'
+import { ScannerService } from '@services/scanner'
 @Component({
   selector: 'eva-root',
   templateUrl: 'app.component.html',
@@ -16,26 +17,31 @@ import { Calendar } from '@models/calendar'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-  public appPages = [
-    { title: 'Estadísticas', url: '/summary', icon: 'podium' },
-    { title: 'Carreras', url: '/careers', icon: 'shapes' },
-    { title: 'Directorio', url: '/directory', icon: 'business' },
-    { title: 'Ciclo Escolar', url: '/calendar', icon: 'calendar' }
-  ]
+  public appPages = {
+    admin: [
+      { title: 'Estadísticas', url: '/summary', icon: 'podium' },
+      { title: 'Carreras', url: '/careers', icon: 'shapes' },
+      { title: 'Directorio', url: '/directory', icon: 'business' },
+      { title: 'Ciclo Escolar', url: '/calendar', icon: 'calendar' }
+    ]
+  }
 
   public initialized$: Observable<boolean>
   public spinning$: Observable<boolean>
-  public user$: Observable<User>
+  public user$: Observable<AppUser>
   public calendar$: Observable<Calendar>
   public menu$: Observable<boolean>
+  public scanning$: Observable<boolean>
   private initialized: BehaviorSubject<boolean>
   public constructor(
     public readonly injector: EnvironmentInjector,
     private readonly platform: Platform,
     private readonly spinner: SpinnerService,
     private readonly store: Store,
-    private readonly auth: AuthService
+    private readonly auth: AuthService,
+    private readonly scanner: ScannerService
   ) {
+    this.scanning$ = this.scanner.scanning$
     this.spinning$ = this.spinner.spinning$
     this.initialized = new BehaviorSubject(false)
     this.initialized$ = this.initialized.asObservable()
@@ -50,6 +56,10 @@ export class AppComponent {
   public async signOut(): Promise<void> {
     await this.auth.signOut()
     this.store.dispatch(AppActions.logout())
+  }
+
+  public stopScanning(): void {
+    this.scanner.stopScanning()
   }
 
   private async init(): Promise<void> {

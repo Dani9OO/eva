@@ -1,0 +1,80 @@
+<eva-header>{{ (calendar$ | async)?.title }}</eva-header>
+
+<ion-content>
+  <ng-container *ngIf="team$ | async as team; else noTeam">
+    <ion-item-group>
+      <ion-item-divider>Código</ion-item-divider>
+      <ion-item lines="none"></ion-item>
+      <div class="qr-container">
+        <qrcode [qrdata]="team.id" [width]="256" [errorCorrectionLevel]="'M'" *ngIf="qr$ | async as qr; else code" (click)="toggleQR(qr)"></qrcode>
+        <ng-template #code>
+          <div class="code" (click)="toggleQR(false)">
+            <ion-text>
+              {{ team.id }}
+            </ion-text>
+          </div>
+        </ng-template>
+      </div>
+      <ion-item lines="none">
+        <ion-button slot="start" fill="clear" (click)="copy(team.id)" slot="end" color="dark">
+          <ion-icon ios="copy-outline" md="copy-sharp"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-item-divider>Proyecto</ion-item-divider>
+      <eva-career-item *ngIf="career$ | async as career" [career]="career"></eva-career-item>
+      <ion-item lines="full" *ngIf="group$ | async as group">
+        <ion-button class="icon-button-small" slot="start" color="tertiary">
+          <span>{{ group.quarter }}{{ group.letter }}</span>
+        </ion-button>
+        {{ group.quarter }}°{{ group.letter}} {{ group.shift | shift }}
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="stacked">Equipo</ion-label>
+        <ion-input readonly [value]="team.name" class="bold"></ion-input>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="stacked">Nombre</ion-label>
+        <ion-input readonly [value]="team.project.name" class="bold"></ion-input>
+      </ion-item>
+      <ion-item lines="full" class="ion-text-wrap">
+        <ion-label position="stacked">Descripción</ion-label>
+        <ion-textarea readonly [value]="team.project.description"></ion-textarea>
+      </ion-item>
+    </ion-item-group>
+  </ng-container>
+  <ng-template #noTeam>
+    <div class="content-container">
+      <ion-img src="assets/eva.svg" class="logo"></ion-img>
+      <div class="buttons">
+        <ion-button expand="block" (click)="scan()">
+          <ion-icon ios="qr-code-outline" md="qr-code-sharp" slot="start"></ion-icon>
+          <span>Unirse a un Equipo</span>
+        </ion-button>
+        <ion-button expand="block" color="tertiary" routerLink="upsert">
+          <ion-icon ios="add-outline" md="add-sharp"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </ng-template>
+</ion-content>
+
+<ion-footer *ngIf="team$ | async">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button
+        color="danger"
+        fill="clear"
+        (click)="leaveTeam()">
+        Salir del Equipo
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button
+        color="primary"
+        fill="clear"
+        routerLink="upsert">
+        Editar Equipo
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

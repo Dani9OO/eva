@@ -18,5 +18,6 @@ export const reducer = createReducer(
   initialState,
   on(AppActions.loginSuccess, (state, action): AppState => ({ ...state, user: action.user })),
   on(AppActions.getCalendarSuccess, (state, action): AppState => ({ ...state, calendar: action.calendar })),
-  on(AppActions.logout, (state): AppState => ({ ...state, user: undefined }))
+  on(AppActions.logout, (state): AppState => ({ ...state, user: undefined })),
+  on(AppActions.setUserTeam, (state, action): AppState => ({ ...state, user: { ...state.user, team: action.team } }))
 )

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core'
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router'
-import { AppGuard } from './services/app/app.guard'
+import { AdminGuard } from '@guards/admin'
+import { AlumniGuard } from '@guards/alumni'
+import { AppGuard } from '@guards/app'
 
 const routes: Routes = [
   {
@@ -15,22 +17,27 @@ const routes: Routes = [
   {
     path: 'calendar',
     loadChildren: () => import('./pages/calendar/calendar.module').then(m => m.CalendarPageModule),
-    canActivate: [AppGuard]
+    canActivate: [AppGuard, AdminGuard]
   },
   {
     path: 'careers',
     loadChildren: () => import('./pages/careers/careers.module').then(m => m.DegreesPageModule),
-    canActivate: [AppGuard]
+    canActivate: [AppGuard, AdminGuard]
   },
   {
     path: 'directory',
     loadChildren: () => import('./pages/directory/directory.module').then(m => m.DirectoryPageModule),
-    canActivate: [AppGuard]
+    canActivate: [AppGuard, AdminGuard]
   },
   {
     path: 'summary',
     loadChildren: () => import('./pages/summary/summary.module').then(m => m.SummaryPageModule),
-    canActivate: [AppGuard]
+    canActivate: [AppGuard, AdminGuard]
+  },
+  {
+    path: 'team',
+    loadChildren: () => import('./pages/team/team.module').then(m => m.TeamPageModule),
+    canActivate: [AppGuard, AlumniGuard]
   }
 ]
 

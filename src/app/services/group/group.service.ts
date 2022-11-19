@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { DataService } from '@classes/data-service'
 import { Group } from '@models/group'
-import { Firestore, query, where, getDocs } from '@angular/fire/firestore'
+import { Firestore, query, where, getDocs, orderBy } from '@angular/fire/firestore'
 import { Observable, from, map } from 'rxjs'
 import { switchMap, take } from 'rxjs/operators'
 import { writeBatch } from 'firebase/firestore'
@@ -32,6 +32,7 @@ export class GroupService extends DataService<Group> {
   public getGroups(calendar: string, career: string): Observable<Group[]> {
     const q = query(
       this.collection,
+      orderBy('quarter'),
       where('calendar', '==', calendar),
       where('career', '==', career)
     )

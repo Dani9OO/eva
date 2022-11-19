@@ -1,0 +1,70 @@
+<eva-header>{{ action$ | async }} Equipo</eva-header>
+
+<ion-content>
+  <form [formGroup]="form">
+    <ion-item-group>
+      <ion-item-divider>Equipo</ion-item-divider>
+      <ion-item lines="full">
+        <ion-label position="stacked">Nombre</ion-label>
+        <ion-input formControlName="name" clearInput></ion-input>
+      </ion-item>
+      <ng-container *ngIf="career$ | async as career; else noCareer">
+        <eva-career-item *ngIf="careers$ | async as careers" (click)="selectCareer(careers)" [career]="career" [detail]="true"></eva-career-item>
+      </ng-container>
+      <ng-container *ngIf="groups$ | async as groups">
+        <ion-item lines="full" (click)="select.open()" [disabled]="!groups.length" detail="true">
+          <ion-button class="icon-button-small" slot="start" [fill]="(group$ | async) === undefined ? 'clear' : 'solid'" color="tertiary">
+            <span *ngIf="group$ | async as group">{{ group.quarter }}{{ group.letter }}</span>
+          </ion-button>
+          <ion-select interface="action-sheet" placeholder="Selecciona tu Grupo" (ionChange)="selectGroup($event, groups)" #select cancelText="Cancelar" formControlName="group">
+            <ion-select-option *ngFor="let group of groups" [value]="group.id">{{ group.quarter }}°{{ group.letter}} {{ group.shift | shift }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ng-container>
+    </ion-item-group>
+    <ion-item-group formGroupName="project">
+      <ion-item-divider>Proyecto</ion-item-divider>
+      <ion-item lines="full">
+        <ion-label position="stacked">Nombre</ion-label>
+        <ion-input formControlName="name" clearInput></ion-input>
+      </ion-item>
+      <ion-item lines="full" counter>
+        <ion-label position="stacked">Descripción</ion-label>
+        <ion-textarea formControlName="description" maxlength="300" autoGrow></ion-textarea>
+      </ion-item>
+    </ion-item-group>
+  </form>
+</ion-content>
+
+<ng-template #noCareer>
+  <ion-item lines="full" detail="true" *ngIf="careers$ | async as careers" (click)="selectCareer(careers)">
+    <ion-button fill="clear" color="dark" class="icon-button-small" slot="start">
+      <ion-icon ios="shapes-outline" md="shapes-sharp"></ion-icon>
+    </ion-button>
+    <ion-label>
+      <h2>Selecciona tu Carrera</h2>
+    </ion-label>
+  </ion-item>
+</ng-template>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button
+        color="danger"
+        fill="clear"
+        (click)="cancel()">
+        Cancelar
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button
+        color="primary"
+        fill="clear"
+        (click)="confirm()"
+        [disabled]="form?.invalid">
+        Confirmar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

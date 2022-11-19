@@ -11,6 +11,7 @@ import { IonicModule } from '@ionic/angular'
   styleUrls: ['./career-item.component.scss']
 })
 export class CareerItemComponent {
+  @Input() public selected = false
   @Input() public color = 'primary'
   @Input() public detail = false
   @Input() public career: Career

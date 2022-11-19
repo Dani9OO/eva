@@ -11,7 +11,7 @@
             <ion-list-header>{{ user.name | titlecase }}</ion-list-header>
             <ion-note>{{ user.email }}</ion-note>
 
-            <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+            <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages[user.role]">
               <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
                 <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
                 <ion-label>{{ p.title }}</ion-label>
@@ -31,3 +31,10 @@
     <ion-router-outlet id="main-content" [environmentInjector]="injector"></ion-router-outlet>
   </ion-split-pane>
 </ion-app>
+<div class="cancel-scan" *ngIf="scanning$ | async">
+  <ion-fab>
+    <ion-fab-button (click)="stopScanning()" color="danger">
+      <ion-icon ios="close-outline" md="close-sharp"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</div>

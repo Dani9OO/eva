@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { Observable } from 'rxjs'
-import { User } from '@models/user'
 import { Store } from '@ngrx/store'
-import { selectUser } from '@selectors/app'
+import { selectIsSignedIn } from '@selectors/app'
 import { AppActions } from '@store/app'
 import { AuthService } from '@services/auth'
 
@@ -13,13 +12,13 @@ import { AuthService } from '@services/auth'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AuthPage {
-  public user$: Observable<User>
+  public user$: Observable<boolean>
 
   public constructor(
     private readonly store: Store,
     private readonly auth: AuthService
   ) {
-    this.user$ = this.store.select(selectUser)
+    this.user$ = this.store.select(selectIsSignedIn)
   }
 
   public async signIn(): Promise<void> {
@@ -29,5 +28,10 @@ export class AuthPage {
     } catch (error) {
       this.store.dispatch(AppActions.loginFailure({ error }))
     }
+  }
+
+  public async signOut(): Promise<void> {
+    await this.auth.signOut()
+    this.store.dispatch(AppActions.logout())
   }
 }

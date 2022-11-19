@@ -3,11 +3,12 @@ import { Actions, createEffect, ofType, concatLatestFrom } from '@ngrx/effects'
 import { mergeMap, map, catchError, of, asapScheduler, scheduled } from 'rxjs'
 import { GroupService } from '@services/group'
 import { UnexpectedError } from '@errors/unexpected'
-import { tap } from 'rxjs/operators'
+import { tap, switchMap } from 'rxjs/operators'
 import { ToastController } from '@ionic/angular'
 import { GroupActions } from '@store/group'
 import { Store } from '@ngrx/store'
 import { selectGroups } from './group.selectors'
+import { AppActions } from '@store/app'
 
 @Injectable()
 export class GroupEffects {
@@ -37,7 +38,7 @@ export class GroupEffects {
     ofType(GroupActions.loadGroups),
     concatLatestFrom((action) => this.store.select(selectGroups(action.calendar, action.career))),
     mergeMap(([action, storeGroups]) => scheduled(
-      storeGroups.length > 0
+      storeGroups.length > 0 && !action.force
         ? [storeGroups]
         : this.group.getGroups(action.calendar, action.career),
       asapScheduler
@@ -59,6 +60,18 @@ export class GroupEffects {
       }).then(toast => toast.present())
     })
   ), { dispatch: false })
+
+  public loadGroup$ = createEffect(() => this.actions$.pipe(
+    ofType(GroupActions.loadGroup),
+    switchMap(action => this.group.findById(action.group)),
+    map(group => GroupActions.loadGroupSuccess({ group })),
+    catchError(error => of(GroupActions.loadGroupFailure({ error })))
+  ))
+
+  public setUserTeam$ = createEffect(() => this.actions$.pipe(
+    ofType(AppActions.setUserTeam),
+    map(action => GroupActions.loadGroup({ group: action.team.group }))
+  ))
 
   public constructor(
     private readonly actions$: Actions,

@@ -39,6 +39,9 @@ export const reducer = createReducer(
   ),
   on(GroupActions.clearGroups,
     state => adapter.removeAll(state)
+  ),
+  on(GroupActions.loadGroupSuccess,
+    (state, action) => adapter.upsertOne(action.group, state)
   )
 )
 

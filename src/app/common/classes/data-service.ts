@@ -9,7 +9,8 @@ import {
   doc,
   writeBatch,
   getDocs,
-  deleteDoc
+  deleteDoc,
+  getDoc
 } from '@angular/fire/firestore'
 import { from, map, Observable } from 'rxjs'
 import { take } from 'rxjs/operators'
@@ -53,6 +54,13 @@ export class DataService<T extends { id?: string } = DocumentData> {
     return from(getDocs(this.collection)).pipe(
       take(1),
       map(result => result.docs.map(document => ({ id: document.id, ...document.data() })))
+    )
+  }
+
+  public findById(id: string): Observable<T> {
+    return from(getDoc(this.doc(this.path, id))).pipe(
+      take(1),
+      map(result => ({ ...result.data(), id }))
     )
   }
 

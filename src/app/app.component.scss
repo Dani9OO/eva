@@ -139,3 +139,11 @@ ion-button.logout {
     width: calc(100% - 2.30rem);
   }
 }
+
+.cancel-scan {
+  position: fixed;
+  display: grid;
+  place-items: center;
+  bottom: 4rem;
+  width: 100vw;
+}

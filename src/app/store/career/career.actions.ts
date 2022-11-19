@@ -15,6 +15,19 @@ export const loadCareersFailure = createAction(
   props<{ error: Error }>()
 )
 
+export const loadCareer = createAction(
+  '[Career/API] Load Career',
+  props<{ career: string }>()
+)
+export const loadCareerSuccess = createAction(
+  '[Career/API] Load Career Success',
+  props<{ career: Career }>()
+)
+export const loadCareerFailure = createAction(
+  '[Career/API] Load Career Failure',
+  props<{ error: Error }>()
+)
+
 export const upsertCareer = createAction(
   '[Career/API] Upsert Career',
   props<{ career: Omit<Career, 'archived'> }>()

@@ -1,4 +1,5 @@
 import { Role } from '@models/role'
+import { Team } from '@models/team'
 
 export interface User {
   id: string
@@ -9,5 +10,6 @@ export interface User {
 }
 
 export interface AppUser extends User {
-  role: Role
+  role: Role,
+  team?: Team
 }

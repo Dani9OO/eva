@@ -23,13 +23,15 @@
       "@errors/*": ["src/app/common/errors/*"],
       "@constants/*": ["src/app/common/constants/*"],
       "@generics/*": ["src/app/common/generics/*"],
+      "@guards/*": ["src/app/guards/*"],
       "@selectors/app": ["src/app/store/app/app.selectors"],
       "@selectors/user": ["src/app/store/user/user.selectors"],
       "@selectors/calendar": ["src/app/store/calendar/calendar.selectors"],
       "@selectors/career": ["src/app/store/career/career.selectors"],
       "@selectors/group": ["src/app/store/group/group.selectors"],
       "@selectors/coordinator": ["src/app/store/coordinator/coordinator.selectors"],
-      "@selectors/rubric": ["src/app/store/rubric/rubric.selectors"]
+      "@selectors/rubric": ["src/app/store/rubric/rubric.selectors"],
+      "@selectors/team": ["src/app/store/team/team.selectors"]
     }
   },
   "angularCompilerOptions": {

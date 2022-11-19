@@ -7,9 +7,15 @@
 <ion-content>
   <div class="content-container">
     <ion-img src="assets/eva.svg" class="logo"></ion-img>
-    <ion-button expand="block" (click)="signIn()" [disabled]="user$ | async">
-      <ion-icon name="logo-google" slot="start"></ion-icon>
-      <span>Iniciar Sesión</span>
+    <ion-button expand="block" color="danger" (click)="signOut()" *ngIf="user$ | async; else signin">
+      <ion-icon slot="start" icon="exit-outline"></ion-icon>
+      Cerrar sesión
     </ion-button>
+    <ng-template #signin>
+      <ion-button expand="block" (click)="signIn()">
+        <ion-icon name="logo-google" slot="start"></ion-icon>
+        <span>Iniciar Sesión</span>
+      </ion-button>
+    </ng-template>
   </div>
 </ion-content>

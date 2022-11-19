@@ -54,3 +54,32 @@ ion-footer {
   height: functions.toRem(96px);
   width: functions.toRem(96px);
 }
+
+.content-container {
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  place-items: center;
+  padding: 2rem;
+  height: 100%;
+  .logo {
+    height: 30vh;
+  }
+  .buttons {
+    max-width: calc(100vw - 4rem);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.25rem;
+  }
+  ion-button {
+    width: 100%;
+  }
+}
+
+body.scanner-active {
+  --background: transparent;
+  --ion-background-color: transparent;
+  ion-app {
+    display: none
+  }
+}
