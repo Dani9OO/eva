@@ -3,6 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router'
 import { AdminGuard } from '@guards/admin'
 import { AlumniGuard } from '@guards/alumni'
 import { AppGuard } from '@guards/app'
+import { ProfessorGuard } from '@guards/professor'
 
 const routes: Routes = [
   {
@@ -41,7 +42,8 @@ const routes: Routes = [
   },
   {
     path: 'assessment',
-    loadChildren: () => import('./pages/assessment/assessment.module').then(m => m.AssessmentPageModule)
+    loadChildren: () => import('./pages/assessment/assessment.module').then(m => m.AssessmentPageModule),
+    canActivate: [AppGuard, ProfessorGuard]
   }
 ]
 

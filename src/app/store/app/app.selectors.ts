@@ -26,7 +26,7 @@ export const selectIsRole = (role: Role) => createSelector(
 
 export const selectTeam = createSelector(
   selectUser,
-  (user) => user.team
+  (user) => user?.team
 )
 
 export const selectCalendar = createSelector(

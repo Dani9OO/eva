@@ -65,8 +65,9 @@ export class AppEffects {
           buttons: [{ text: 'OK', role: 'cancel' }]
         }).then(toast => toast.present())
       }
-    })
-  ), { dispatch: false })
+    }),
+    map(() => AppActions.logout())
+  ))
 
   public logout$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.logout),
