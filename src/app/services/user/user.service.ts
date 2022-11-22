@@ -11,7 +11,6 @@ import {
   deleteDoc,
   collection,
   CollectionReference,
-  getCountFromServer,
   getDocs,
   setDoc
 } from '@angular/fire/firestore'
@@ -54,19 +53,29 @@ export class UserService extends DataService<User> {
     const q = calendar ? query(ref, where('user', '==', user.id), where('calendar', '==', calendar)) : undefined
     return zip([
       from(getDoc(doc(this.firestore, 'roles', user.domain) as DocumentReference<RoleDocument>)).pipe(
-        take(1), map(result => ({ ...result.data() }))
+        take(1),
+        map(result => ({ ...result.data() }))
       ),
-      from(getDoc(doc(this.firestore, 'admins', user.email))).pipe(take(1), map(result => result.exists())),
-      calendar ? from(getCountFromServer(q)).pipe(take(1), map(result => result.data().count > 0)) : scheduled([false], asapScheduler)
+      from(getDoc(doc(this.firestore, 'admins', user.email))).pipe(
+        take(1),
+        map(result => result.exists())
+      ),
+      calendar
+        ? from(getDocs(q)).pipe(
+          take(1),
+          map(result => result.docs.map(d => ({ ...d.data(), id: d.id })))
+        )
+        : scheduled([[]], asapScheduler)
     ]).pipe(
       map(([domain, admin, coordinator]) => {
         if (admin) return {
           ...user,
           role: 'admin'
         }
-        if (coordinator) return {
+        if (coordinator.length > 0) return {
           ...user,
-          role: 'coordinator'
+          role: 'coordinator',
+          careers: coordinator.map(c => c.career)
         }
         if (domain) return {
           ...user,

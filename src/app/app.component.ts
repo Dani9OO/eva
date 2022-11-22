@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EnvironmentInjector } from '@angula
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
 import { Platform } from '@ionic/angular'
 import { Store } from '@ngrx/store'
-import { Observable, BehaviorSubject, zip, map, firstValueFrom } from 'rxjs'
+import { Observable, BehaviorSubject, zip, map, firstValueFrom, filter } from 'rxjs'
 import { SpinnerService } from '@services/spinner'
 import { AuthService } from '@services/auth'
 import { selectCalendar, selectUser } from '@selectors/app'
@@ -17,12 +17,21 @@ import { ScannerService } from '@services/scanner'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-  public appPages = {
+  public readonly coordinatorPages = [
+    { title: 'Proyectos', url: '/assessment', icon: 'checkbox' }
+  ]
+
+  public readonly appPages = {
     admin: [
       { title: 'Estadísticas', url: '/summary', icon: 'podium' },
+      ...this.coordinatorPages,
       { title: 'Carreras', url: '/careers', icon: 'shapes' },
       { title: 'Directorio', url: '/directory', icon: 'business' },
       { title: 'Ciclo Escolar', url: '/calendar', icon: 'calendar' }
+    ],
+    coordinator: [
+      ...this.coordinatorPages,
+      { title: 'Rubricas', url: '/rubrics', icon: 'calculator' }
     ]
   }
 
@@ -73,7 +82,8 @@ export class AppComponent {
     })
     this.store.dispatch(AppActions.getCalendar())
     const user = await firstValueFrom(this.auth.state$)
-    if (user) this.store.dispatch(AppActions.autoLogin({ user }))
+    const calendar = await firstValueFrom(this.calendar$.pipe(filter(c => !!c)))
+    if (user) this.store.dispatch(AppActions.autoLogin({ user, calendar: calendar.id }))
   }
 
   private async showSplash(): Promise<void> {

@@ -24,7 +24,7 @@ export const reducer = createReducer(
     (state): RubricState => ({ ...state, loading: true })
   ),
   on(RubricActions.loadRubricsSuccess,
-    (state, action) => adapter.upsertMany(action.rubrics, { ...state, loading: false })
+    (state, action) => adapter.setAll(action.rubrics, { ...state, loading: false })
   ),
   on(RubricActions.loadRubricsFailure,
     (state): RubricState => ({ ...state, loading: false })

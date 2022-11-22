@@ -4,6 +4,7 @@ import { AdminGuard } from '@guards/admin'
 import { AlumniGuard } from '@guards/alumni'
 import { AppGuard } from '@guards/app'
 import { ProfessorGuard } from '@guards/professor'
+import { CoordinatorGuard } from '@guards/coordinator'
 
 const routes: Routes = [
   {
@@ -44,6 +45,11 @@ const routes: Routes = [
     path: 'assessment',
     loadChildren: () => import('./pages/assessment/assessment.module').then(m => m.AssessmentPageModule),
     canActivate: [AppGuard, ProfessorGuard]
+  },
+  {
+    path: 'rubrics',
+    loadChildren: () => import('./pages/rubrics/rubrics.module').then(m => m.RubricsPageModule),
+    canActivate: [AppGuard, CoordinatorGuard]
   }
 ]
 

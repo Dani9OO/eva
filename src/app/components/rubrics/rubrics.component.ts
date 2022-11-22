@@ -6,7 +6,7 @@ import { Career } from '@models/career'
 import { Calendar } from '@models/calendar'
 import { Rubric } from '@models/rubric'
 import { Store } from '@ngrx/store'
-import { Observable, map, switchMap, zip } from 'rxjs'
+import { Observable, map, switchMap, zip, firstValueFrom } from 'rxjs'
 import { selectRubrics, selectLoading } from '@selectors/rubric'
 import { RubricActions } from '@store/rubric'
 import { ScrollingModule } from '@angular/cdk/scrolling'
@@ -17,6 +17,7 @@ import { Router } from '@angular/router'
 import { selectCalendar } from '@selectors/app'
 import { selectCareerById } from '@selectors/career'
 import { HeaderComponent } from '../header/header.component'
+import { CareerStoreModule } from '@store/career/career-store.module'
 
 @Component({
   selector: 'eva-rubrics',
@@ -29,7 +30,8 @@ import { HeaderComponent } from '../header/header.component'
     RubricStoreModule,
     UpsertRubricComponent,
     CareerItemComponent,
-    HeaderComponent
+    HeaderComponent,
+    CareerStoreModule
   ],
   templateUrl: './rubrics.component.html',
   styleUrls: ['./rubrics.component.scss'],
@@ -46,9 +48,7 @@ export class RubricsComponent implements OnInit {
     private readonly modal: ModalController,
     private readonly store: Store,
     private readonly router: Router
-  ) { }
-
-  public ngOnInit(): void {
+  ) {
     this.calendar$ = this.store.select(selectCalendar)
     this.career$ = this.store.select(selectCareerById(this.router.url.split('/')[2]))
     this.loading$ = this.store.select(selectLoading)
@@ -56,6 +56,11 @@ export class RubricsComponent implements OnInit {
       switchMap(([calendar, career]) => this.store.select(selectRubrics(calendar.id, career.id)))
     )
     this.categories$ = this.rubrics$.pipe(map(rubrics => rubrics ? Object.keys(rubrics) : []))
+  }
+
+  public async ngOnInit(): Promise<void> {
+    const calendar = await firstValueFrom(this.calendar$)
+    this.store.dispatch(RubricActions.loadRubrics({ calendar: calendar.id, career: this.router.url.split('/')[2] }))
   }
 
   public refresh(event: Event, calendar: Calendar, career: Career): void {

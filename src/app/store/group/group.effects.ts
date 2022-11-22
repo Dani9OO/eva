@@ -9,6 +9,7 @@ import { GroupActions } from '@store/group'
 import { Store } from '@ngrx/store'
 import { selectGroups } from './group.selectors'
 import { AppActions } from '@store/app'
+import { TeamActions } from '@store/team'
 
 @Injectable()
 export class GroupEffects {
@@ -71,6 +72,11 @@ export class GroupEffects {
   public setUserTeam$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.setUserTeam),
     map(action => GroupActions.loadGroup({ group: action.team.group }))
+  ))
+
+  public loadTeams$ = createEffect(() => this.actions$.pipe(
+    ofType(TeamActions.loadTeams),
+    map(action => GroupActions.loadGroups({ career: action.career, calendar: action.calendar }))
   ))
 
   public constructor(

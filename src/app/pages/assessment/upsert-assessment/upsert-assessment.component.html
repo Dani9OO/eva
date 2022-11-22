@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ assessment ? 'Editar Evaluación' : 'Evaluar Proyecto' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list #list *ngIf="rubrics$ | async as rubrics">
+    <ion-item-group *ngFor="let category of categories$ | async" [formGroup]="form">
+      <ion-item-divider>
+        <ion-label>{{ category }}</ion-label>
+      </ion-item-divider>
+      <ion-item lines="full" *ngFor="let rubric of rubrics[category]" class="ion-no-padding rubric-item">
+        <div class="rubric">
+          <ion-item lines="full">
+            <ion-label class="ion-text-wrap"><h2>{{ rubric.criteria }}</h2></ion-label>
+          </ion-item>
+          <ion-radio-group *ngIf="form.controls[rubric.id]" [formControlName]="rubric.id" class="rubric-grade">
+            <ion-item lines="none" [color]="form.controls[rubric.id].value === 10 ? 'primary' : ''">
+              <ion-label>Excelente</ion-label>
+              <ion-radio [value]="10" slot="end" color="tertiary"></ion-radio>
+            </ion-item>
+            <ion-item lines="none" [color]="form.controls[rubric.id].value === 9 ? 'primary' : ''">
+              <ion-label>Bueno</ion-label>
+              <ion-radio [value]="9" slot="end" color="tertiary"></ion-radio>
+            </ion-item>
+            <ion-item lines="none" [color]="form.controls[rubric.id].value === 8 ? 'primary' : ''">
+              <ion-label>Adecuado</ion-label>
+              <ion-radio [value]="8" slot="end" color="tertiary"></ion-radio>
+            </ion-item>
+            <ion-item lines="none" [color]="form.controls[rubric.id].value === 0 ? 'danger' : ''">
+              <ion-label>Deficiente</ion-label>
+              <ion-radio [value]="0" slot="end" color="light"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </div>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()" color="danger">
+        Cancelar
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="save()" color="primary" [disabled]="form.invalid">
+        Guardar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

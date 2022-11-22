@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Actions, createEffect, ofType, concatLatestFrom } from '@ngrx/effects'
-import { catchError, map, of, firstValueFrom } from 'rxjs'
+import { catchError, map, of, firstValueFrom, mergeMap } from 'rxjs'
 import { AppActions } from '@store/app'
 import { CalendarService } from '@services/calendar'
 import { tap, switchMap } from 'rxjs/operators'
@@ -29,21 +29,23 @@ export class AppEffects {
 
   public autoLogin$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.autoLogin),
-    map(action => AppActions.loginMiddleware({ user: action.user })),
+    map(action => AppActions.loginMiddleware({ ...action })),
     catchError(error => of(AppActions.loginFailure({ error })))
   ))
 
   public login$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.login),
-    map(action => AppActions.loginMiddleware({ user: action.user })),
+    concatLatestFrom(() => this.store.select(selectCalendar)),
+    map(([action, calendar]) => AppActions.loginMiddleware({ user: action.user, calendar: calendar.id })),
     catchError(error => of(AppActions.loginFailure({ error })))
   ))
 
   public loginMiddleware$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.loginMiddleware),
-    switchMap(action => this.user.updateUserData(action.user)),
-    switchMap(user => this.user.getRoles(user)),
-    map(user => AppActions.loginSuccess({ user })),
+    mergeMap(action => this.user.updateUserData(action.user).pipe(
+      switchMap(user => this.user.getRoles(user, action.calendar)),
+      map(user => AppActions.loginSuccess({ user }))
+    )),
     catchError(error => of(AppActions.loginFailure({ error })))
   ))
 
@@ -141,6 +143,12 @@ export class AppEffects {
         break
       case 'alumni':
         this.nav.navigateForward(['/team'], { replaceUrl: true })
+        break
+      case 'professor':
+        this.nav.navigateForward(['/assessment'], { replaceUrl: true })
+        break
+      case 'coordinator':
+        this.nav.navigateForward(['/assessment'], { replaceUrl: true })
         break
       default:
         break

@@ -26,12 +26,12 @@ export const login = createAction(
 
 export const autoLogin = createAction(
   '[App] Auto Login',
-  props<{ user: FirebaseUser }>()
+  props<{ user: FirebaseUser, calendar: string }>()
 )
 
 export const loginMiddleware = createAction(
   '[App] Login Middleware',
-  props<{ user: FirebaseUser }>()
+  props<{ user: FirebaseUser, calendar: string }>()
 )
 
 export const loginSuccess = createAction(

@@ -24,7 +24,7 @@ export const reducer = createReducer(
     (state): TeamState => ({ ...state, loading: true })
   ),
   on(TeamActions.loadTeamsSuccess,
-    (state, action) => adapter.upsertMany(action.teams, { ...state, loading: false })
+    (state, action) => adapter.setAll(action.teams, { ...state, loading: false })
   ),
   on(TeamActions.loadTeamsFailure,
     (state): TeamState => ({ ...state, loading: false })

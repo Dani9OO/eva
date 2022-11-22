@@ -12,7 +12,6 @@ import { selectCareerById } from '@selectors/career'
 import { CoordinatorActions } from '@store/coordinator'
 import { selectCoordinator } from '@selectors/coordinator'
 import { GroupActions } from '@store/group'
-import { RubricActions } from '@store/rubric'
 import { UserActions } from '@store/user'
 import { selectUserById } from '@selectors/user'
 import { Observable, map, switchMap, zip, filter, catchError, scheduled, asapScheduler, firstValueFrom } from 'rxjs'
@@ -80,8 +79,7 @@ export class MenuComponent implements OnInit {
     }
   }
 
-  public async rubrics(calendar: Calendar, career: Career): Promise<void> {
-    this.store.dispatch(RubricActions.loadRubrics({ calendar: calendar.id, career: career.id }))
+  public async rubrics(career: Career): Promise<void> {
     await this.nav.navigateForward(['careers', career.id, 'rubrics'])
   }
 

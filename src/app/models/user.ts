@@ -11,5 +11,6 @@ export interface User {
 
 export interface AppUser extends User {
   role: Role,
+  careers?: string[],
   team?: Team
 }

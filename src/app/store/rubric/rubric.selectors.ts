@@ -25,3 +25,8 @@ export const selectRubrics = (calendar: string, career: string) => createSelecto
     return groups
   }
 )
+
+export const selectRubricsMissing = createSelector(
+  selectAllRubrics,
+  (rubrics) => !rubrics.length
+)

@@ -37,3 +37,8 @@ export const selectCareerById = (id: string) => createSelector(
   selectCareerEntities,
   (careers) => careers[id]
 )
+
+export const selectCareersIn = (ids: string[]) => createSelector(
+  selectCareerEntities,
+  (careers) => ids.map(id => careers[id])
+)

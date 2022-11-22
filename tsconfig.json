@@ -31,7 +31,8 @@
       "@selectors/group": ["src/app/store/group/group.selectors"],
       "@selectors/coordinator": ["src/app/store/coordinator/coordinator.selectors"],
       "@selectors/rubric": ["src/app/store/rubric/rubric.selectors"],
-      "@selectors/team": ["src/app/store/team/team.selectors"]
+      "@selectors/team": ["src/app/store/team/team.selectors"],
+      "@selectors/assessment": ["src/app/store/assessment/assessment.selectors"]
     }
   },
   "angularCompilerOptions": {

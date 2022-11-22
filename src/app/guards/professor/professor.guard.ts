@@ -14,10 +14,11 @@ export class ProfessorGuard implements CanActivate {
 
   public canActivate(): Observable<boolean> {
     return zip(
+      this.store.select(selectIsRole('admin')),
       this.store.select(selectIsRole('professor')),
       this.store.select(selectIsRole('coordinator'))
     ).pipe(
-      map(([professor, coordinator]) => professor || coordinator)
+      map(([admin, professor, coordinator]) => admin || (professor || coordinator))
     )
   }
 }

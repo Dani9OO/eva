@@ -6,6 +6,7 @@ import { UnexpectedError } from '@errors/unexpected'
 import { tap } from 'rxjs/operators'
 import { ToastController } from '@ionic/angular'
 import { RubricActions } from '@store/rubric'
+import { TeamActions } from '@store/team'
 
 @Injectable()
 export class RubricEffects {
@@ -56,6 +57,11 @@ export class RubricEffects {
     ofType(RubricActions.deleteRubric),
     tap(action => this.rubric.delete(action.rubric))
   ), { dispatch: false })
+
+  public loadTeams$ = createEffect(() => this.actions$.pipe(
+    ofType(TeamActions.loadTeams),
+    map(action => RubricActions.loadRubrics({ calendar: action.calendar, career: action.career }))
+  ))
 
   public constructor(
     private readonly actions$: Actions,
