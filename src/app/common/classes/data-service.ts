@@ -31,6 +31,7 @@ export class DataService<T extends { id?: string } = DocumentData> {
   }
 
   public upsert(entity: T): Observable<T> {
+    if (Object.keys(entity).some(k => k === 'id') && !entity.id) delete entity.id
     const document = entity.id ? this.doc(this.path, entity.id) : doc(this.collection)
     return from(setDoc(document, entity, { merge: true })).pipe(
       map(() => ({ ...entity, id: document.id }))
