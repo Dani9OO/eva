@@ -34,7 +34,7 @@ export class UpsertAssessmentComponent implements OnInit {
     this.form = this.fb.group({})
     const rubricMap = await firstValueFrom(this.rubrics$)
     for (const rubric of Object.values(rubricMap).flatMap(category => category)) {
-      const a = this.assessment.result.find(assessment => assessment.rubric === rubric.id)
+      const a = this.assessment?.result.find(assessment => assessment.rubric === rubric.id)
       this.form.addControl(rubric.id, this.fb.control<Grade>(a?.grade ?? 10))
     }
   }
