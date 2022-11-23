@@ -1,4 +1,4 @@
-package me.daniromo.eva;
+package mx.edu.utj.eva;
 
 import com.getcapacitor.BridgeActivity;
 

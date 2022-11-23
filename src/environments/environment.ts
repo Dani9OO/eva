@@ -4,15 +4,15 @@
 
 export const environment = {
   firebase: {
-    projectId: 'eva-app-7899d',
-    appId: '1:733249240859:web:7446da3b4c7a88a2e45dbe',
-    storageBucket: 'eva-app-7899d.appspot.com',
-    locationId: 'us-central',
-    apiKey: 'AIzaSyAzuYaDKTd2kmch7AYe7oey8b8kP8W7OZQ',
-    authDomain: 'eva-app-7899d.firebaseapp.com',
-    messagingSenderId: '733249240859'
+    apiKey: 'AIzaSyD5IHnkyexTGQ49YxUAqia4wT9vUsBjjRc',
+    authDomain: 'eva-app-2a478.firebaseapp.com',
+    projectId: 'eva-app-2a478',
+    storageBucket: 'eva-app-2a478.appspot.com',
+    messagingSenderId: '1068748863477',
+    appId: '1:1068748863477:web:df189ab6b99227eea3d2bc',
+    locationId: 'us-central'
   },
-  production: false
+  production: true
 }
 
 /*

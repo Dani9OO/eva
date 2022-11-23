@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>me.daniromo.eva</string>
+	<string>mx.edu.utj.eva</string>
 	<key>PROJECT_ID</key>
 	<string>eva-app-7899d</string>
 	<key>STORAGE_BUCKET</key>

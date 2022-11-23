@@ -3,7 +3,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const baseConfig: CapacitorConfig = {
-  appId: 'me.daniromo.eva',
+  appId: 'mx.edu.utj.eva',
   appName: 'eva',
   webDir: 'www',
   bundledWebRuntime: false,
@@ -14,8 +14,8 @@ const baseConfig: CapacitorConfig = {
     },
     GoogleAuth: {
       scopes: ['profile', 'email'],
-      serverClientId: '733249240859-k9viv6v3lagtbqn68uk0a4mnk52ng5h5.apps.googleusercontent.com',
-      androidClientId: '733249240859-k9viv6v3lagtbqn68uk0a4mnk52ng5h5.apps.googleusercontent.com',
+      serverClientId: '1068748863477-037e76bjhv012k03ph9shrpp23eo1pdb.apps.googleusercontent.com',
+      androidClientId: '1068748863477-037e76bjhv012k03ph9shrpp23eo1pdb.apps.googleusercontent.com',
       forceCodeForRefreshToken: true,
     },
   },

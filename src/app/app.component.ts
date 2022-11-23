@@ -77,7 +77,7 @@ export class AppComponent {
     if (this.platform.is('ios') && this.platform.is('hybrid')) await this.showSplash()
     this.initialized.next(true)
     GoogleAuth.initialize({
-      clientId: '733249240859-k9viv6v3lagtbqn68uk0a4mnk52ng5h5.apps.googleusercontent.com',
+      clientId: '1068748863477-037e76bjhv012k03ph9shrpp23eo1pdb.apps.googleusercontent.com',
       scopes: ['profile', 'email'],
       grantOfflineAccess: true
     })
