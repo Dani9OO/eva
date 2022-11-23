@@ -10,6 +10,7 @@ import { CareerActions } from '@store/career'
 import { selectAllCareers } from '@selectors/career'
 import { environment } from 'src/environments/environment'
 import { AppActions } from '@store/app'
+import { TeamActions } from '@store/team'
 
 @Injectable()
 export class CareerEffects {
@@ -79,6 +80,11 @@ export class CareerEffects {
   public setUserTeam$ = createEffect(() => this.actions$.pipe(
     ofType(AppActions.setUserTeam),
     map(action => CareerActions.loadCareer({ career: action.team.career }))
+  ))
+
+  public loadTeams$ = createEffect(() => this.actions$.pipe(
+    ofType(TeamActions.loadTeams),
+    map(() => CareerActions.loadCareers({}))
   ))
 
   public constructor(

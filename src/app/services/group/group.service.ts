@@ -29,13 +29,19 @@ export class GroupService extends DataService<Group> {
     )
   }
 
-  public getGroups(calendar: string, career: string): Observable<Group[]> {
-    const q = query(
-      this.collection,
-      orderBy('quarter'),
-      where('calendar', '==', calendar),
-      where('career', '==', career)
-    )
+  public getGroups(calendar: string, career?: string): Observable<Group[]> {
+    const q = career
+      ? query(
+        this.collection,
+        orderBy('quarter'),
+        where('calendar', '==', calendar),
+        where('career', '==', career)
+      )
+      : query(
+        this.collection,
+        orderBy('quarter'),
+        where('calendar', '==', calendar)
+      )
     return from(getDocs(q)).pipe(
       take(1),
       map(result => result.docs.map(document => ({ id: document.id, ...document.data() })))

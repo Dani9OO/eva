@@ -25,6 +25,7 @@ export class AppComponent {
     admin: [
       { title: 'Estadísticas', url: '/summary', icon: 'podium' },
       ...this.coordinatorPages,
+      { title: 'Calificaciones', url: '/grades', icon: 'newspaper' },
       { title: 'Carreras', url: '/careers', icon: 'shapes' },
       { title: 'Directorio', url: '/directory', icon: 'business' },
       { title: 'Ciclo Escolar', url: '/calendar', icon: 'calendar' }

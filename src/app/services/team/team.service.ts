@@ -16,8 +16,10 @@ export class TeamService extends DataService<Team> {
     super('Team', firestore)
   }
 
-  public getTeams(calendar: string, career: string): Observable<Team[]> {
-    const q = query(this.collection, where('calendar', '==', calendar), where('career', '==', career))
+  public getTeams(calendar: string, career?: string): Observable<Team[]> {
+    const q = career
+      ? query(this.collection, where('calendar', '==', calendar), where('career', '==', career))
+      : query(this.collection, where('calendar', '==', calendar))
     return from(getDocs(q)).pipe(
       take(1),
       map(result => result.docs.map(document => ({ id: document.id, ...document.data() })))

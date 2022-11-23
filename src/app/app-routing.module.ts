@@ -50,6 +50,11 @@ const routes: Routes = [
     path: 'rubrics',
     loadChildren: () => import('./pages/rubrics/rubrics.module').then(m => m.RubricsPageModule),
     canActivate: [AppGuard, CoordinatorGuard]
+  },
+  {
+    path: 'grades',
+    loadChildren: () => import('./pages/grades/grades.module').then(m => m.GradesPageModule),
+    canActivate: [AppGuard, AdminGuard]
   }
 ]
 

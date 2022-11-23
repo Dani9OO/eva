@@ -15,8 +15,10 @@ export class RubricService extends DataService<Rubric> {
     super('Rubric', firestore)
   }
 
-  public getRubrics(calendar: string, career: string): Observable<Rubric[]> {
-    const q = query(this.collection, where('calendar', '==', calendar), where('career', '==', career))
+  public getRubrics(calendar: string, career?: string): Observable<Rubric[]> {
+    const q = career
+      ? query(this.collection, where('calendar', '==', calendar), where('career', '==', career))
+      : query(this.collection, where('calendar', '==', calendar))
     return from(getDocs(q)).pipe(
       take(1),
       map(result => result.docs.map(document => ({ id: document.id, ...document.data() })))

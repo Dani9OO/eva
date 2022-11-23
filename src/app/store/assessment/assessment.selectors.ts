@@ -1,11 +1,16 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { selectAll, AssessmentState, assessmentFeatureKey } from './assessment.reducer'
+import { selectAll, AssessmentState, assessmentFeatureKey, selectEntities } from './assessment.reducer'
 
 export const selectAssessmentState = createFeatureSelector<AssessmentState>(assessmentFeatureKey)
 
 export const selectAllAssessments = createSelector(
   selectAssessmentState,
   selectAll
+)
+
+export const selectAssessmentEntities = createSelector(
+  selectAssessmentState,
+  selectEntities
 )
 
 export const selectLoading = createSelector(

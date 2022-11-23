@@ -3,7 +3,7 @@ import { Team } from '@models/team'
 
 export const loadTeams = createAction(
   '[Team/API] Load Teams',
-  props<{ calendar: string, career: string }>()
+  props<{ calendar: string, career?: string }>()
 )
 export const loadTeamsSuccess = createAction(
   '[Team/API] Load Teams Success',

@@ -1,12 +1,17 @@
 import { Rubric } from '@models/rubric'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { selectAll, RubricState, rubricFeatureKey } from './rubric.reducer'
+import { selectAll, RubricState, rubricFeatureKey, selectEntities } from './rubric.reducer'
 
 export const selectRubricState = createFeatureSelector<RubricState>(rubricFeatureKey)
 
 export const selectAllRubrics = createSelector(
   selectRubricState,
   selectAll
+)
+
+export const selectRubricEntities = createSelector(
+  selectRubricState,
+  selectEntities
 )
 
 export const selectLoading = createSelector(

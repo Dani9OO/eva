@@ -1,4 +1,5 @@
 import { Group } from '@models/group'
+import { Career } from '@models/career'
 export interface Project {
   name: string
   description: string
@@ -16,4 +17,9 @@ export interface Team {
 
 export interface TeamWithGroup extends Omit<Team, 'group'> {
   group?: Group
+}
+
+export interface PopulatedTeam extends Omit<TeamWithGroup, 'career'> {
+  career: Career
+  grade: number
 }
